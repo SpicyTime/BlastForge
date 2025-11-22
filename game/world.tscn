@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://k7nqsblly5gs"]
+
+[ext_resource type="Script" uid="uid://vwrqyfjerpum" path="res://game/world.gd" id="1_vn0wg"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_vn0wg")
+
+[node name="Camera2D" type="Camera2D" parent="."]
