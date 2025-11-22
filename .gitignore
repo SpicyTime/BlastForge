@@ -1,0 +1,57 @@
+# Godot-specific
+.import/
+.godot/
+export/
+build/
+bin/
+export_presets.cfg
+*.import
+*.uid
+
+# Backups and autosaves
+*.tmp
+*.temp
+*.bak
+*.old
+*.save
+*.cfg~
+*.godot~
+*.import~
+
+# Logs and crash dumps
+*.log
+*.stackdump
+*.dmp
+
+# OS-specific junk
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDEs and editors
+.vscode/
+.idea/
+*.code-workspace
+
+# Mono / C# support (if using Godot C#)
+.mono/
+*.csproj
+*.sln
+*.user
+*.vs/
+*.dll
+*.exe
+
+# Python virtualenvs or tooling (optional)
+venv/
+__pycache__/
+*.pyc
+
+# Exported game builds (you can customize if you use other folders)
+dist/
+release/
+debug/
+android/
+ios/
+html5/
