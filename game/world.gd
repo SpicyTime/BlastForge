@@ -26,5 +26,6 @@ func create_explosive(spawn_position: Vector2) -> void:
 
  
 func place_explosive() -> void:
+	held_explosive.handle_placed()
 	# This effectively "places" the bomb by not resetting its position to the mouse
 	held_explosive = null 

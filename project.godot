@@ -22,6 +22,10 @@ Constants="*res://main/autoloads/constants.gd"
 Enums="*res://main/autoloads/enums.gd"
 SaveSystem="*res://main/autoloads/save_system.gd"
 
+[debug]
+
+gdscript/warnings/unused_signal=0
+
 [display]
 
 window/size/viewport_width=640
