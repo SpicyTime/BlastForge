@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://btmk54xyeo44e"]
+
+[ext_resource type="Texture2D" uid="uid://c0vxf7fa51it3" path="res://icon.svg" id="1_qlcm7"]
+[ext_resource type="Script" uid="uid://d3iknp440glsy" path="res://breakables/breakable.gd" id="1_srh6f"]
+[ext_resource type="Script" uid="uid://btxrrs02owvs1" path="res://health_system/hurtbox.gd" id="2_srh6f"]
+[ext_resource type="PackedScene" uid="uid://bus0j728rpt8i" path="res://breakables/breakable_shape.tscn" id="3_x566u"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_813x3"]
+radius = 64.99999
+
+[node name="Breakable" type="Node2D"]
+scale = Vector2(0.2, 0.2)
+script = ExtResource("1_srh6f")
+
+[node name="BreakableSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_qlcm7")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+script = ExtResource("2_srh6f")
+metadata/_custom_type_script = "uid://btxrrs02owvs1"
+
+[node name="HurtboxCollider" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_813x3")
+
+[node name="BreakableShape" parent="." instance=ExtResource("3_x566u")]

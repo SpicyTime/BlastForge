@@ -8,6 +8,7 @@ var detonation_time: float = 1.15
 
 
 func handle_placed() -> void:
+	# TO DO: Play a placing sound
 	explosive_area_shader_box.visible = false
 	explosive_sprite.z_index = 0
 	detonation_timer.start(detonation_time)

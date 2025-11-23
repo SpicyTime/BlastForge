@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bus0j728rpt8i"]
+
+[ext_resource type="Script" uid="uid://cy31wefgpmu4i" path="res://breakables/breakable_shape.gd" id="1_lbcjm"]
+
+[node name="BreakableShape" type="Node2D"]
+script = ExtResource("1_lbcjm")
