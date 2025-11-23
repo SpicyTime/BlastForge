@@ -6,17 +6,9 @@ enum ShapeType{
 	HEXAGON,
 	CIRCLE
 }
+
 enum ShapeSize{
 	SMALL,
 	MEDIUM,
 	LARGE
-}
-
-enum ShapeColor{
-	RED,
-	GREEN,
-	BLUE,
-	YELLOW,
-	PURPLE,
-	ORANGE
 }

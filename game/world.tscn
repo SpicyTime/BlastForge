@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://k7nqsblly5gs"]
+[gd_scene load_steps=3 format=3 uid="uid://k7nqsblly5gs"]
 
 [ext_resource type="Script" uid="uid://vwrqyfjerpum" path="res://game/world.gd" id="1_vn0wg"]
+[ext_resource type="PackedScene" uid="uid://btmk54xyeo44e" path="res://breakables/breakable.tscn" id="2_aseec"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_vn0wg")
@@ -8,3 +9,7 @@ script = ExtResource("1_vn0wg")
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="ExplosivesContainer" type="Node2D" parent="."]
+
+[node name="Breakable" parent="." instance=ExtResource("2_aseec")]
+
+[node name="Breakable2" parent="." instance=ExtResource("2_aseec")]

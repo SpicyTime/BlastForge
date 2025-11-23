@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ShapeData" load_steps=3 format=3 uid="uid://bq80ha4x1vdco"]
+
+[ext_resource type="Script" uid="uid://db71gp8sseu3x" path="res://breakables/shape_data.gd" id="1_fyoe0"]
+[ext_resource type="Shape2D" uid="uid://dc3er24rdufh0" path="res://breakables/collision_shapes/circle_collision_shape.tres" id="2_m5jgh"]
+
+[resource]
+script = ExtResource("1_fyoe0")
+shape_type = 4
+shape_collider = ExtResource("2_m5jgh")
+metadata/_custom_type_script = "uid://db71gp8sseu3x"
