@@ -1,10 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://btmk54xyeo44e"]
 
-[ext_resource type="Texture2D" uid="uid://do5361g8a3kp3" path="res://icon.svg" id="1_qlcm7"]
 [ext_resource type="Script" uid="uid://d3iknp440glsy" path="res://breakables/breakable.gd" id="1_srh6f"]
 [ext_resource type="Script" uid="uid://btxrrs02owvs1" path="res://health_system/hurtbox.gd" id="2_srh6f"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_srh6f"]
+[ext_resource type="Texture2D" uid="uid://dgqwej8vqbje8" path="res://breakables/sprites/triangle_sprite.png" id="2_x566u"]
+[ext_resource type="Shape2D" uid="uid://82yjdnrv6lqq" path="res://breakables/collision_shapes/triangle_collision_shape.tres" id="4_813x3"]
 
 [node name="Breakable" type="Node2D"]
 light_mask = 3
@@ -12,11 +11,11 @@ visibility_layer = 3
 script = ExtResource("1_srh6f")
 
 [node name="BreakableSprite" type="Sprite2D" parent="."]
-texture = ExtResource("1_qlcm7")
+texture = ExtResource("2_x566u")
 
 [node name="Hurtbox" type="Area2D" parent="."]
 script = ExtResource("2_srh6f")
 metadata/_custom_type_script = "uid://btxrrs02owvs1"
 
 [node name="HurtboxCollider" type="CollisionShape2D" parent="Hurtbox"]
-shape = SubResource("CircleShape2D_srh6f")
+shape = ExtResource("4_813x3")
