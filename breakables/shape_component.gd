@@ -21,3 +21,7 @@ func get_shape_size() -> Enums.ShapeSize:
 
 func get_shape_texture() -> Texture2D:
 	return shape_data.shape_texture
+
+
+func get_shape_health() -> int:
+	return shape_data.health_amount

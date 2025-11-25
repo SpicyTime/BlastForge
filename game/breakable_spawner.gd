@@ -33,6 +33,7 @@ func spawn_breakable(spawn_position: Vector2, shape_name: String) -> Breakable:
 	add_child(breakabable_instance)
 	return breakabable_instance
 
+
 func choose_random_pos(left: int, right: int, top: int, bottom: int ) -> Vector2:
 	var viewport_size: Vector2 = get_viewport_rect().size
 	# Makes sure that the bounds are not outside the viewport

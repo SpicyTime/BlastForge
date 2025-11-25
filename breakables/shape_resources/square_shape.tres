@@ -8,5 +8,6 @@
 script = ExtResource("1_ku7xd")
 shape_texture = ExtResource("3_j3yu3")
 shape_type = 1
+health_amount = 2
 shape_collider = ExtResource("2_ig4d2")
 metadata/_custom_type_script = "uid://db71gp8sseu3x"
