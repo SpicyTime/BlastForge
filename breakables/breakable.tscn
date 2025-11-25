@@ -1,14 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://btmk54xyeo44e"]
+[gd_scene load_steps=5 format=3 uid="uid://btmk54xyeo44e"]
 
-[ext_resource type="Texture2D" uid="uid://c0vxf7fa51it3" path="res://icon.svg" id="1_qlcm7"]
+[ext_resource type="Texture2D" uid="uid://do5361g8a3kp3" path="res://icon.svg" id="1_qlcm7"]
 [ext_resource type="Script" uid="uid://d3iknp440glsy" path="res://breakables/breakable.gd" id="1_srh6f"]
 [ext_resource type="Script" uid="uid://btxrrs02owvs1" path="res://health_system/hurtbox.gd" id="2_srh6f"]
-[ext_resource type="Script" uid="uid://ca2sbp4se2muk" path="res://breakables/shape_component.gd" id="5_x566u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_srh6f"]
 
 [node name="Breakable" type="Node2D"]
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.35, 0.35)
 script = ExtResource("1_srh6f")
 
 [node name="BreakableSprite" type="Sprite2D" parent="."]
@@ -20,7 +19,3 @@ metadata/_custom_type_script = "uid://btxrrs02owvs1"
 
 [node name="HurtboxCollider" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CircleShape2D_srh6f")
-
-[node name="ShapeComponent" type="Node" parent="."]
-script = ExtResource("5_x566u")
-metadata/_custom_type_script = "uid://ca2sbp4se2muk"

@@ -3,6 +3,10 @@ extends Node
 var shape_data: ShapeData = null
 
 
+func set_data(data: ShapeData) -> void:
+	shape_data = data
+
+
 func get_shape_collider() -> Shape2D:
 	return shape_data.shape_collider
 

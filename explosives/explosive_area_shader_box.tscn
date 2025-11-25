@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bd8xm30ep1ibx"]
 
 [ext_resource type="Shader" uid="uid://db2gs1k5ytcoc" path="res://explosives/explosive_area_shader.gdshader" id="1_rn11s"]
-[ext_resource type="Texture2D" uid="uid://c0vxf7fa51it3" path="res://icon.svg" id="2_8qd7t"]
+[ext_resource type="Texture2D" uid="uid://do5361g8a3kp3" path="res://icon.svg" id="2_8qd7t"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8qd7t"]
 shader = ExtResource("1_rn11s")
