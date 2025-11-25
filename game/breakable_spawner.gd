@@ -4,10 +4,14 @@ const MIN_SPAWN_VALUE: float = 0.0
 
 func _process(delta: float) -> void:
 	time_passed += delta
-	if time_passed >= 0.5:
+	if time_passed >= 0.9:
 		time_passed = 0.0
 		var breakable_position: Vector2 = choose_random_pos(-275, 275, -150, 150)
-		spawn_breakable(breakable_position, "triangle")
+		spawn_breakable(breakable_position, "pentagon")
+		spawn_breakable(choose_random_pos(-275, 275, -150, 150), "triangle")
+		spawn_breakable(choose_random_pos(-275, 275, -150, 150), "square")
+		spawn_breakable(choose_random_pos(-275, 275, -150, 150), "circle")
+		spawn_breakable(choose_random_pos(-275, 275, -150, 150), "hexagon")
 
 
 func spawn_breakable(spawn_position: Vector2, shape_name: String) -> Breakable:
