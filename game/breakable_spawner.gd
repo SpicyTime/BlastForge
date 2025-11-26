@@ -1,13 +1,24 @@
 extends Node2D
-var time_passed: float = 0.0
 const MIN_SPAWN_VALUE: float = 0.0
+var spawn_time_passed: float = 0.0
+var despawn_time_passed: float = 0.0
+var spawn_limit: int = 20
+var spawn_time_limit: float = 1.3
+var despawn_time_limit: float = spawn_time_limit * 2.1
+var despawn_threshold: int = int(spawn_limit / 1.5)
+
 
 func _process(delta: float) -> void:
-	time_passed += delta
-	if time_passed >= 0.9:
-		time_passed = 0.0
-		var breakable_position: Vector2 = choose_random_pos(-275, 275, -150, 150)
-		spawn_breakable(breakable_position, "triangle")
+	spawn_time_passed += delta
+	despawn_time_passed += delta
+	if spawn_time_passed >= spawn_time_limit: 
+		spawn_time_passed = 0.0
+		if get_child_count() < spawn_limit:
+			var breakable_position: Vector2 = choose_random_pos(-275, 275, -150, 150)
+			spawn_breakable(breakable_position, "triangle")
+	if despawn_time_passed >= despawn_time_limit and get_child_count() >= despawn_threshold:
+		despawn_time_passed = 0.0
+		get_child(0).queue_free()
 
 
 func spawn_breakable(spawn_position: Vector2, shape_name: String) -> Breakable:
