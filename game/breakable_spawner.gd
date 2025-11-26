@@ -3,7 +3,7 @@ const MIN_SPAWN_VALUE: float = 0.0
 var spawn_time_passed: float = 0.0
 var despawn_time_passed: float = 0.0
 var spawn_limit: int = 20
-var spawn_time_limit: float = 1.3
+var spawn_time_limit: float = 0.5
 var despawn_time_limit: float = spawn_time_limit * 2.1
 var despawn_threshold: int = int(spawn_limit / 1.5)
 
@@ -31,6 +31,13 @@ func spawn_breakable(spawn_position: Vector2, shape_name: String) -> Breakable:
 	# Initializes the shape component
 	var packed_shape_component: PackedScene = load(Constants.SHAPE_COMPONENT_PATH)
 	var shape_component_instance: ShapeComponent = packed_shape_component.instantiate()
+	var rand: float = randf()
+	if rand < 0.33:
+		shape_data.shape_size = Enums.ShapeSize.MEDIUM
+	elif rand >= 0.33 and rand < 0.66:
+		shape_data.shape_size = Enums.ShapeSize.LARGE
+	else:
+		shape_data.shape_size = Enums.ShapeSize.SMALL
 	shape_component_instance.set_data(shape_data)
 	
 	# Adds the component to the breakable object
