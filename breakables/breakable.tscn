@@ -21,3 +21,10 @@ script = ExtResource("5_x566u")
 health = 1
 max_health = 1
 metadata/_custom_type_script = "uid://dyakc7t63f14m"
+
+[node name="ExplosionDetector" type="Area2D" parent="."]
+
+[node name="DetectorCollider" type="CollisionShape2D" parent="ExplosionDetector"]
+
+[connection signal="area_entered" from="ExplosionDetector" to="." method="_on_explosion_detector_area_entered"]
+[connection signal="area_exited" from="ExplosionDetector" to="." method="_on_explosion_detector_area_exited"]
