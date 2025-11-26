@@ -18,7 +18,6 @@ func _on_detonation_timer_timeout() -> void:
 	# TO DO: Handle all explosion effects, particles, sounds, etc...
 	hitbox_collider.disabled = false
 	# A short delay to allow for collision detection with the other areas
-	for i in range(3):
-		await get_tree().process_frame
+	await get_tree().process_frame
 	
 	queue_free()

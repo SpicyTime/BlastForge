@@ -7,8 +7,10 @@ func set_health(value: int) -> void:
 	health = clampi(value, 0, 10000)
 	
 	SignalManager.health_changed.emit(abs(health - value))
+	print(health)
 	if health == 0:
-		SignalManager.health_depleted.emit()
+		print("Depleted")
+		SignalManager.health_depleted.emit(self)
 
 
 func set_max_health(value: int) -> void:

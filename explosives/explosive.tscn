@@ -21,6 +21,7 @@ texture = ExtResource("1_p8wef")
 z_index = 1
 
 [node name="ExplosionArea" parent="." instance=ExtResource("4_5rd10")]
+damage = 1
 
 [node name="HitboxCollider" type="CollisionShape2D" parent="ExplosionArea"]
 shape = SubResource("CircleShape2D_00hdp")

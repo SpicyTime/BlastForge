@@ -12,4 +12,10 @@ func _ready() -> void:
 	var health_amount = shape_component.get_shape_health()
 	health.set_health(health_amount)
 	health.set_max_health(health_amount)
-	print(health_amount)
+	SignalManager.health_depleted.connect(_on_health_depleted)
+
+
+func _on_health_depleted(health_node: Health) -> void:
+	print("Depleted")
+	if health_node in get_children():
+		queue_free()

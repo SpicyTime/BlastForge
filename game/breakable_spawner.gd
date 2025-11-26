@@ -7,11 +7,7 @@ func _process(delta: float) -> void:
 	if time_passed >= 0.9:
 		time_passed = 0.0
 		var breakable_position: Vector2 = choose_random_pos(-275, 275, -150, 150)
-		spawn_breakable(breakable_position, "pentagon")
-		spawn_breakable(choose_random_pos(-275, 275, -150, 150), "triangle")
-		spawn_breakable(choose_random_pos(-275, 275, -150, 150), "square")
-		spawn_breakable(choose_random_pos(-275, 275, -150, 150), "circle")
-		spawn_breakable(choose_random_pos(-275, 275, -150, 150), "hexagon")
+		spawn_breakable(breakable_position, "triangle")
 
 
 func spawn_breakable(spawn_position: Vector2, shape_name: String) -> Breakable:
