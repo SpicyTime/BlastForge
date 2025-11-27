@@ -28,6 +28,7 @@ func _ready() -> void:
 
 func _on_health_depleted(health_node: Health) -> void:
 	if health_node in get_children():
+		SignalManager.breakable_broken.emit(position, shape_component.get_shape_value())
 		queue_free()
 
 

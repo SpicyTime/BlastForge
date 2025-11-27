@@ -25,3 +25,7 @@ func get_shape_texture() -> Texture2D:
 
 func get_shape_health() -> int:
 	return shape_data.health_amount
+
+
+func get_shape_value() -> int:
+	return shape_data.base_point_value
