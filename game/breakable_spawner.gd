@@ -54,4 +54,3 @@ func choose_random_pos(left: int, right: int, top: int, bottom: int ) -> Vector2
 	# Snaps the position to a grid
 	var rand_position: Vector2 = Vector2(x, y).snapped(Vector2(Constants.TILE_SIZE, Constants.TILE_SIZE))
 	return rand_position 
-	
