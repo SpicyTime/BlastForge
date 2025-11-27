@@ -7,3 +7,7 @@ signal damage_taken(value: int)
  
 # Breakable
 signal breakable_broken(position: Vector2, point_worth: int)
+
+
+# Ui
+signal points_changed(new_value: int)

@@ -13,6 +13,7 @@ radius = 48.0
 
 [node name="Explosive" type="Node2D"]
 script = ExtResource("1_ejdfl")
+keep_detection_active = true
 
 [node name="ExplosiveSprite" type="Sprite2D" parent="."]
 z_index = 2

@@ -6,8 +6,8 @@ var active_overlays: Array[Control] = []
 var active_menu: Control = null
 
 func set_up_ui(canvas_layer: CanvasLayer) -> void:
-	var overlays: Control = canvas_layer.get_child(0)
-	var menus: Control = canvas_layer.get_child(1)
+	var menus: Control = canvas_layer.get_child(0)
+	var overlays: Control = canvas_layer.get_child(1)
 	# Sets up menus
 	for menu in menus.get_children():
 		ui_menus.set(menu.name, menu)
