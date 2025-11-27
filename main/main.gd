@@ -7,4 +7,3 @@ func _ready() -> void:
 
 func _on_breakable_broken(_breakable_position: Vector2, breakable_worth: int) -> void:
 	total_points += breakable_worth
-	print(total_points)

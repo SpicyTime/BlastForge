@@ -21,6 +21,7 @@ SignalManager="*res://main/autoloads/signal_manager.gd"
 Constants="*res://main/autoloads/constants.gd"
 Enums="*res://main/autoloads/enums.gd"
 SaveSystem="*res://main/autoloads/save_system.gd"
+UiManager="*res://main/autoloads/ui_manager.gd"
 
 [debug]
 
