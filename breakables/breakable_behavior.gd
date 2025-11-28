@@ -3,8 +3,8 @@ extends Node
 
 func handle_break(_break_type: Enums.BreakableType) -> void:
 	# To Do: Handle logic based on type
-	SignalManager.breakable_broken.emit(self)
-	queue_free()
+	SignalManager.breakable_broken.emit(get_parent())
+	get_parent().queue_free()
 
 
 func handle_normal() -> void:
