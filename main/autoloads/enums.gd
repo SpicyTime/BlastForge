@@ -12,3 +12,10 @@ enum ShapeSize{
 	MEDIUM,
 	LARGE
 }
+
+enum BreakableType{
+	NORMAL,
+	EXPLOSIVE,
+	SPAWNER,
+	
+}

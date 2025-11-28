@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://btmk54xyeo44e"]
+[gd_scene load_steps=6 format=3 uid="uid://btmk54xyeo44e"]
 
 [ext_resource type="Script" uid="uid://d3iknp440glsy" path="res://breakables/breakable.gd" id="1_srh6f"]
 [ext_resource type="Texture2D" uid="uid://dgqwej8vqbje8" path="res://breakables/sprites/triangle_sprite.png" id="2_x566u"]
 [ext_resource type="PackedScene" uid="uid://bcjrft2uixwu1" path="res://health_system/hurtbox.tscn" id="3_srh6f"]
+[ext_resource type="Script" uid="uid://cge4a2lhplqh3" path="res://breakables/breakable_behavior.gd" id="5_813x3"]
 [ext_resource type="Script" uid="uid://dyakc7t63f14m" path="res://health_system/health.gd" id="5_x566u"]
 
 [node name="Breakable" type="Node2D"]
@@ -25,6 +26,9 @@ metadata/_custom_type_script = "uid://dyakc7t63f14m"
 [node name="ExplosionDetector" type="Area2D" parent="."]
 
 [node name="DetectorCollider" type="CollisionShape2D" parent="ExplosionDetector"]
+
+[node name="BreakableBehavior" type="Node" parent="."]
+script = ExtResource("5_813x3")
 
 [connection signal="area_entered" from="ExplosionDetector" to="." method="_on_explosion_detector_area_entered"]
 [connection signal="area_exited" from="ExplosionDetector" to="." method="_on_explosion_detector_area_exited"]

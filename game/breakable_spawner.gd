@@ -7,7 +7,6 @@ var spawn_time_limit: float = 1.3
 var despawn_time_limit: float = spawn_time_limit * 2.1
 var despawn_threshold: int = int(spawn_limit / 1.5)
 
-
 func _process(delta: float) -> void:
 	spawn_time_passed += delta
 	despawn_time_passed += delta

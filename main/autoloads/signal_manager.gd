@@ -6,7 +6,7 @@ signal health_depleted
 signal damage_taken(value: int)
  
 # Breakable
-signal breakable_broken(position: Vector2, point_worth: int)
+signal breakable_broken(instance: Breakable)
 
 
 # Ui

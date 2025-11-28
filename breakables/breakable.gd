@@ -7,6 +7,7 @@ extends Node2D
 var shape_component: ShapeComponent = null
 var base_modulate: Color = modulate
 var explosion_detected_modulate: Color = Color(0.5, 0.5, 0.5)
+var type: Enums.BreakableType = Enums.BreakableType.NORMAL
 var size_scales: Dictionary[Enums.ShapeSize, float] = {
 	Enums.ShapeSize.SMALL : 1.0,
 	Enums.ShapeSize.MEDIUM : 1.15,
@@ -28,8 +29,7 @@ func _ready() -> void:
 
 func _on_health_depleted(health_node: Health) -> void:
 	if health_node in get_children():
-		SignalManager.breakable_broken.emit(position, shape_component.get_shape_value())
-		queue_free()
+		$BreakableBehavior.handle_break(type)
 
 
 func _on_explosion_detector_area_entered(area: Area2D) -> void:
