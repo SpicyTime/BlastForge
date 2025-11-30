@@ -82,7 +82,6 @@ func spawn_breakable_bunch(amount: int, spawn_positions: Array[Vector2], shape_t
 func _on_spawn_breakable_requested(spawn_position: Vector2, shape_type: Enums.ShapeType, breakable_type: Enums.BreakableType) -> void:
 	spawn_breakable(spawn_position, shape_type, breakable_type)
 
-	# Another delay to wait out the bomb
 
 func _on_spawn_breakable_bunch_requested(amount: int, spawn_positions: Array[Vector2], shape_types: Array[Enums.ShapeType], breakable_types: Array[Enums.BreakableType]) -> void:
 	spawn_breakable_bunch(amount, spawn_positions, shape_types, breakable_types)

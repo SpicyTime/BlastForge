@@ -8,6 +8,7 @@ var detonation_time: float = 1.15
 @onready var hitbox_collider: CollisionShape2D = $ExplosionArea/HitboxCollider
 @onready var detection_area_collider: CollisionShape2D = $ExplosionDetectionArea/DetectionAreaCollider
 @onready var explosion_detection_area: Area2D = $ExplosionDetectionArea
+@onready var explosion_area: Hitbox = $ExplosionArea
 
 
 
@@ -25,7 +26,6 @@ func _on_detonation_timer_timeout() -> void:
 	# TO DO: Handle all explosion effects, particles, sounds, etc...
 	hitbox_collider.disabled = false
 	# A short delay to allow for collision detection with the other areas
-	for i in range(3):
-		await get_tree().process_frame
-	
-	queue_free()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	call_deferred("queue_free")

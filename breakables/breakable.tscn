@@ -16,6 +16,7 @@ texture = ExtResource("2_x566u")
 health_node = NodePath("../Health")
 
 [node name="HurtboxCollider" type="CollisionShape2D" parent="Hurtbox"]
+disabled = true
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("5_x566u")
