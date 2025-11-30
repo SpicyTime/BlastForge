@@ -30,7 +30,7 @@ func _process(delta: float) -> void:
 		spawn_time_passed = 0.0
 		if get_child_count() < spawn_limit:
 			var breakable_position: Vector2 = choose_random_pos(-275, 275, -150, 150)
-			spawn_breakable(breakable_position, Enums.ShapeType.TRIANGLE)
+			spawn_breakable(breakable_position, Enums.ShapeType.TRIANGLE, Enums.BreakableType.SPAWNER)
 	if despawn_time_passed >= despawn_time_limit and get_child_count() >= despawn_threshold:
 		despawn_time_passed = 0.0
 		get_child(0).queue_free()
@@ -82,6 +82,7 @@ func spawn_breakable_bunch(amount: int, spawn_positions: Array[Vector2], shape_t
 func _on_spawn_breakable_requested(spawn_position: Vector2, shape_type: Enums.ShapeType, breakable_type: Enums.BreakableType) -> void:
 	spawn_breakable(spawn_position, shape_type, breakable_type)
 
+	# Another delay to wait out the bomb
 
 func _on_spawn_breakable_bunch_requested(amount: int, spawn_positions: Array[Vector2], shape_types: Array[Enums.ShapeType], breakable_types: Array[Enums.BreakableType]) -> void:
 	spawn_breakable_bunch(amount, spawn_positions, shape_types, breakable_types)
