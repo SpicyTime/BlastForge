@@ -8,6 +8,7 @@ var shape_component: ShapeComponent = null
 var base_modulate: Color = modulate
 var explosion_detected_modulate: Color = Color(0.5, 0.5, 0.5)
 var type: Enums.BreakableType = Enums.BreakableType.NORMAL
+var parent_container: Node2D = null
 var size_scales: Dictionary[Enums.ShapeSize, float] = {
 	Enums.ShapeSize.SMALL : 1.0,
 	Enums.ShapeSize.MEDIUM : 1.15,
@@ -16,15 +17,21 @@ var size_scales: Dictionary[Enums.ShapeSize, float] = {
 
 
 func _ready() -> void:
+	# Sets Colliders
 	var collision_shape: Shape2D = shape_component.get_shape_collider()
 	hurtbox_collider.set_deferred("shape", collision_shape)
 	detector_collider.set_deferred("shape", collision_shape)
+	
 	breakable_sprite.texture = shape_component.get_shape_texture()
 	var health_amount = shape_component.get_shape_health()
 	health.set_health(health_amount)
 	health.set_max_health(health_amount)
 	SignalManager.health_depleted.connect(_on_health_depleted)
+	
 	scale = Vector2(size_scales[shape_component.get_shape_size()], size_scales[shape_component.get_shape_size()])
+	
+	parent_container = get_parent()
+	$BreakableBehavior.breakable = self
 	await get_tree().create_timer(0.2).timeout
 	hurtbox_collider.disabled = false
 

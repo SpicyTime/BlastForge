@@ -6,11 +6,13 @@ var spawn_limit: int = 20
 var spawn_time_limit: float = 1.3
 var despawn_time_limit: float = spawn_time_limit * 2.1
 var despawn_threshold: int = int(spawn_limit / 1.5)
+var world: World = null
 var breakable_type_lookup: Dictionary[Enums.BreakableType, String] = {
 	Enums.BreakableType.NORMAL : "normal",
 	Enums.BreakableType.EXPLOSIVE  : "explosive",
 	Enums.BreakableType.SPAWNER  : "spawner"
 }
+
 var shape_type_lookup: Dictionary[Enums.ShapeType, String] = {
 	Enums.ShapeType.TRIANGLE : "triangle",
 	Enums.ShapeType.SQUARE : "square",
@@ -21,6 +23,7 @@ var shape_type_lookup: Dictionary[Enums.ShapeType, String] = {
 func _ready() -> void:
 	SignalManager.spawn_breakable_request.connect(_on_spawn_breakable_requested)
 	SignalManager.spawn_breakable_bunch_request.connect(_on_spawn_breakable_bunch_requested)
+	world = get_parent()
 
 
 func _process(delta: float) -> void:
@@ -30,7 +33,7 @@ func _process(delta: float) -> void:
 		spawn_time_passed = 0.0
 		if get_child_count() < spawn_limit:
 			var breakable_position: Vector2 = choose_random_pos(-275, 275, -150, 150)
-			spawn_breakable(breakable_position, Enums.ShapeType.TRIANGLE, Enums.BreakableType.SPAWNER)
+			spawn_breakable(breakable_position, Enums.ShapeType.TRIANGLE, Enums.BreakableType.EXPLOSIVE)
 	if despawn_time_passed >= despawn_time_limit and get_child_count() >= despawn_threshold:
 		despawn_time_passed = 0.0
 		get_child(0).queue_free()
@@ -81,7 +84,7 @@ func spawn_breakable_bunch(amount: int, spawn_positions: Array[Vector2], shape_t
 
 func _on_spawn_breakable_requested(spawn_position: Vector2, shape_type: Enums.ShapeType, breakable_type: Enums.BreakableType) -> void:
 	spawn_breakable(spawn_position, shape_type, breakable_type)
-
+ 
 
 func _on_spawn_breakable_bunch_requested(amount: int, spawn_positions: Array[Vector2], shape_types: Array[Enums.ShapeType], breakable_types: Array[Enums.BreakableType]) -> void:
 	spawn_breakable_bunch(amount, spawn_positions, shape_types, breakable_types)
