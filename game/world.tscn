@@ -8,7 +8,7 @@ script = ExtResource("1_vn0wg")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="ExplosivesContainer" type="Node2D" parent="."]
-
 [node name="BreakableSpawner" type="Node2D" parent="."]
 script = ExtResource("2_aseec")
+
+[node name="ExplosivesContainer" type="Node2D" parent="."]

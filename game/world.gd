@@ -23,11 +23,12 @@ func create_explosive(spawn_position: Vector2) -> Explosive:
 	var explosive_instance: Explosive = packed_explosive_scene.instantiate()
 	explosive_instance.position = spawn_position
 	# I get a bunch of errors if it is not deferred
-	call_deferred("add_child", explosive_instance)
+	explosives_container.call_deferred("add_child", explosive_instance)
 	return explosive_instance
 
  
 func place_explosive() -> void:
-	held_explosive.handle_placed()
-	# This effectively "places" the bomb by not resetting its position to the mouse
-	held_explosive = null 
+	if held_explosive:
+		held_explosive.handle_placed()
+		# This effectively "places" the bomb by not resetting its position to the mouse
+		held_explosive = null 
