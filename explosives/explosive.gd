@@ -35,3 +35,15 @@ func _on_detonation_timer_timeout() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	call_deferred("queue_free")
+
+
+func spawn_floating_text(text: String, text_position: Vector2, text_color: Color, visible_time: float):
+	var floating_text: Marker2D = load(Constants.FLOATING_TEXT_PATH).instantiate()
+	var text_label: Label = floating_text.get_child(0)
+	floating_text.exist_time = visible_time
+	text_label.text = text
+	floating_text.position = text_position
+	text_label.add_theme_color_override("font_color", text_color)
+	add_child(floating_text)
+	await get_tree().create_timer(visible_time).timeout
+	floating_text.queue_free()

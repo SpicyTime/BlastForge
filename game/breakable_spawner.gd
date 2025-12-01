@@ -33,7 +33,7 @@ func _process(delta: float) -> void:
 		spawn_time_passed = 0.0
 		if get_child_count() < spawn_limit:
 			var breakable_position: Vector2 = choose_random_pos(-275, 275, -150, 150)
-			spawn_breakable(breakable_position, Enums.ShapeType.TRIANGLE, Enums.BreakableType.EXPLOSIVE)
+			spawn_breakable(breakable_position, Enums.ShapeType.TRIANGLE, Enums.BreakableType.NORMAL)
 	if despawn_time_passed >= despawn_time_limit and get_child_count() >= despawn_threshold:
 		despawn_time_passed = 0.0
 		get_child(0).queue_free()
