@@ -1,7 +1,7 @@
 class_name Explosive
 extends Node2D
 @export var keep_detection_active: bool = false
-var detonation_time: float = 11.5
+var detonation_time: float = 1.15
 var phase_time: float = 0.0
 var red_material: ShaderMaterial = preload("res://explosives/materials/red_circle_material.tres")
 @onready var explosive_area_shader_box: Sprite2D = $ExplosiveAreaShaderBox

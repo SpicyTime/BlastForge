@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://ct3xcei10tcq0"]
 
 [ext_resource type="Script" uid="uid://dmw3gpe8emwgh" path="res://explosives/explosive.gd" id="1_ejdfl"]
-[ext_resource type="Texture2D" uid="uid://do5361g8a3kp3" path="res://icon.svg" id="1_p8wef"]
+[ext_resource type="Texture2D" uid="uid://dm5612tygr7y0" path="res://explosives/explosive_bomb_sprite.png" id="2_5rd10"]
 [ext_resource type="PackedScene" uid="uid://bd8xm30ep1ibx" path="res://explosives/explosive_area_shader_box.tscn" id="3_wvlh0"]
 [ext_resource type="Material" uid="uid://bxctswug6cia7" path="res://explosives/materials/green_circle_material.tres" id="4_00hdp"]
 [ext_resource type="PackedScene" uid="uid://dgtb8vq48acyh" path="res://health_system/hitbox.tscn" id="4_5rd10"]
@@ -18,9 +18,8 @@ keep_detection_active = true
 
 [node name="ExplosiveSprite" type="Sprite2D" parent="."]
 z_index = 2
-position = Vector2(-3.5762787e-07, 0)
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("1_p8wef")
+position = Vector2(-3.5762787e-07, -5)
+texture = ExtResource("2_5rd10")
 
 [node name="ExplosiveAreaShaderBox" parent="." instance=ExtResource("3_wvlh0")]
 z_index = 1
