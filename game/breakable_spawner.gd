@@ -7,6 +7,20 @@ var spawn_time_limit: float = 1.3
 var despawn_time_limit: float = spawn_time_limit * 2.1
 var despawn_threshold: int = int(spawn_limit / 1.5)
 var world: World = null
+var breakable_type_weights: Dictionary[Enums.BreakableType, float] = {
+	Enums.BreakableType.NORMAL : 1.0,
+	Enums.BreakableType.EXPLOSIVE : 0.0,
+	Enums.BreakableType.SPAWNER : 0.0
+}
+
+var shape_type_weights: Dictionary[Enums.ShapeType, float] = {
+	Enums.ShapeType.TRIANGLE : 1.0,
+	Enums.ShapeType.SQUARE : 0.0,
+	Enums.ShapeType.PENTAGON : 0.0,
+	Enums.ShapeType.HEXAGON : 0.0,
+	Enums.ShapeType.CIRCLE : 0.0
+}
+
 var breakable_type_lookup: Dictionary[Enums.BreakableType, String] = {
 	Enums.BreakableType.NORMAL : "normal",
 	Enums.BreakableType.EXPLOSIVE  : "explosive",
@@ -33,10 +47,45 @@ func _process(delta: float) -> void:
 		spawn_time_passed = 0.0
 		if get_child_count() < spawn_limit:
 			var breakable_position: Vector2 = choose_random_pos(-275, 275, -150, 150)
-			spawn_breakable(breakable_position, Enums.ShapeType.TRIANGLE, Enums.BreakableType.NORMAL)
+			var chosen_shape_type: Enums.ShapeType = choose_random_shape_type()
+			var chosen_breakable_type: Enums.BreakableType = choose_random_breakable_type()
+			spawn_breakable(breakable_position, chosen_shape_type, chosen_breakable_type)
 	if despawn_time_passed >= despawn_time_limit and get_child_count() >= despawn_threshold:
 		despawn_time_passed = 0.0
 		get_child(0).queue_free()
+
+# Adds all the weights in the shape type weight table
+func calc_shape_weight_total() -> float:
+	var total: float = 0.0
+	for value in shape_type_weights.values():
+		total += value
+	return total
+
+# Adds all the weights in the breakable type weight table
+func calc_breakable_weight_total() -> float:
+	var total: float = 0.0
+	for value in breakable_type_weights.values():
+		total += value
+	return total
+
+# Chooses a random shape type based off of a weighted table
+func choose_random_shape_type() -> Enums.ShapeType:
+	var weight_roll: float = randf() * calc_shape_weight_total()
+	# Goes through the weights to eventually choose the type
+	for shape_type in shape_type_weights.keys():
+		weight_roll -= shape_type_weights[shape_type]
+		if weight_roll <= 0.0: return shape_type
+	# Fall back
+	return Enums.ShapeType.TRIANGLE
+
+# Chooses a random breakable type based off of a weighted table 
+func choose_random_breakable_type() -> Enums.BreakableType:
+	var weight_roll: float = randf() * calc_breakable_weight_total()
+	# Goes through the weights to eventually choose the type
+	for breakable_type in breakable_type_weights.keys():
+		weight_roll -= breakable_type_weights[breakable_type]
+		if weight_roll <= 0.0: return breakable_type
+	return Enums.BreakableType.NORMAL
 
 
 func choose_random_pos(left: int, right: int, top: int, bottom: int ) -> Vector2:

@@ -11,9 +11,7 @@ void fragment(){
 	float circle = ceil(length(uv) - radius);
 	circle = 1. - circle;
 	circle = clamp(circle, 0, circle_color.a);
-	float pulse = (sin((TIME + phase_offset) * speed) * 0.5) + 0.5;
+	float pulse = (sin((TIME + phase_offset) * speed) * 0.5) + 1.25;
 	COLOR = circle_color;
 	COLOR.a = circle * pulse;
 }
-
-
