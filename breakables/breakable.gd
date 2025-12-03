@@ -35,6 +35,7 @@ func _ready() -> void:
 	await get_tree().create_timer(0.2).timeout
 	hurtbox_collider.disabled = false
 
+
 func _on_health_depleted(health_node: Health) -> void:
 	if health_node in get_children():
 		$BreakableBehavior.handle_break(type)

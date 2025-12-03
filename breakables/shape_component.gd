@@ -2,6 +2,9 @@ class_name ShapeComponent
 extends Node
 var shape_data: ShapeData = null
 
+func _ready() -> void:
+	shape_data.shape_size = shape_data.choose_random_size()
+
 
 func set_data(data: ShapeData) -> void:
 	shape_data = data
