@@ -9,15 +9,15 @@ func _ready() -> void:
 
 func handle_break(_break_type: Enums.BreakableType) -> void:
 	# To Do: Handle logic based on type
-	var parent_breakable_type: Enums.BreakableType = get_parent().type
+	var parent_breakable_type: Enums.BreakableType = breakable.type
 	if parent_breakable_type == Enums.BreakableType.NORMAL:
 		pass
 	elif parent_breakable_type == Enums.BreakableType.SPAWNER:
 		handle_spawner()
 	else:
 		handle_exploder()
-	SignalManager.breakable_broken.emit(get_parent())
-	get_parent().queue_free()
+	SignalManager.breakable_broken.emit(breakable)
+	breakable.queue_free()
 
 
 func handle_normal() -> void:
@@ -27,13 +27,13 @@ func handle_normal() -> void:
 func handle_exploder() -> void:
 	# Adds it to world
 	var world: World = breakable.parent_container.world
-	var instance: Explosive = world.create_explosive(get_parent().position)
+	var instance: Explosive = world.create_explosive(breakable.position)
 	# Matches the defer when created
 	instance.call_deferred("handle_placed")
 
 
 func handle_spawner() -> void:
-	var spawn_positions: Array[Vector2] = [get_parent().to_global(Vector2(0, -8)), get_parent().to_global(Vector2(-5, 8)), get_parent().to_global(Vector2(5, 8))]
+	var spawn_positions: Array[Vector2] = [breakable.to_global(Vector2(0, -8)), breakable.to_global(Vector2(-5, 8)), get_parent().to_global(Vector2(5, 8))]
 	var shape_types: Array[Enums.ShapeType] = []
 	var breakable_types: Array[Enums.BreakableType] = []
 	for i in range(breakable_spawn_number):

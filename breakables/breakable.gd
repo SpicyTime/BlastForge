@@ -27,7 +27,7 @@ func _ready() -> void:
 	health.set_health(health_amount)
 	health.set_max_health(health_amount)
 	SignalManager.health_depleted.connect(_on_health_depleted)
-	
+	add_child(load("uid://crewdcx8grnpe").instantiate())
 	scale = Vector2(size_scales[shape_component.get_shape_size()], size_scales[shape_component.get_shape_size()])
 	
 	parent_container = get_parent()

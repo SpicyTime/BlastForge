@@ -110,8 +110,9 @@ func spawn_breakable(spawn_position: Vector2, shape_type: Enums.ShapeType, break
 	breakable_instance.position = spawn_position
 	breakable_instance.type = breakable_type
 	# Initializes the data for the desired shape (based off of the name)
-	var shape_data: ShapeData = load(Constants.SHAPE_RESOURCE_PATH_START + shape_type_lookup[shape_type] + Constants.SHAPE_RESOURCE_PATH_END)
+	var shape_data: ShapeData = load(Constants.SHAPE_RESOURCE_PATH_START + shape_type_lookup[shape_type] + Constants.SHAPE_RESOURCE_PATH_END).duplicate()
 	shape_data.shape_type = shape_type
+	shape_data.shape_size = shape_data.choose_random_size()
 	# Initializes the shape component
 	var packed_shape_component: PackedScene = load(Constants.SHAPE_COMPONENT_PATH)
 	var shape_component_instance: ShapeComponent = packed_shape_component.instantiate()
