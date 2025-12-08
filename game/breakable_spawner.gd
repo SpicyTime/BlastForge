@@ -7,7 +7,6 @@ var spawn_time_limit: float = 1.3
 var despawn_time_limit: float = spawn_time_limit * 2.1
 var despawn_threshold: int = int(spawn_limit / 1.5)
 var bunch_spawn_chance: float = 0.08
-var world: World = null
 var breakable_type_weights: Dictionary[Enums.BreakableType, float] = {
 	Enums.BreakableType.NORMAL : 1.0,
 	Enums.BreakableType.EXPLOSIVE : 0.0,
@@ -39,7 +38,6 @@ var shape_type_lookup: Dictionary[Enums.ShapeType, String] = {
 func _ready() -> void:
 	SignalManager.spawn_breakable_request.connect(_on_spawn_breakable_requested)
 	SignalManager.spawn_breakable_bunch_request.connect(_on_spawn_breakable_bunch_requested)
-	world = get_parent()
 
 
 func _process(delta: float) -> void:
@@ -113,7 +111,7 @@ func _handle_breakable_auto_despawn(delta) -> void:
 	despawn_time_passed += delta
 	if despawn_time_passed >= despawn_time_limit and get_child_count() >= despawn_threshold:
 		despawn_time_passed = 0.0
-		get_child(0).queue_free()
+		get_child(0).handle_despawn()
 
 # Adds all the weights in the shape type weight table
 func _calc_shape_weight_total() -> float:

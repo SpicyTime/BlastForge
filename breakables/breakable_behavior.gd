@@ -25,11 +25,8 @@ func handle_normal() -> void:
 
 
 func handle_exploder() -> void:
-	# Adds it to world
-	var world: World = breakable.parent_container.world
-	var instance: Explosive = world.create_explosive(breakable.position)
-	# Matches the defer when created
-	instance.call_deferred("handle_placed")
+	# Other data might need to be sent, but this is it for now
+	SignalManager.spawn_explosive.emit(breakable.position)
 
 
 func handle_spawner() -> void:

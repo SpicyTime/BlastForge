@@ -54,4 +54,9 @@ func _on_breakable_broken(breakable_instance: Breakable) -> void:
 	var text = "+" + str(breakable_instance.shape_component.get_shape_value())
 	
 	spawn_floating_text(text ,breakable_instance.position + Vector2(0, -10.0), Color.GREEN, 1.15)
-	
+
+
+func spawn_explosive(explosive_position: Vector2):
+	var explosive_instance: Explosive = create_explosive(explosive_position)
+	# Matches the defer in the creation
+	explosive_instance.call_deferred("handle_placed")
