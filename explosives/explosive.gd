@@ -35,6 +35,7 @@ func _on_detonation_timer_timeout() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	call_deferred("queue_free")
+	SignalManager.explosive_detonated.emit()
 
 
 func spawn_floating_text(text: String, text_position: Vector2, text_color: Color, visible_time: float):

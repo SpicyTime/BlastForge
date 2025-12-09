@@ -1,12 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://k7nqsblly5gs"]
+[gd_scene load_steps=5 format=3 uid="uid://k7nqsblly5gs"]
 
 [ext_resource type="Script" uid="uid://vwrqyfjerpum" path="res://game/world.gd" id="1_vn0wg"]
 [ext_resource type="Script" uid="uid://uxk2gctotf6f" path="res://game/breakable_spawner.gd" id="2_aseec"]
+[ext_resource type="Script" uid="uid://dqanl875ga8m6" path="res://game/camera.gd" id="2_tvmmn"]
+[ext_resource type="Script" uid="uid://cpc1o46lwdj2q" path="res://components/shake_component.gd" id="3_4xpgs"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_vn0wg")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="."]
+script = ExtResource("2_tvmmn")
+
+[node name="ShakeComponent" type="Node" parent="Camera"]
+script = ExtResource("3_4xpgs")
+metadata/_custom_type_script = "uid://cpc1o46lwdj2q"
 
 [node name="BreakableSpawner" type="Node2D" parent="."]
 script = ExtResource("2_aseec")

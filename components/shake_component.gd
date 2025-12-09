@@ -8,7 +8,6 @@ extends Node
 var shake_intensity: float = 0.0
 var active_shake_time: float = 0.0
 
-
 var shake_time: float = 0.0
 
 # Used to create sudden movement in different direction

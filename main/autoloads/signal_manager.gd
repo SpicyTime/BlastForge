@@ -5,6 +5,10 @@ signal max_health_changed(diff: int) # The difference can be used for further ca
 signal health_depleted
 signal damage_taken(value: int)
  
+# Explosives
+signal explosive_detonated
+
+
 # Breakable
 signal breakable_broken(instance: Breakable)
 
