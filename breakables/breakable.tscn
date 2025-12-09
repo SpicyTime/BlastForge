@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://d3iknp440glsy" path="res://breakables/breakable.gd" id="1_srh6f"]
 [ext_resource type="Texture2D" uid="uid://dgqwej8vqbje8" path="res://breakables/sprites/triangle_sprite.png" id="2_x566u"]
-[ext_resource type="PackedScene" uid="uid://bcjrft2uixwu1" path="res://health_system/hurtbox.tscn" id="3_srh6f"]
+[ext_resource type="PackedScene" uid="uid://bcjrft2uixwu1" path="res://components/health_system/hurtbox.tscn" id="3_srh6f"]
 [ext_resource type="PackedScene" uid="uid://crewdcx8grnpe" path="res://breakables/breakable_behavior.tscn" id="5_813x3"]
-[ext_resource type="Script" uid="uid://dyakc7t63f14m" path="res://health_system/health.gd" id="5_x566u"]
+[ext_resource type="Script" uid="uid://dyakc7t63f14m" path="res://components/health_system/health.gd" id="5_x566u"]
 
 [node name="Breakable" type="Node2D"]
 script = ExtResource("1_srh6f")

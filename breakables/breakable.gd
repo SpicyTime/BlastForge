@@ -4,6 +4,8 @@ extends Node2D
 @onready var hurtbox_collider: CollisionShape2D = $Hurtbox/HurtboxCollider
 @onready var detector_collider: CollisionShape2D = $ExplosionDetector/DetectorCollider
 @onready var health: Health = $Health
+@onready var shake_component: ShakeComponent = $ShakeComponent
+
 var shape_component: ShapeComponent = null
 var base_modulate: Color = modulate
 var explosion_detected_modulate: Color = Color(0.5, 0.5, 0.5)
@@ -40,7 +42,6 @@ func handle_despawn() -> void:
 		hurtbox_collider.disabled = true
 		await scale_down_tween.finished # Checks if the breakable has been destroyed
 		queue_free()
-	
 
 
 func _set_up_colliders() -> void:

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dm5612tygr7y0" path="res://explosives/explosive_bomb_sprite.png" id="2_5rd10"]
 [ext_resource type="PackedScene" uid="uid://bd8xm30ep1ibx" path="res://explosives/explosive_area_shader_box.tscn" id="3_wvlh0"]
 [ext_resource type="Material" uid="uid://bxctswug6cia7" path="res://explosives/materials/green_circle_material.tres" id="4_00hdp"]
-[ext_resource type="PackedScene" uid="uid://dgtb8vq48acyh" path="res://health_system/hitbox.tscn" id="4_5rd10"]
+[ext_resource type="PackedScene" uid="uid://dgtb8vq48acyh" path="res://components/health_system/hitbox.tscn" id="4_5rd10"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_00hdp"]
 radius = 48.09366
