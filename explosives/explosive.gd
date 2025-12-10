@@ -4,6 +4,8 @@ extends Node2D
 @export var detonation_time: float = 1.5
 var phase_time: float = 0.0
 var red_material: ShaderMaterial = preload("res://explosives/materials/red_circle_material.tres")
+var is_up_pulse: bool = false
+var pulse_time: float = 0.46
 @onready var explosive_area_shader_box: Sprite2D = $ExplosiveAreaShaderBox
 @onready var explosive_sprite: Sprite2D = $ExplosiveSprite
 @onready var detonation_timer: Timer = $DetonationTimer
@@ -26,16 +28,9 @@ func handle_placed() -> void:
 	if not keep_detection_active:
 		explosion_detection_area.monitorable = false
 		explosion_detection_area.monitoring = false
-
-
-func _on_detonation_timer_timeout() -> void:
-	# TO DO: Handle all explosion effects, particles, sounds, etc...
-	hitbox_collider.disabled = false
-	# A short delay to allow for collision detection with the other areas
-	await get_tree().process_frame
-	await get_tree().process_frame
-	call_deferred("queue_free")
-	SignalManager.explosive_detonated.emit()
+	var pulse_scale_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_EXPO)
+	pulse_scale_tween.tween_property(explosive_sprite, "scale", Vector2(0.9, 0.9), pulse_time)
+	pulse_scale_tween.finished.connect(_on_pulse_tween_finished)
 
 
 func spawn_floating_text(text: String, text_position: Vector2, text_color: Color, visible_time: float):
@@ -48,3 +43,27 @@ func spawn_floating_text(text: String, text_position: Vector2, text_color: Color
 	add_child(floating_text)
 	await get_tree().create_timer(visible_time).timeout
 	floating_text.queue_free()
+
+
+func _on_detonation_timer_timeout() -> void:
+	# TO DO: Handle all explosion effects, particles, sounds, etc...
+	hitbox_collider.disabled = false
+	var final_scale: Vector2 = Vector2(1.35, 1.35)
+	var scale_up_explosion_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
+	scale_up_explosion_tween.tween_property(explosive_sprite, "scale", final_scale, 0.11)
+	await scale_up_explosion_tween.finished
+	call_deferred("queue_free")
+	SignalManager.explosive_detonated.emit()
+
+
+func _on_pulse_tween_finished() -> void:
+	var pulse_scale: Vector2 = Vector2.ZERO
+	if is_up_pulse:
+		is_up_pulse = false
+		pulse_scale = Vector2(0.95, 0.95)
+	else:
+		is_up_pulse = true
+		pulse_scale = Vector2(1.05, 1.05)
+	var pulse_scale_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_EXPO)
+	pulse_scale_tween.tween_property(explosive_sprite, "scale", pulse_scale, pulse_time)
+	pulse_scale_tween.finished.connect(_on_pulse_tween_finished)

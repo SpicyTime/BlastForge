@@ -10,6 +10,7 @@ script = ExtResource("1_vn0wg")
 
 [node name="Camera" type="Camera2D" parent="."]
 script = ExtResource("2_tvmmn")
+shake_intensity = 4
 
 [node name="ShakeComponent" type="Node" parent="Camera"]
 script = ExtResource("3_4xpgs")

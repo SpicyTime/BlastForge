@@ -4,7 +4,6 @@ extends Node2D
 @onready var hurtbox_collider: CollisionShape2D = $Hurtbox/HurtboxCollider
 @onready var detector_collider: CollisionShape2D = $ExplosionDetector/DetectorCollider
 @onready var health: Health = $Health
-@onready var shake_component: ShakeComponent = $ShakeComponent
 
 var shape_component: ShapeComponent = null
 var base_modulate: Color = modulate
