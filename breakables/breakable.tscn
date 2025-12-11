@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://dyakc7t63f14m" path="res://components/health_system/health.gd" id="5_x566u"]
 
 [node name="Breakable" type="CharacterBody2D"]
-collision_mask = 0
+collision_mask = 2
 script = ExtResource("1_srh6f")
 
 [node name="BreakableSprite" type="Sprite2D" parent="."]

@@ -1,9 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://k7nqsblly5gs"]
+[gd_scene load_steps=8 format=3 uid="uid://k7nqsblly5gs"]
 
 [ext_resource type="Script" uid="uid://vwrqyfjerpum" path="res://game/world.gd" id="1_vn0wg"]
 [ext_resource type="Script" uid="uid://uxk2gctotf6f" path="res://game/breakable_spawner.gd" id="2_aseec"]
 [ext_resource type="Script" uid="uid://dqanl875ga8m6" path="res://game/camera.gd" id="2_tvmmn"]
 [ext_resource type="Script" uid="uid://cpc1o46lwdj2q" path="res://components/shake_component.gd" id="3_4xpgs"]
+[ext_resource type="PackedScene" uid="uid://hkoxgv30yrjh" path="res://game/bounce_bound.tscn" id="5_805w3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fhh06"]
+size = Vector2(640, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m4twg"]
+size = Vector2(20, 340)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_vn0wg")
@@ -19,3 +26,29 @@ metadata/_custom_type_script = "uid://cpc1o46lwdj2q"
 script = ExtResource("2_aseec")
 
 [node name="ExplosivesContainer" type="Node2D" parent="."]
+
+[node name="TopBound" parent="." instance=ExtResource("5_805w3")]
+position = Vector2(0, -180)
+
+[node name="TopCollider" type="CollisionShape2D" parent="TopBound"]
+shape = SubResource("RectangleShape2D_fhh06")
+
+[node name="BottomBound" parent="." instance=ExtResource("5_805w3")]
+position = Vector2(0, 180)
+
+[node name="BottomCollider" type="CollisionShape2D" parent="BottomBound"]
+shape = SubResource("RectangleShape2D_fhh06")
+
+[node name="LeftBound" parent="." instance=ExtResource("5_805w3")]
+position = Vector2(-320, 0)
+is_side = true
+
+[node name="LeftCollider" type="CollisionShape2D" parent="LeftBound"]
+shape = SubResource("RectangleShape2D_m4twg")
+
+[node name="RightBound" parent="." instance=ExtResource("5_805w3")]
+position = Vector2(320, 0)
+is_side = true
+
+[node name="RightCollider" type="CollisionShape2D" parent="RightBound"]
+shape = SubResource("RectangleShape2D_m4twg")

@@ -8,11 +8,13 @@ var type: Enums.BreakableType = Enums.BreakableType.NORMAL
 var is_scaled: bool = false
 var move_direction: Vector2 = Vector2(1, 1)
 var speed: float = 700.0
+var prev_pos: Vector2 = Vector2.ZERO
 var size_scales: Dictionary[Enums.ShapeSize, float] = {
 	Enums.ShapeSize.SMALL : 1.0,
 	Enums.ShapeSize.MEDIUM : 1.15,
 	Enums.ShapeSize.LARGE :  1.35
 }
+const OFFSCREEN_PADDING: int = 20
 
 @onready var breakable_sprite: Sprite2D = $BreakableSprite
 @onready var hurtbox_collider: CollisionShape2D = $Hurtbox/HurtboxCollider
@@ -21,6 +23,7 @@ var size_scales: Dictionary[Enums.ShapeSize, float] = {
 @onready var health: Health = $Health
 
 func _ready() -> void:
+	prev_pos = position
 	_set_up_colliders()
 	_set_up_health()
 	breakable_sprite.texture = shape_component.get_shape_texture()
@@ -35,7 +38,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	velocity = speed * move_direction * delta
+	velocity = speed * move_direction * delta 
 	move_and_slide()
 
 
@@ -49,6 +52,17 @@ func handle_despawn() -> void:
 		hurtbox_collider.disabled = true
 		await scale_down_tween.finished # Checks if the breakable has been destroyed
 		queue_free()
+
+func _is_offscreen(check_position: Vector2) -> bool:
+	# Handles horizontal axis
+	@warning_ignore("integer_division")
+	if check_position.x > (Constants.VIEWPORT_WIDTH / 2) + OFFSCREEN_PADDING or check_position.x < -(Constants.VIEWPORT_WIDTH / 2) - OFFSCREEN_PADDING:
+		return true
+	
+	@warning_ignore("integer_division")
+	if check_position.y > (Constants.VIEWPORT_HEIGHT / 2) + OFFSCREEN_PADDING or check_position.y < -(Constants.VIEWPORT_HEIGHT / 2) - OFFSCREEN_PADDING:
+		return true
+	return false
 
 
 func _set_up_colliders() -> void:
