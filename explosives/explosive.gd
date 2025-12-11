@@ -8,11 +8,12 @@ var is_up_pulse: bool = false
 var pulse_time: float = 0.46
 @onready var explosive_area_shader_box: Sprite2D = $ExplosiveAreaShaderBox
 @onready var explosive_sprite: Sprite2D = $ExplosiveSprite
-@onready var detonation_timer: Timer = $DetonationTimer
+@onready var explosion_area: Hitbox = $ExplosionArea
 @onready var hitbox_collider: CollisionShape2D = $ExplosionArea/HitboxCollider
 @onready var detection_area_collider: CollisionShape2D = $ExplosionDetectionArea/DetectionAreaCollider
 @onready var explosion_detection_area: Area2D = $ExplosionDetectionArea
-@onready var explosion_area: Hitbox = $ExplosionArea
+@onready var push_area_collider: CollisionShape2D = $ExplosionPushArea/PushAreaCollider
+@onready var detonation_timer: Timer = $DetonationTimer
 
 func _process(delta: float) -> void:
 	phase_time += delta
@@ -48,6 +49,7 @@ func spawn_floating_text(text: String, text_position: Vector2, text_color: Color
 func _on_detonation_timer_timeout() -> void:
 	# TO DO: Handle all explosion effects, particles, sounds, etc...
 	hitbox_collider.disabled = false
+	push_area_collider.disabled = false
 	var final_scale: Vector2 = Vector2(1.35, 1.35)
 	var scale_up_explosion_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
 	scale_up_explosion_tween.tween_property(explosive_sprite, "scale", final_scale, 0.11)
@@ -67,3 +69,11 @@ func _on_pulse_tween_finished() -> void:
 	var pulse_scale_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_EXPO)
 	pulse_scale_tween.tween_property(explosive_sprite, "scale", pulse_scale, pulse_time)
 	pulse_scale_tween.finished.connect(_on_pulse_tween_finished)
+
+
+func _on_explosion_push_area_body_entered(body: Node2D) -> void:
+	if body is Breakable:
+		body = body as Breakable
+		body.move_direction = position.direction_to(body.position)
+		var push_force: float = 8.75
+		body.speed = body.base_speed * push_force

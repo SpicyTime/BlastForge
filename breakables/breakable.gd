@@ -8,6 +8,7 @@ var type: Enums.BreakableType = Enums.BreakableType.NORMAL
 var is_scaled: bool = false
 var move_direction: Vector2 = Vector2(1, 1)
 var speed: float = 700.0
+var base_speed: float = 700.0
 var prev_pos: Vector2 = Vector2.ZERO
 var size_scales: Dictionary[Enums.ShapeSize, float] = {
 	Enums.ShapeSize.SMALL : 1.0,
@@ -15,7 +16,7 @@ var size_scales: Dictionary[Enums.ShapeSize, float] = {
 	Enums.ShapeSize.LARGE :  1.35
 }
 const OFFSCREEN_PADDING: int = 20
-
+const FRICTION: int = 900
 @onready var breakable_sprite: Sprite2D = $BreakableSprite
 @onready var hurtbox_collider: CollisionShape2D = $Hurtbox/HurtboxCollider
 @onready var detector_collider: CollisionShape2D = $ExplosionDetector/DetectorCollider
@@ -38,6 +39,8 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if speed > base_speed:
+		speed = move_toward(speed, base_speed, delta * FRICTION)
 	velocity = speed * move_direction * delta 
 	move_and_slide()
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ct3xcei10tcq0"]
+[gd_scene load_steps=9 format=3 uid="uid://ct3xcei10tcq0"]
 
 [ext_resource type="Script" uid="uid://dmw3gpe8emwgh" path="res://explosives/explosive.gd" id="1_ejdfl"]
 [ext_resource type="Texture2D" uid="uid://dm5612tygr7y0" path="res://explosives/explosive_bomb_sprite.png" id="2_5rd10"]
@@ -11,6 +11,9 @@ radius = 48.09366
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wvlh0"]
 radius = 48.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5rd10"]
+radius = 70.0
 
 [node name="Explosive" type="Node2D"]
 script = ExtResource("1_ejdfl")
@@ -39,6 +42,13 @@ visible = false
 [node name="DetectionAreaCollider" type="CollisionShape2D" parent="ExplosionDetectionArea"]
 shape = SubResource("CircleShape2D_wvlh0")
 
+[node name="ExplosionPushArea" type="Area2D" parent="."]
+
+[node name="PushAreaCollider" type="CollisionShape2D" parent="ExplosionPushArea"]
+shape = SubResource("CircleShape2D_5rd10")
+disabled = true
+
 [node name="DetonationTimer" type="Timer" parent="."]
 
+[connection signal="body_entered" from="ExplosionPushArea" to="." method="_on_explosion_push_area_body_entered"]
 [connection signal="timeout" from="DetonationTimer" to="." method="_on_detonation_timer_timeout"]

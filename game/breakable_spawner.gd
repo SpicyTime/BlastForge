@@ -67,6 +67,7 @@ func spawn_breakable(spawn_position: Vector2, shape_type: Enums.ShapeType, break
 	breakable_instance.shape_component = shape_component_instance
 	breakable_instance.move_direction = _choose_random_direction()
 	breakable_instance.speed = _choose_random_speed()
+	breakable_instance.base_speed = breakable_instance.speed
 	breakable_instance.add_child(shape_component_instance)
 	
 	add_child(breakable_instance)
