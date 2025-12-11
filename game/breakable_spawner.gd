@@ -35,6 +35,9 @@ var shape_type_lookup: Dictionary[Enums.ShapeType, String] = {
 	Enums.ShapeType.CIRCLE : "circle",
 }
 
+const MAX_BREAKABLE_SPEED: int = 645
+const MIN_BREAKABLE_SPEED: int = 730
+
 func _ready() -> void:
 	SignalManager.spawn_breakable_request.connect(_on_spawn_breakable_requested)
 	SignalManager.spawn_breakable_bunch_request.connect(_on_spawn_breakable_bunch_requested)
@@ -62,6 +65,8 @@ func spawn_breakable(spawn_position: Vector2, shape_type: Enums.ShapeType, break
 	
 	# Adds the component to the breakable object
 	breakable_instance.shape_component = shape_component_instance
+	breakable_instance.move_direction = _choose_random_direction()
+	breakable_instance.speed = _choose_random_speed()
 	breakable_instance.add_child(shape_component_instance)
 	
 	add_child(breakable_instance)
@@ -164,6 +169,14 @@ func _choose_random_pos(spawn_position_bounds: Array[int]) -> Vector2:
 	# Snaps the position to a grid
 	var rand_position: Vector2 = Vector2(x, y).snapped(Vector2(Constants.TILE_SIZE, Constants.TILE_SIZE))
 	return rand_position 
+
+
+func _choose_random_direction() -> Vector2:
+	return Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
+
+
+func _choose_random_speed() -> int:
+	return randi_range(MIN_BREAKABLE_SPEED, MAX_BREAKABLE_SPEED)
 
 
 func _on_spawn_breakable_requested(spawn_position: Vector2, shape_type: Enums.ShapeType, breakable_type: Enums.BreakableType) -> void:

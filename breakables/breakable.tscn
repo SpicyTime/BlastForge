@@ -6,7 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://crewdcx8grnpe" path="res://breakables/breakable_behavior.tscn" id="5_813x3"]
 [ext_resource type="Script" uid="uid://dyakc7t63f14m" path="res://components/health_system/health.gd" id="5_x566u"]
 
-[node name="Breakable" type="Node2D"]
+[node name="Breakable" type="CharacterBody2D"]
+collision_mask = 0
 script = ExtResource("1_srh6f")
 
 [node name="BreakableSprite" type="Sprite2D" parent="."]
@@ -29,6 +30,8 @@ max_health = 1
 metadata/_custom_type_script = "uid://dyakc7t63f14m"
 
 [node name="BreakableBehavior" parent="." instance=ExtResource("5_813x3")]
+
+[node name="BreakableCollider" type="CollisionShape2D" parent="."]
 
 [connection signal="area_entered" from="ExplosionDetector" to="." method="_on_explosion_detector_area_entered"]
 [connection signal="area_exited" from="ExplosionDetector" to="." method="_on_explosion_detector_area_exited"]
