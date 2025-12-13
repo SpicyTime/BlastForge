@@ -1,6 +1,10 @@
 class_name ShapeComponent
 extends Node
 var shape_data: ShapeData = null
+var shape_value: int = 0
+func _ready() -> void:
+	shape_value = _calc_shape_value()
+
 
 func set_data(data: ShapeData) -> void:
 	shape_data = data
@@ -27,11 +31,14 @@ func get_shape_health() -> int:
 
 
 func get_shape_value() -> int:
-	var multiplier: float = 0.0
+	return shape_value
+
+func _calc_shape_value() -> int:
+	var size_multiplier_value: float = 0.0
 	if get_shape_size() == Enums.ShapeSize.SMALL:
-		multiplier = Constants.BASE_SMALL_MULTIPLIER
+		size_multiplier_value = Constants.BASE_SMALL_MULTIPLIER
 	elif get_shape_size() == Enums.ShapeSize.MEDIUM:
-		multiplier = Constants.BASE_MEDIUM_MULTIPLIER
+		size_multiplier_value = Constants.BASE_MEDIUM_MULTIPLIER
 	else:
-		multiplier = Constants.BASE_LARGE_MULTIPLIER
-	return int(shape_data.base_point_value * multiplier)
+		size_multiplier_value = Constants.BASE_LARGE_MULTIPLIER
+	return int(shape_data.base_point_value * size_multiplier_value)

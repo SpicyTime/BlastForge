@@ -17,7 +17,6 @@ func handle_break(_break_type: Enums.BreakableType) -> void:
 	else:
 		handle_exploder()
 	SignalManager.breakable_broken.emit(breakable)
-	breakable.queue_free()
 
 
 func handle_normal() -> void:

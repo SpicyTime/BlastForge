@@ -1,10 +1,12 @@
 class_name World
 extends Node2D
 var held_explosive: Explosive = null
+var total_points: int = 0
+var base_bunch_multiplier: = 1.5
 @onready var explosives_container: Node2D = $ExplosivesContainer
 
 func _ready() -> void:
-	SignalManager.breakable_broken.connect(_on_breakable_broken)
+	SignalManager.explosive_detonated.connect(_on_explosive_detonated)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -50,13 +52,30 @@ func spawn_floating_text(text: String, text_position: Vector2, text_color: Color
 	floating_text.queue_free()
 
 
-func _on_breakable_broken(breakable_instance: Breakable) -> void:
-	var text = "+" + str(breakable_instance.shape_component.get_shape_value())
-	
-	spawn_floating_text(text ,breakable_instance.position + Vector2(0, -10.0), Color.GREEN, 1.15)
-
-
 func spawn_explosive(explosive_position: Vector2):
 	var explosive_instance: Explosive = create_explosive(explosive_position)
 	# Matches the defer in the creation
 	explosive_instance.call_deferred("handle_placed")
+
+
+func _handle_breakable_broken(breakable_instance: Breakable) -> void:
+	total_points += breakable_instance.shape_component.get_shape_value()
+	SignalManager.points_changed.emit(total_points)
+	var text = "+" + str(breakable_instance.shape_component.get_shape_value())
+	spawn_floating_text(text ,breakable_instance.position + Vector2(0, -10.0), Color.GREEN, 1.15)
+	breakable_instance.queue_free()
+
+
+func _on_explosive_detonated(breakables_broken: Array[Node2D]) -> void:
+	var multiplier: float = 1.0
+	var bonus_breakable_threshold: int = 3
+	if breakables_broken.size() >= bonus_breakable_threshold:
+		var exponent: float = 1.25
+		multiplier = (base_bunch_multiplier + pow(breakables_broken.size() - bonus_breakable_threshold, exponent))
+		
+	for breakable in breakables_broken:
+		if is_instance_valid(breakable):
+			breakable.shape_component.shape_value = ceil(breakable.shape_component.get_shape_value() * multiplier)
+			_handle_breakable_broken(breakable) 
+		else:
+			print("Not Valid")
