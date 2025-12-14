@@ -4,5 +4,5 @@
 
 [resource]
 shader = ExtResource("1_o8oug")
-shader_parameter/radius = 0.7530000357675
+shader_parameter/radius = 0.05
 shader_parameter/circle_color = Color(0, 1, 0, 0.5)

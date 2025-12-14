@@ -3,6 +3,7 @@ extends Node2D
 var held_explosive: Explosive = null
 var total_points: int = 0
 var base_bunch_multiplier: = 1.5
+var can_create_explosive: bool = true
 @onready var explosives_container: Node2D = $ExplosivesContainer
 
 func _ready() -> void:
@@ -13,11 +14,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		var mouse_position: Vector2 = get_global_mouse_position()
 		# The explosive will be created when the explosive_action is pressed
-		if Input.is_action_just_pressed("explosive_action") and not held_explosive:
+		if Input.is_action_just_pressed("explosive_action") and not held_explosive and can_create_explosive:
 			held_explosive = create_explosive(mouse_position)
+			can_create_explosive = false
 		# The explosive will be placed when the explosive_action is released
 		if Input.is_action_just_released("explosive_action") and held_explosive:
 			call_deferred("place_explosive") 
+			get_tree().create_timer(StatManager.get_place_delay()).connect("timeout", func(): can_create_explosive = true)
 	elif event is InputEventMouseMotion:
 		if held_explosive:
 			held_explosive.position = get_global_mouse_position()
@@ -28,6 +31,7 @@ func create_explosive(spawn_position: Vector2) -> Explosive:
 	var packed_explosive_scene: PackedScene = load(Constants.EXPLOSIVE_SCENE_PATH)
 	var explosive_instance: Explosive = packed_explosive_scene.instantiate()
 	explosive_instance.position = spawn_position
+	
 	# I get a bunch of errors if it is not deferred
 	explosives_container.call_deferred("add_child", explosive_instance)
 	return explosive_instance
@@ -72,7 +76,7 @@ func _on_explosive_detonated(breakables_broken: Array[Node2D]) -> void:
 	if breakables_broken.size() >= bonus_breakable_threshold:
 		var exponent: float = 1.25
 		multiplier = (base_bunch_multiplier + pow(breakables_broken.size() - bonus_breakable_threshold, exponent))
-		
+		 
 	for breakable in breakables_broken:
 		if is_instance_valid(breakable):
 			breakable.shape_component.shape_value = ceil(breakable.shape_component.get_shape_value() * multiplier)

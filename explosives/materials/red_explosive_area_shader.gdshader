@@ -4,14 +4,23 @@ uniform vec4 circle_color : source_color = vec4(1.0, 0.0, 0.0, 0.5);
 uniform float speed = 9.0;
 uniform float phase_offset = 0.0;
 void fragment(){
-	vec2 pixelNumber = vec2(textureSize(TEXTURE, 0));
-	vec2 pixelated_UV = round(UV * pixelNumber) / pixelNumber;
-	vec2 uv = (pixelated_UV * 2.0 - 1.0);
+	// Texture size in pixels
+    vec2 tex_size = vec2(textureSize(TEXTURE, 0));
+
+    // Convert UVs to pixel coordinates
+    vec2 pixel_uv = UV * tex_size;
 	
-	float circle = ceil(length(uv) - radius);
-	circle = 1. - circle;
-	circle = clamp(circle, 0, circle_color.a);
+	pixel_uv = floor(pixel_uv) + 0.5;
+    // Center of the quad in pixels
+    vec2 center = tex_size * 0.5;
+
+    // Distance from center in pixels
+    float dist = distance(pixel_uv, center);
+
+    // Hard circle mask (0 or 1)
+    float circle = step(dist, radius);
+
 	float pulse = (sin((TIME + phase_offset) * speed) * 0.5) + 1.25;
-	COLOR = circle_color;
-	COLOR.a = circle * pulse;
+    COLOR = circle_color;
+    COLOR.a *= circle * pulse;
 }

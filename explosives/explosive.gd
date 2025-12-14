@@ -8,12 +8,16 @@ var is_up_pulse: bool = false
 var pulse_time: float = 0.46
 @onready var explosive_area_shader_box: Sprite2D = $ExplosiveAreaShaderBox
 @onready var explosive_sprite: Sprite2D = $ExplosiveSprite
-@onready var explosion_area: Hitbox = $ExplosionArea
-@onready var hitbox_collider: CollisionShape2D = $ExplosionArea/HitboxCollider
+@onready var explosion_area_hitbox: Hitbox = $ExplosionAreaHitbox
+@onready var hitbox_collider: CollisionShape2D = $ExplosionAreaHitbox/HitboxCollider
 @onready var detection_area_collider: CollisionShape2D = $ExplosionDetectionArea/DetectionAreaCollider
 @onready var explosion_detection_area: Area2D = $ExplosionDetectionArea
 @onready var push_area_collider: CollisionShape2D = $ExplosionPushArea/PushAreaCollider
 @onready var detonation_timer: Timer = $DetonationTimer
+
+func _ready() -> void:
+	_set_radii(StatManager.get_explosion_radius(), StatManager.get_shader_radius())
+
 
 func _process(delta: float) -> void:
 	phase_time += delta
@@ -34,16 +38,12 @@ func handle_placed() -> void:
 	pulse_scale_tween.finished.connect(_on_pulse_tween_finished)
 
 
-func spawn_floating_text(text: String, text_position: Vector2, text_color: Color, visible_time: float):
-	var floating_text: Marker2D = load(Constants.FLOATING_TEXT_PATH).instantiate()
-	var text_label: Label = floating_text.get_child(0)
-	floating_text.exist_time = visible_time
-	text_label.text = text
-	floating_text.position = text_position
-	text_label.add_theme_color_override("font_color", text_color)
-	add_child(floating_text)
-	await get_tree().create_timer(visible_time).timeout
-	floating_text.queue_free()
+func _set_radii(explosion_radius: float, shader_radius: float) -> void:
+	hitbox_collider.shape.radius = explosion_radius
+	detection_area_collider.shape.radius = explosion_radius
+	# Sets the radius of both color materials
+	explosive_area_shader_box.material.set("shader_parameter/radius", shader_radius)
+	red_material.set("shader_parameter/radius", shader_radius)
 
 
 func _on_detonation_timer_timeout() -> void:
@@ -54,8 +54,9 @@ func _on_detonation_timer_timeout() -> void:
 	var scale_up_explosion_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
 	scale_up_explosion_tween.tween_property(explosive_sprite, "scale", final_scale, 0.11)
 	var breakables_broken: Array[Node2D] = explosion_detection_area.get_overlapping_bodies()
+	explosion_area_hitbox.damage = StatManager.get_explosive_damage()
 	await scale_up_explosion_tween.finished
-	call_deferred("queue_free")
+	queue_free()
 	SignalManager.explosive_detonated.emit(breakables_broken)
 
 

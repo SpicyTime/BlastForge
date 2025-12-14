@@ -7,10 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://dgtb8vq48acyh" path="res://components/health_system/hitbox.tscn" id="4_5rd10"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_00hdp"]
-radius = 48.09366
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wvlh0"]
-radius = 48.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5rd10"]
 radius = 70.0
@@ -27,12 +25,13 @@ texture = ExtResource("2_5rd10")
 [node name="ExplosiveAreaShaderBox" parent="." instance=ExtResource("3_wvlh0")]
 z_index = 1
 material = ExtResource("4_00hdp")
+scale = Vector2(1.563, 1.563)
 
-[node name="ExplosionArea" parent="." instance=ExtResource("4_5rd10")]
+[node name="ExplosionAreaHitbox" parent="." instance=ExtResource("4_5rd10")]
 visible = false
 damage = 1
 
-[node name="HitboxCollider" type="CollisionShape2D" parent="ExplosionArea"]
+[node name="HitboxCollider" type="CollisionShape2D" parent="ExplosionAreaHitbox"]
 shape = SubResource("CircleShape2D_00hdp")
 disabled = true
 
@@ -43,6 +42,7 @@ visible = false
 shape = SubResource("CircleShape2D_wvlh0")
 
 [node name="ExplosionPushArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 2
 
 [node name="PushAreaCollider" type="CollisionShape2D" parent="ExplosionPushArea"]
