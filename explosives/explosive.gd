@@ -74,7 +74,7 @@ func _on_pulse_tween_finished() -> void:
 
 
 func _on_explosion_push_area_body_entered(body: Node2D) -> void:
-	if body is Breakable:
+	if body is Breakable and not body in explosion_area_hitbox.get_overlapping_bodies():
 		body = body as Breakable
 		body.move_direction = position.direction_to(body.position)
 		var push_force: float = 8.75
