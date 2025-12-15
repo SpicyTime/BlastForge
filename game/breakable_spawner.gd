@@ -1,25 +1,7 @@
 extends Node2D
-const MIN_SPAWN_VALUE: float = 0.0
 var spawn_time_passed: float = 0.0
 var despawn_time_passed: float = 0.0
-var spawn_limit: int = 20
-var spawn_time_limit: float = 1.3
-var despawn_time_limit: float = spawn_time_limit * 2.1
-var despawn_threshold: int = int(spawn_limit / 1.5)
-var bunch_spawn_chance: float = 0.08
-var breakable_type_weights: Dictionary[Enums.BreakableType, float] = {
-	Enums.BreakableType.NORMAL : 1.0,
-	Enums.BreakableType.EXPLOSIVE : 0.0,
-	Enums.BreakableType.SPAWNER : 0.0
-}
 
-var shape_type_weights: Dictionary[Enums.ShapeType, float] = {
-	Enums.ShapeType.TRIANGLE : 1.0,
-	Enums.ShapeType.SQUARE : 0.0,
-	Enums.ShapeType.PENTAGON : 0.0,
-	Enums.ShapeType.HEXAGON : 0.0,
-	Enums.ShapeType.CIRCLE : 0.0
-}
 
 var breakable_type_lookup: Dictionary[Enums.BreakableType, String] = {
 	Enums.BreakableType.NORMAL : "normal",
@@ -57,7 +39,7 @@ func spawn_breakable(spawn_position: Vector2, shape_type: Enums.ShapeType, break
 	# Initializes the data for the desired shape (based off of the name)
 	var shape_data: ShapeData = load(Constants.SHAPE_RESOURCE_PATH_START + shape_type_lookup[shape_type] + Constants.SHAPE_RESOURCE_PATH_END).duplicate()
 	shape_data.shape_type = shape_type
-	shape_data.shape_size = shape_data.choose_random_size()
+	shape_data.shape_size = _choose_random_shape_size(shape_type)
 	# Initializes the shape component
 	var packed_shape_component: PackedScene = load(Constants.SHAPE_COMPONENT_PATH)
 	var shape_component_instance: ShapeComponent = packed_shape_component.instantiate()
@@ -82,13 +64,13 @@ func spawn_breakable_bunch(amount: int, spawn_positions: Array[Vector2], shape_t
 func _handle_breakable_auto_spawn(delta: float) -> void:
 	spawn_time_passed += delta
 	var world_spawn_bounds: Array[int] = [-275, 275, -150, 150]
-	if spawn_time_passed >= spawn_time_limit: 
+	if spawn_time_passed >= StatManager.get_breakable_spawn_time(): 
 		
 		spawn_time_passed = 0.0
-		if get_child_count() < spawn_limit:
+		if get_child_count() < StatManager.get_breakable_spawn_limit():
 			
 			var bunch_spawn_roll: float = randf()
-			if bunch_spawn_roll <= bunch_spawn_chance:
+			if bunch_spawn_roll <= StatManager.get_breakable_bunch_spawn_chance():
 				
 				var breakable_position: Vector2 = _choose_random_pos(world_spawn_bounds)
 				var breakable_bunch_spawn_number: int = 2
@@ -115,27 +97,23 @@ func _handle_breakable_auto_spawn(delta: float) -> void:
 
 func _handle_breakable_auto_despawn(delta) -> void:
 	despawn_time_passed += delta
-	if despawn_time_passed >= despawn_time_limit and get_child_count() >= despawn_threshold:
+	if despawn_time_passed >= StatManager.get_breakable_despawn_time() and get_child_count() >= StatManager.get_despawn_threshold():
 		despawn_time_passed = 0.0
 		get_child(0).handle_despawn()
 
-# Adds all the weights in the shape type weight table
-func _calc_shape_weight_total() -> float:
+# Generic weighted table total function
+func _calc_weighted_table_total(weighted_table: Dictionary) -> float:
 	var total: float = 0.0
-	for value in shape_type_weights.values():
+	for value in weighted_table:
 		total += value
 	return total
 
-# Adds all the weights in the breakable type weight table
-func _calc_breakable_weight_total() -> float:
-	var total: float = 0.0
-	for value in breakable_type_weights.values():
-		total += value
-	return total
+
 
 # Chooses a random shape type based off of a weighted table
 func _choose_random_shape_type() -> Enums.ShapeType:
-	var weight_roll: float = randf() * _calc_shape_weight_total()
+	var shape_type_weights: Dictionary[Enums.ShapeType, float] = StatManager.get_shape_type_weights()
+	var weight_roll: float = randf() * _calc_weighted_table_total(shape_type_weights)
 	# Goes through the weights to eventually choose the type
 	for shape_type in shape_type_weights.keys():
 		weight_roll -= shape_type_weights[shape_type]
@@ -145,12 +123,22 @@ func _choose_random_shape_type() -> Enums.ShapeType:
 
 # Chooses a random breakable type based off of a weighted table 
 func _choose_random_breakable_type() -> Enums.BreakableType:
-	var weight_roll: float = randf() * _calc_breakable_weight_total()
+	var breakable_type_weights: Dictionary[Enums.BreakableType, float] = StatManager.get_breakable_type_weights()
+	var weight_roll: float = randf() * _calc_weighted_table_total(breakable_type_weights)
 	# Goes through the weights to eventually choose the type
 	for breakable_type in breakable_type_weights.keys():
 		weight_roll -= breakable_type_weights[breakable_type]
 		if weight_roll <= 0.0: return breakable_type
 	return Enums.BreakableType.NORMAL
+
+
+func _choose_random_shape_size(shape_type: Enums.ShapeType) -> Enums.ShapeSize:
+	var size_type_weights: Dictionary[Enums.ShapeSize, float] = StatManager.get_shape_size_weights(shape_type)
+	var weight_roll: float = randf() * _calc_weighted_table_total(size_type_weights)
+	for size_type in size_type_weights.keys():
+		weight_roll -= size_type_weights[size_type]
+		if weight_roll <= 0.0: return size_type
+	return Enums.ShapeSize.SMALL 
 
 
 func _choose_random_pos(spawn_position_bounds: Array[int]) -> Vector2:
@@ -160,10 +148,11 @@ func _choose_random_pos(spawn_position_bounds: Array[int]) -> Vector2:
 	var bottom: int = spawn_position_bounds[3]
 	var viewport_size: Vector2 = get_viewport_rect().size
 	# Makes sure that the bounds are not outside the viewport
-	clamp(left, -viewport_size.x / 2,  MIN_SPAWN_VALUE)
-	clamp(bottom, viewport_size.y / 2, MIN_SPAWN_VALUE)
-	clamp(right, viewport_size.x / 2, MIN_SPAWN_VALUE)
-	clamp(top, -viewport_size.y / 2, MIN_SPAWN_VALUE)
+	
+	left   = clamp(left, -viewport_size.x / 2, 0)
+	right  = clamp(right, 0, viewport_size.x / 2)
+	top    = clamp(top, -viewport_size.y / 2, 0)
+	bottom = clamp(bottom, 0, viewport_size.y / 2)
 	
 	var x: float = randf_range(left, right)
 	var y: float = randf_range(bottom, top)
