@@ -2,7 +2,6 @@ extends Node2D
 var spawn_time_passed: float = 0.0
 var despawn_time_passed: float = 0.0
 
-
 var breakable_type_lookup: Dictionary[Enums.BreakableType, String] = {
 	Enums.BreakableType.NORMAL : "normal",
 	Enums.BreakableType.EXPLOSIVE  : "explosive",

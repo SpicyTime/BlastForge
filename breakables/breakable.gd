@@ -77,7 +77,7 @@ func _set_up_colliders() -> void:
 
 
 func _set_up_health() -> void:
-	var health_amount = shape_component.get_shape_health()
+	var health_amount = StatManager.get_shape_health(shape_component.get_shape_type())
 	health.set_health(health_amount)
 	health.set_max_health(health_amount)
 	SignalManager.health_depleted.connect(_on_health_depleted)

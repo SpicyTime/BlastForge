@@ -2,7 +2,6 @@ class_name World
 extends Node2D
 var held_explosive: Explosive = null
 var total_points: int = 0
-var base_bunch_multiplier: = 1.5
 var can_create_explosive: bool = true
 @onready var explosives_container: Node2D = $ExplosivesContainer
 
@@ -62,24 +61,26 @@ func spawn_explosive(explosive_position: Vector2):
 	explosive_instance.call_deferred("handle_placed")
 
 
-func _handle_breakable_broken(breakable_instance: Breakable) -> void:
-	total_points += breakable_instance.shape_component.get_shape_value()
+func _handle_breakable_broken(breakable_instance: Breakable, bonus_multiplier: float = 1.0) -> void:
+	var shape_type: Enums.ShapeType = breakable_instance.shape_component.get_shape_type()
+	var size_type: Enums.ShapeSize = breakable_instance.shape_component.get_shape_size()
+	var breakable_value: int = ceil(StatManager.get_shape_value(shape_type, size_type) * bonus_multiplier)
+	total_points += breakable_value
 	SignalManager.points_changed.emit(total_points)
-	var text = "+" + str(breakable_instance.shape_component.get_shape_value())
+	var text = "+" + str(breakable_value)
 	spawn_floating_text(text ,breakable_instance.position + Vector2(0, -10.0), Color.GREEN, 1.15)
 	breakable_instance.queue_free()
 
 
 func _on_explosive_detonated(breakables_broken: Array[Node2D]) -> void:
-	var multiplier: float = 1.0
+	var bonus_multiplier: float = 1.0
 	var bonus_breakable_threshold: int = 3
 	if breakables_broken.size() >= bonus_breakable_threshold:
 		var exponent: float = 1.25
-		multiplier = (base_bunch_multiplier + pow(breakables_broken.size() - bonus_breakable_threshold, exponent))
+		bonus_multiplier = (StatManager.get_bunch_multiplier() + pow(breakables_broken.size() - bonus_breakable_threshold, exponent))
 		 
 	for breakable in breakables_broken:
 		if is_instance_valid(breakable):
-			breakable.shape_component.shape_value = ceil(breakable.shape_component.get_shape_value() * multiplier)
-			_handle_breakable_broken(breakable) 
+			_handle_breakable_broken(breakable, bonus_multiplier) 
 		else:
 			print("Not Valid")
