@@ -19,7 +19,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		# The explosive will be placed when the explosive_action is released
 		if Input.is_action_just_released("explosive_action") and held_explosive:
 			call_deferred("place_explosive") 
-			get_tree().create_timer(StatManager.get_place_delay()).connect("timeout", func(): can_create_explosive = true)
+			get_tree().create_timer(StatManager.get_explosive_stat("place_delay")).connect("timeout", func(): can_create_explosive = true)
 	elif event is InputEventMouseMotion:
 		if held_explosive:
 			held_explosive.position = get_global_mouse_position()

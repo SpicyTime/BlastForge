@@ -51,4 +51,5 @@ position = Vector2(320, 0)
 is_side = true
 
 [node name="RightCollider" type="CollisionShape2D" parent="RightBound"]
+visible = false
 shape = SubResource("RectangleShape2D_m4twg")

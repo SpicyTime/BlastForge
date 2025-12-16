@@ -63,13 +63,13 @@ func spawn_breakable_bunch(amount: int, spawn_positions: Array[Vector2], shape_t
 func _handle_breakable_auto_spawn(delta: float) -> void:
 	spawn_time_passed += delta
 	var world_spawn_bounds: Array[int] = [-275, 275, -150, 150]
-	if spawn_time_passed >= StatManager.get_breakable_spawn_time(): 
+	if spawn_time_passed >= StatManager.get_breakable_spawn_stat("spawn_time"): 
 		
 		spawn_time_passed = 0.0
-		if get_child_count() < StatManager.get_breakable_spawn_limit():
+		if get_child_count() < StatManager.get_breakable_spawn_stat("spawn_limit"):
 			
 			var bunch_spawn_roll: float = randf()
-			if bunch_spawn_roll <= StatManager.get_breakable_bunch_spawn_chance():
+			if bunch_spawn_roll <= StatManager.get_breakable_spawn_stat("bunch_spawn_chance"):
 				
 				var breakable_position: Vector2 = _choose_random_pos(world_spawn_bounds)
 				var breakable_bunch_spawn_number: int = 2
@@ -96,7 +96,8 @@ func _handle_breakable_auto_spawn(delta: float) -> void:
 
 func _handle_breakable_auto_despawn(delta) -> void:
 	despawn_time_passed += delta
-	if despawn_time_passed >= StatManager.get_breakable_despawn_time() and get_child_count() >= StatManager.get_despawn_threshold():
+	var despawn_time: float = StatManager.get_despawn_time()
+	if despawn_time_passed >= despawn_time and get_child_count() >= StatManager.get_despawn_threshold():
 		despawn_time_passed = 0.0
 		get_child(0).handle_despawn()
 
@@ -132,7 +133,7 @@ func _choose_random_breakable_type() -> Enums.BreakableType:
 
 
 func _choose_random_shape_size(shape_type: Enums.ShapeType) -> Enums.ShapeSize:
-	var size_type_weights: Dictionary[Enums.ShapeSize, float] = StatManager.get_shape_size_weights(shape_type)
+	var size_type_weights: Dictionary = StatManager.get_shape_size_weights(shape_type)
 	var weight_roll: float = randf() * _calc_weighted_table_total(size_type_weights)
 	for size_type in size_type_weights.keys():
 		weight_roll -= size_type_weights[size_type]
