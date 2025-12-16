@@ -78,10 +78,16 @@ var shape_health_values: Dictionary[Enums.ShapeType, int] = {
 	Enums.ShapeType.HEXAGON : 1,
 	Enums.ShapeType.CIRCLE : 1,
 }
+
+func get_stat(stat_name: String) -> void:
+	var upgrade: UpgradeData = upgrades_unlocked[stat_name]
+	
+
+
 func get_explosive_damage() -> int:
 	return explosive_damage
 
-
+var upgrades_unlocked: Dictionary[String, UpgradeData] = {}
 func get_explosion_radius() -> float:
 	return explosive_explosion_radius 
 
@@ -95,6 +101,7 @@ func get_place_delay() -> float:
 
 
 func get_breakable_spawn_limit() -> int:
+	# breakable_spawn_limit = upgrade.apply_upgrade(breakable_spawn_limit)
 	return breakable_spawn_limit
 
 
@@ -147,7 +154,7 @@ func get_shape_size_multiplier(shape_size: Enums.ShapeSize) -> int:
 
 
 func get_bunch_multiplier() -> float:
-	return bunch_multiplier
+	return bunch_multiplier 
 
 
 func get_shape_value(shape_type: Enums.ShapeType, shape_size: Enums.ShapeSize) -> int:
