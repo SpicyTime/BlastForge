@@ -55,7 +55,7 @@ func _on_detonation_timer_timeout() -> void:
 	var scale_up_explosion_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
 	scale_up_explosion_tween.tween_property(explosive_sprite, "scale", final_scale, 0.11)
 	var breakables_broken: Array[Node2D] = explosion_detection_area.get_overlapping_bodies()
-	explosion_area_hitbox.damage = StatManager.get_explosive_stat("damage")
+	explosion_area_hitbox.damage = StatManager.get_explosive_stat("damage") as int
 	await scale_up_explosion_tween.finished
 	queue_free()
 	SignalManager.explosive_detonated.emit(breakables_broken)

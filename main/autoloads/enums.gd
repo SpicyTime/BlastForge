@@ -19,3 +19,10 @@ enum BreakableType{
 	SPAWNER,
 	
 }
+
+enum AffectorType{
+	ADDITIVE,
+	SUBTRACTIVE, 
+	MULTIPLICATIVE,
+	DIVISITIVE
+}

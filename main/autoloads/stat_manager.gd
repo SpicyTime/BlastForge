@@ -28,6 +28,7 @@ var breakable_type_weights: Dictionary[Enums.BreakableType, float] = {
 	Enums.BreakableType.EXPLOSIVE : 0.0,
 	Enums.BreakableType.SPAWNER : 0.0
 }
+
 var shape_type_weights: Dictionary[Enums.ShapeType, float] = {
 	Enums.ShapeType.TRIANGLE : 1.0,
 	Enums.ShapeType.SQUARE : 0.0,
@@ -72,11 +73,8 @@ var shape_stats: Dictionary[Enums.ShapeType, Dictionary] = {
 	Enums.ShapeType.CIRCLE : {"points" : 1, "health" : 1},
 }
 
-var upgrades_unlocked: Dictionary[String, UpgradeData] = {}
+var unlocked_upgrades: Dictionary[String, Upgrade] = {}
 
-func get_stat(stat_name: String) -> void:
-	var upgrade: UpgradeData = upgrades_unlocked[stat_name]
-	
 
 func get_explosive_stats() -> Dictionary[String, float]:
 	return explosive_stats
