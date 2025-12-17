@@ -1,8 +1,80 @@
-[gd_scene load_steps=2 format=3 uid="uid://cuh5eo4mk36ak"]
+[gd_scene load_steps=5 format=3 uid="uid://cuh5eo4mk36ak"]
 
 [ext_resource type="Script" uid="uid://cxtsrr081cu1v" path="res://upgrade system/upgrade_node.gd" id="1_sigt7"]
+[ext_resource type="Theme" uid="uid://bmtgglhybhoi" path="res://ui/themes/upgrade_label.tres" id="2_m2iyk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slbv1"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="Theme" id="Theme_m2iyk"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_slbv1")
 
 [node name="UpgradeNode" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+offset_right = 8.0
+offset_bottom = 8.0
 script = ExtResource("1_sigt7")
+
+[node name="PurchaseButton" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="UpgradeDataDisplay" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -69.0
+offset_top = -43.0
+offset_right = 69.0
+offset_bottom = 43.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_m2iyk")
+
+[node name="InfoContainer" type="MarginContainer" parent="UpgradeDataDisplay"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Lables" type="VBoxContainer" parent="UpgradeDataDisplay/InfoContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="UpgradeDataDisplay/InfoContainer/Lables"]
+layout_mode = 2
+theme = ExtResource("2_m2iyk")
+text = "Explosive Power"
+
+[node name="TierLabel" type="Label" parent="UpgradeDataDisplay/InfoContainer/Lables"]
+layout_mode = 2
+theme = ExtResource("2_m2iyk")
+theme_override_font_sizes/font_size = 12
+text = "0/5"
+horizontal_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="UpgradeDataDisplay/InfoContainer/Lables"]
+layout_mode = 2
+theme = ExtResource("2_m2iyk")
+theme_override_font_sizes/font_size = 8
+text = "Increases damage done by explosives"
+horizontal_alignment = 1
+
+[node name="PriceLabel" type="Label" parent="UpgradeDataDisplay/InfoContainer/Lables"]
+layout_mode = 2
+theme = ExtResource("2_m2iyk")
+text = "1000"
+horizontal_alignment = 1

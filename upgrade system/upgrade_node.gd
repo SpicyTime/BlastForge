@@ -18,6 +18,8 @@ func purchase_tier(tier: int) -> void:
 		_handle_max_tier_reached()
 	else:
 		_handle_tier_increase(tier)
+
+
 func unlock_upgrade() -> void:
 	is_locked = false
 
