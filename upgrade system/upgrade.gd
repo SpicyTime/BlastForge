@@ -3,8 +3,17 @@ extends RefCounted
 var data: UpgradeData
 var current_tier: int = 0
 
-func can_upgrade() -> bool:
+
+func has_reached_max_tier() -> bool:
 	return current_tier < data.values.size() 
+
+
+func get_price() -> int:
+	return data.tier_prices[current_tier]
+
+
+func get_name() -> String:
+	return data.tier_names[current_tier]
 
 
 func get_upgraded_stat(base_value) -> float:
