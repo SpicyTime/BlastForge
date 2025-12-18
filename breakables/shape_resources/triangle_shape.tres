@@ -2,11 +2,10 @@
 
 [ext_resource type="Script" uid="uid://db71gp8sseu3x" path="res://breakables/shape_data.gd" id="1_82isx"]
 [ext_resource type="Shape2D" uid="uid://82yjdnrv6lqq" path="res://breakables/collision_shapes/triangle_collision_shape.tres" id="2_w8wc2"]
-[ext_resource type="Texture2D" uid="uid://dgqwej8vqbje8" path="res://breakables/sprites/triangle_sprite.png" id="3_k0qfp"]
+[ext_resource type="Texture2D" uid="uid://cd3pwsjfnf7na" path="res://breakables/sprites/triangle_sprite.png" id="3_k0qfp"]
 
 [resource]
 script = ExtResource("1_82isx")
 shape_texture = ExtResource("3_k0qfp")
-health_amount = 1
 shape_collider = ExtResource("2_w8wc2")
 metadata/_custom_type_script = "uid://db71gp8sseu3x"

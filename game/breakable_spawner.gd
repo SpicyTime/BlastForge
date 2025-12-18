@@ -62,7 +62,7 @@ func spawn_breakable_bunch(amount: int, spawn_positions: Array[Vector2], shape_t
 
 func _handle_breakable_auto_spawn(delta: float) -> void:
 	spawn_time_passed += delta
-	var world_spawn_bounds: Array[int] = [-275, 275, -150, 150]
+	var world_spawn_bounds: Array[int] = [-138, 138, -75, 75]
 	if spawn_time_passed >= StatManager.get_breakable_spawn_stat("spawn_time"): 
 		
 		spawn_time_passed = 0.0

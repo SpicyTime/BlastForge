@@ -80,7 +80,7 @@ func _on_explosive_detonated(breakables_broken: Array[Node2D]) -> void:
 		bonus_multiplier = (StatManager.get_bunch_multiplier() + pow(breakables_broken.size() - bonus_breakable_threshold, exponent))
 		 
 	for breakable in breakables_broken:
-		if is_instance_valid(breakable):
+		if is_instance_valid(breakable) and breakable is Breakable:
 			_handle_breakable_broken(breakable, bonus_multiplier) 
 		else:
 			print("Not Valid")

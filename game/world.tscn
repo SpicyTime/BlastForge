@@ -1,16 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://k7nqsblly5gs"]
+[gd_scene load_steps=9 format=3 uid="uid://k7nqsblly5gs"]
 
 [ext_resource type="Script" uid="uid://vwrqyfjerpum" path="res://game/world.gd" id="1_vn0wg"]
 [ext_resource type="Script" uid="uid://uxk2gctotf6f" path="res://game/breakable_spawner.gd" id="2_aseec"]
 [ext_resource type="Script" uid="uid://dqanl875ga8m6" path="res://game/camera.gd" id="2_tvmmn"]
 [ext_resource type="Script" uid="uid://cpc1o46lwdj2q" path="res://components/shake_component.gd" id="3_4xpgs"]
 [ext_resource type="PackedScene" uid="uid://hkoxgv30yrjh" path="res://game/bounce_bound.tscn" id="5_805w3"]
+[ext_resource type="PackedScene" uid="uid://cuh5eo4mk36ak" path="res://upgrade system/upgrade_node.tscn" id="6_fhh06"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fhh06"]
-size = Vector2(640, 20)
+size = Vector2(320, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m4twg"]
-size = Vector2(20, 340)
+size = Vector2(10, 170)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_vn0wg")
@@ -27,29 +28,66 @@ script = ExtResource("2_aseec")
 
 [node name="ExplosivesContainer" type="Node2D" parent="."]
 
-[node name="TopBound" parent="." instance=ExtResource("5_805w3")]
-position = Vector2(0, -180)
+[node name="UpgradeNode" parent="." instance=ExtResource("6_fhh06")]
 
-[node name="TopCollider" type="CollisionShape2D" parent="TopBound"]
+[node name="BounceAreas" type="Node2D" parent="."]
+
+[node name="TopBound" parent="BounceAreas" instance=ExtResource("5_805w3")]
+position = Vector2(0, -90)
+
+[node name="TopCollider" type="CollisionShape2D" parent="BounceAreas/TopBound"]
 shape = SubResource("RectangleShape2D_fhh06")
 
-[node name="BottomBound" parent="." instance=ExtResource("5_805w3")]
-position = Vector2(0, 180)
+[node name="BottomBound" parent="BounceAreas" instance=ExtResource("5_805w3")]
+position = Vector2(0, 90)
 
-[node name="BottomCollider" type="CollisionShape2D" parent="BottomBound"]
+[node name="BottomCollider" type="CollisionShape2D" parent="BounceAreas/BottomBound"]
 shape = SubResource("RectangleShape2D_fhh06")
 
-[node name="LeftBound" parent="." instance=ExtResource("5_805w3")]
-position = Vector2(-320, 0)
+[node name="LeftBound" parent="BounceAreas" instance=ExtResource("5_805w3")]
+position = Vector2(-160, 0)
 is_side = true
 
-[node name="LeftCollider" type="CollisionShape2D" parent="LeftBound"]
+[node name="LeftCollider" type="CollisionShape2D" parent="BounceAreas/LeftBound"]
 shape = SubResource("RectangleShape2D_m4twg")
 
-[node name="RightBound" parent="." instance=ExtResource("5_805w3")]
-position = Vector2(320, 0)
+[node name="RightBound" parent="BounceAreas" instance=ExtResource("5_805w3")]
+position = Vector2(160, 0)
 is_side = true
 
-[node name="RightCollider" type="CollisionShape2D" parent="RightBound"]
-visible = false
+[node name="RightCollider" type="CollisionShape2D" parent="BounceAreas/RightBound"]
+shape = SubResource("RectangleShape2D_m4twg")
+
+[node name="WorldBounds" type="Node2D" parent="."]
+
+[node name="TopBound" type="StaticBody2D" parent="WorldBounds"]
+collision_layer = 5
+collision_mask = 5
+
+[node name="TopCollider" type="CollisionShape2D" parent="WorldBounds/TopBound"]
+position = Vector2(0, -95)
+shape = SubResource("RectangleShape2D_fhh06")
+
+[node name="BottomBound" type="StaticBody2D" parent="WorldBounds"]
+collision_layer = 5
+collision_mask = 5
+
+[node name="BottomCollider" type="CollisionShape2D" parent="WorldBounds/BottomBound"]
+position = Vector2(0, 95)
+shape = SubResource("RectangleShape2D_fhh06")
+
+[node name="LeftBounds" type="StaticBody2D" parent="WorldBounds"]
+collision_layer = 5
+collision_mask = 5
+
+[node name="LeftCollider" type="CollisionShape2D" parent="WorldBounds/LeftBounds"]
+position = Vector2(-165, 0)
+shape = SubResource("RectangleShape2D_m4twg")
+
+[node name="RightBounds" type="StaticBody2D" parent="WorldBounds"]
+collision_layer = 5
+collision_mask = 5
+
+[node name="RightCollider" type="CollisionShape2D" parent="WorldBounds/RightBounds"]
+position = Vector2(165, 0)
 shape = SubResource("RectangleShape2D_m4twg")
