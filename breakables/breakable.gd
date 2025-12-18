@@ -42,6 +42,7 @@ func _physics_process(delta: float) -> void:
 	if speed > base_speed:
 		speed = move_toward(speed, base_speed, delta * FRICTION)
 	velocity = speed * move_direction * delta 
+	_check_wall_rays()
 	move_and_slide()
 
 
@@ -81,6 +82,18 @@ func _set_up_health() -> void:
 	health.set_health(health_amount)
 	health.set_max_health(health_amount)
 	SignalManager.health_depleted.connect(_on_health_depleted)
+
+
+func _check_wall_rays() -> void:
+	if $WallRays/Up.is_colliding() and move_direction.y < 0:
+		move_direction.y = abs(move_direction.y)
+	elif $WallRays/Down.is_colliding() and move_direction.y > 0:
+		move_direction.y = -abs(move_direction.y)
+	
+	if $WallRays/Right.is_colliding() and move_direction.x > 0:
+		move_direction.x = -abs(move_direction.x)
+	elif $WallRays/Left.is_colliding() and move_direction.x < 0:
+		move_direction.x = abs(move_direction.x)
 
 
 func _on_health_depleted(health_node: Health) -> void:
