@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://k7nqsblly5gs"]
+[gd_scene load_steps=7 format=3 uid="uid://k7nqsblly5gs"]
 
 [ext_resource type="Script" uid="uid://vwrqyfjerpum" path="res://game/world.gd" id="1_vn0wg"]
 [ext_resource type="Script" uid="uid://uxk2gctotf6f" path="res://game/breakable_spawner.gd" id="2_aseec"]
 [ext_resource type="Script" uid="uid://dqanl875ga8m6" path="res://game/camera.gd" id="2_tvmmn"]
 [ext_resource type="Script" uid="uid://cpc1o46lwdj2q" path="res://components/shake_component.gd" id="3_4xpgs"]
-[ext_resource type="PackedScene" uid="uid://cuh5eo4mk36ak" path="res://upgrade system/upgrade_node.tscn" id="6_fhh06"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fhh06"]
 size = Vector2(320, 10)
@@ -26,8 +25,6 @@ metadata/_custom_type_script = "uid://cpc1o46lwdj2q"
 script = ExtResource("2_aseec")
 
 [node name="ExplosivesContainer" type="Node2D" parent="."]
-
-[node name="UpgradeNode" parent="." instance=ExtResource("6_fhh06")]
 
 [node name="WorldBounds" type="Node2D" parent="."]
 
