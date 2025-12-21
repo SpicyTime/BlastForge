@@ -24,7 +24,6 @@ func show_overlay(overlay_key: String) -> void:
 	overlay.visible = true
 	active_overlays.push_back(overlay)
 	active_overlay_names.push_back(overlay.name)
-	
 
 
 func hide_overlay(overlay_key: String) -> void:

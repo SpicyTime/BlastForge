@@ -6,6 +6,7 @@ var can_create_explosive: bool = true
 @onready var explosives_container: Node2D = $ExplosivesContainer
 
 func _ready() -> void:
+	Console.add_command("set_points", _set_points, ["amount"], 1)
 	SignalManager.explosive_detonated.connect(_on_explosive_detonated)
 
 
@@ -59,6 +60,12 @@ func spawn_explosive(explosive_position: Vector2):
 	var explosive_instance: Explosive = create_explosive(explosive_position)
 	# Matches the defer in the creation
 	explosive_instance.call_deferred("handle_placed")
+
+
+func _set_points(amount: String) -> void:
+	total_points = amount.to_int()
+	SignalManager.points_changed.emit(total_points)
+	
 
 
 func _handle_breakable_broken(breakable_instance: Breakable, bonus_multiplier: float = 1.0) -> void:

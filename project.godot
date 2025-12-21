@@ -23,6 +23,7 @@ Enums="*res://main/autoloads/enums.gd"
 SaveSystem="*res://main/autoloads/save_system.gd"
 UiManager="*res://main/autoloads/ui_manager.gd"
 StatManager="*res://main/autoloads/stat_manager.gd"
+Console="*res://addons/console/console.gd"
 
 [debug]
 
@@ -35,6 +36,10 @@ window/size/viewport_height=180
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/console/plugin.cfg")
 
 [input]
 
