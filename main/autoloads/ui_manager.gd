@@ -3,6 +3,7 @@ extends Node
 var ui_menus: Dictionary[String, Control] = {}
 var ui_overlays: Dictionary[String, Control] = {}
 var active_overlays: Array[Control] = []
+var active_overlay_names: Array[String] = []
 var active_menu: Control = null
 
 func set_up_ui(canvas_layer: CanvasLayer) -> void:
@@ -22,6 +23,8 @@ func show_overlay(overlay_key: String) -> void:
 	var overlay: Control = ui_overlays[overlay_key]
 	overlay.visible = true
 	active_overlays.push_back(overlay)
+	active_overlay_names.push_back(overlay.name)
+	
 
 
 func hide_overlay(overlay_key: String) -> void:
@@ -30,6 +33,7 @@ func hide_overlay(overlay_key: String) -> void:
 	var overlay: Control = ui_overlays[overlay_key]
 	if overlay in active_overlays:
 		active_overlays.erase(overlay)
+		active_overlay_names.erase(overlay.name)
 		overlay.visible = false
 
 
