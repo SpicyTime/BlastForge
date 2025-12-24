@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cw1imw7chr2ul"]
+[gd_scene load_steps=5 format=3 uid="uid://cw1imw7chr2ul"]
 
 [ext_resource type="PackedScene" uid="uid://k7nqsblly5gs" path="res://game/world.tscn" id="1_53q0u"]
 [ext_resource type="Script" uid="uid://dt6y51teng0f2" path="res://main/main.gd" id="1_pjrb6"]
+[ext_resource type="PackedScene" uid="uid://b758lb2dd2vli" path="res://ui/shape_upgrade_hub.tscn" id="3_c651c"]
 [ext_resource type="PackedScene" uid="uid://tdoscbf6lnd6" path="res://ui/hud.tscn" id="3_xwkvk"]
 
 [node name="Main" type="Node"]
@@ -12,6 +13,7 @@ script = ExtResource("1_pjrb6")
 [node name="UiCanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Menus" type="Control" parent="UiCanvasLayer"]
+process_mode = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,6 +21,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+
+[node name="ShapeUpgradeHub" parent="UiCanvasLayer/Menus" instance=ExtResource("3_c651c")]
+visible = false
+layout_mode = 1
 
 [node name="Overlays" type="Control" parent="UiCanvasLayer"]
 layout_mode = 3

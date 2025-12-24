@@ -16,7 +16,7 @@ var shape_type_lookup: Dictionary[Enums.ShapeType, String] = {
 	Enums.ShapeType.CIRCLE : "circle",
 }
 
-const MAX_BREAKABLE_SPEED: int = 2600
+const MAX_BREAKABLE_SPEED: int = 2600 
 const MIN_BREAKABLE_SPEED: int = 3200
 
 func _ready() -> void:

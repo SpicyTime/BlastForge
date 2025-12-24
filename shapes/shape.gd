@@ -42,7 +42,6 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if speed > base_speed:
 		speed = move_toward(speed, base_speed, delta * FRICTION)
-		print(speed)
 	velocity = speed * move_direction * delta 
 	_check_wall_rays()
 	move_and_slide()
