@@ -8,5 +8,5 @@ func _ready() -> void:
 	SignalManager.explosive_detonated.connect(_on_explosive_detonated)
 
 
-func _on_explosive_detonated(_breakables_broken) -> void:
+func _on_explosive_detonated(_shapes_broken) -> void:
 	shake_component.shake(shake_intensity, shake_time)

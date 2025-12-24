@@ -13,7 +13,7 @@ enum ShapeSize{
 	LARGE
 }
 
-enum BreakableType{
+enum BreakBehavior{
 	NORMAL,
 	EXPLOSIVE,
 	SPAWNER,

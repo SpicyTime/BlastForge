@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://btmk54xyeo44e"]
+
+[ext_resource type="Script" uid="uid://d3iknp440glsy" path="res://shapes/shape.gd" id="1_4fy8l"]
+[ext_resource type="Texture2D" uid="uid://do071axbmjpwf" path="res://shapes/sprites/drawing.svg" id="2_4fy8l"]
+[ext_resource type="PackedScene" uid="uid://bcjrft2uixwu1" path="res://components/health_system/hurtbox.tscn" id="3_e6dkk"]
+[ext_resource type="Script" uid="uid://dyakc7t63f14m" path="res://components/health_system/health.gd" id="4_bo2oq"]
+[ext_resource type="Shape2D" uid="uid://82yjdnrv6lqq" path="res://shapes/collision_shapes/triangle_collision_shape.tres" id="4_o1kad"]
+[ext_resource type="PackedScene" uid="uid://crewdcx8grnpe" path="res://shapes/shape_behavior.tscn" id="5_8wj2r"]
+
+[node name="Shape" type="CharacterBody2D"]
+collision_mask = 6
+script = ExtResource("1_4fy8l")
+
+[node name="ShapeSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_4fy8l")
+
+[node name="Hurtbox" parent="." node_paths=PackedStringArray("health_node") instance=ExtResource("3_e6dkk")]
+health_node = NodePath("../Health")
+
+[node name="HurtboxCollider" type="CollisionShape2D" parent="Hurtbox"]
+disabled = true
+
+[node name="ExplosionDetector" type="Area2D" parent="."]
+
+[node name="DetectorCollider" type="CollisionShape2D" parent="ExplosionDetector"]
+shape = ExtResource("4_o1kad")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("4_bo2oq")
+health = 1
+max_health = 1
+metadata/_custom_type_script = "uid://dyakc7t63f14m"
+
+[node name="ShapeBreakBehaviorNode" parent="." instance=ExtResource("5_8wj2r")]
+
+[node name="ShapeCollider" type="CollisionShape2D" parent="."]
+
+[node name="WallRays" type="Node2D" parent="."]
+
+[node name="Up" type="RayCast2D" parent="WallRays"]
+target_position = Vector2(0, -70)
+collision_mask = 4
+hit_from_inside = true
+
+[node name="Down" type="RayCast2D" parent="WallRays"]
+target_position = Vector2(0, 70)
+collision_mask = 4
+hit_from_inside = true
+
+[node name="Right" type="RayCast2D" parent="WallRays"]
+target_position = Vector2(60, 0)
+collision_mask = 4
+hit_from_inside = true
+
+[node name="Left" type="RayCast2D" parent="WallRays"]
+target_position = Vector2(-60, 0)
+collision_mask = 4
+hit_from_inside = true
+
+[connection signal="area_entered" from="ExplosionDetector" to="." method="_on_explosion_detector_area_entered"]
+[connection signal="area_exited" from="ExplosionDetector" to="." method="_on_explosion_detector_area_exited"]

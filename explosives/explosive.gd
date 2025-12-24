@@ -54,11 +54,11 @@ func _on_detonation_timer_timeout() -> void:
 	var final_scale: Vector2 = Vector2(1.35, 1.35)
 	var scale_up_explosion_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
 	scale_up_explosion_tween.tween_property(explosive_sprite, "scale", final_scale, 0.11)
-	var breakables_broken: Array[Node2D] = explosion_detection_area.get_overlapping_bodies()
+	var shapes_broken: Array[Node2D] = explosion_detection_area.get_overlapping_bodies()
 	explosion_area_hitbox.damage = StatManager.get_explosive_stat("damage") as int
 	await scale_up_explosion_tween.finished
 	queue_free()
-	SignalManager.explosive_detonated.emit(breakables_broken)
+	SignalManager.explosive_detonated.emit(shapes_broken)
 
 
 func _on_pulse_tween_finished() -> void:
@@ -75,8 +75,8 @@ func _on_pulse_tween_finished() -> void:
 
 
 func _on_explosion_push_area_body_entered(body: Node2D) -> void:
-	if body is Breakable and not body in explosion_area_hitbox.get_overlapping_bodies():
-		body = body as Breakable
+	if body is Shape and not body in explosion_area_hitbox.get_overlapping_bodies():
+		body = body as Shape
 		body.move_direction = position.direction_to(body.position)
 		var push_force: float = 8.75
 		body.speed = body.base_speed * push_force

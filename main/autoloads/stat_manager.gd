@@ -6,8 +6,8 @@ var explosive_stats: Dictionary[String, float] = {
 	"place_delay": 0.2,
 }
 
-# Breakable Spawning
-var breakable_spawn_stats: Dictionary[String, float] = {
+# Shape Spawning
+var shape_spawn_stats: Dictionary[String, float] = {
 	"spawn_limit": 20,
 	"bunch_spawn_chance": 0.08,
 	"spawn_time": 1.3,
@@ -23,10 +23,10 @@ var size_multiplier_stats: Dictionary[String, int] = {
 var bunch_multiplier: float = 1.5
 
 
-var breakable_type_weights: Dictionary[Enums.BreakableType, float] = {
-	Enums.BreakableType.NORMAL : 1.0,
-	Enums.BreakableType.EXPLOSIVE : 0.0,
-	Enums.BreakableType.SPAWNER : 0.0
+var break_behavior_type_weights: Dictionary[Enums.BreakBehavior, float] = {
+	Enums.BreakBehavior.NORMAL : 1.0,
+	Enums.BreakBehavior.EXPLOSIVE : 0.0,
+	Enums.BreakBehavior.SPAWNER : 0.0
 }
 
 var shape_type_weights: Dictionary[Enums.ShapeType, float] = {
@@ -40,8 +40,8 @@ var shape_type_weights: Dictionary[Enums.ShapeType, float] = {
 var shape_size_weights: Dictionary[Enums.ShapeType, Dictionary] = {
 	Enums.ShapeType.TRIANGLE: {
 		Enums.ShapeSize.SMALL: 1.0,
-		Enums.ShapeSize.MEDIUM: 1.0,
-		Enums.ShapeSize.LARGE: 1.0
+		Enums.ShapeSize.MEDIUM: 0.0,
+		Enums.ShapeSize.LARGE: 0.0
 	},
 	Enums.ShapeType.SQUARE: {
 		Enums.ShapeSize.SMALL: 1.0,
@@ -84,12 +84,12 @@ func get_explosive_stat(key: String) -> float:
 	return explosive_stats[key]
 
 
-func get_breakable_spawn_stats() -> Dictionary[String, float]:
-	return breakable_spawn_stats
+func get_shape_spawn_stats() -> Dictionary[String, float]:
+	return shape_spawn_stats
 
 
-func get_breakable_spawn_stat(key: String) -> float:
-	return breakable_spawn_stats[key]
+func get_shape_spawn_stat(key: String) -> float:
+	return shape_spawn_stats[key]
 
 
 func get_shape_size_weights(shape_type: Enums.ShapeType) -> Dictionary:
@@ -100,8 +100,8 @@ func get_shape_type_weights() -> Dictionary[Enums.ShapeType, float]:
 	return shape_type_weights
 
 
-func get_breakable_type_weights() -> Dictionary[Enums.BreakableType, float]:
-	return breakable_type_weights
+func get_break_behavior_type_weights() -> Dictionary[Enums.BreakBehavior, float]:
+	return break_behavior_type_weights
 
 
 func get_shape_size_multiplier(shape_size: Enums.ShapeSize) -> int:
@@ -113,7 +113,7 @@ func get_shape_size_multiplier(shape_size: Enums.ShapeSize) -> int:
 
 
 func get_despawn_threshold() -> float:
-	return breakable_spawn_stats["spawn_limit"] * despawn_threshold_ratio
+	return shape_spawn_stats["spawn_limit"] * despawn_threshold_ratio
 
 
 func get_bunch_multiplier() -> float:
@@ -121,7 +121,7 @@ func get_bunch_multiplier() -> float:
 
 
 func get_despawn_time() -> float:
-	return breakable_spawn_stats["spawn_time"] * despawn_time_multiplier
+	return shape_spawn_stats["spawn_time"] * despawn_time_multiplier
 
 
 func get_shape_value(shape_type: Enums.ShapeType, shape_size: Enums.ShapeSize) -> int:

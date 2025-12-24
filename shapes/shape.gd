@@ -1,38 +1,39 @@
-class_name Breakable
+class_name Shape
 extends CharacterBody2D
 
-var shape_component: ShapeComponent = null
 var base_modulate: Color = modulate
 var explosion_detected_modulate: Color = Color(0.5, 0.5, 0.5)
-var type: Enums.BreakableType = Enums.BreakableType.NORMAL
+var type: Enums.BreakBehavior = Enums.BreakBehavior.NORMAL
 var is_scaled: bool = false
 var move_direction: Vector2 = Vector2(1, 1)
-var speed: float = 700.0
-var base_speed: float = 700.0
+var speed: float = 0.0
+var base_speed: float = 0.0
 var prev_pos: Vector2 = Vector2.ZERO
+var shape_data: ShapeData = null
 var size_scales: Dictionary[Enums.ShapeSize, float] = {
 	Enums.ShapeSize.SMALL : 1.0,
 	Enums.ShapeSize.MEDIUM : 1.15,
 	Enums.ShapeSize.LARGE :  1.35
 }
 const OFFSCREEN_PADDING: int = 20
-const FRICTION: int = 900
-@onready var breakable_sprite: Sprite2D = $BreakableSprite
+const FRICTION: int = 11500
+@onready var shape_sprite: Sprite2D = $ShapeSprite
 @onready var hurtbox_collider: CollisionShape2D = $Hurtbox/HurtboxCollider
 @onready var detector_collider: CollisionShape2D = $ExplosionDetector/DetectorCollider
-@onready var breakable_collider: CollisionShape2D = $BreakableCollider
+@onready var shape_collider: CollisionShape2D = $ShapeCollider
+
 @onready var health: Health = $Health
 
 func _ready() -> void:
 	prev_pos = position
 	_set_up_colliders()
 	_set_up_health()
-	breakable_sprite.texture = shape_component.get_shape_texture()
-	breakable_sprite.scale = Vector2.ZERO
-	var final_scale: Vector2 = Vector2(size_scales[shape_component.get_shape_size()], size_scales[shape_component.get_shape_size()])
+	shape_sprite.texture = shape_data.shape_texture
+	shape_sprite.scale = Vector2.ZERO
+	var final_scale: Vector2 = Vector2(size_scales[shape_data.shape_size], size_scales[shape_data.shape_size])
 	var scale_up_tween: Tween = get_tree().create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
 	var scale_up_time: float = 0.2
-	scale_up_tween.tween_property(breakable_sprite, "scale", final_scale, scale_up_time)
+	scale_up_tween.tween_property(shape_sprite, "scale", final_scale, scale_up_time)
 	# This will make it feel a little nicer
 	await get_tree().create_timer(scale_up_time / 2).timeout
 	hurtbox_collider.disabled = false
@@ -41,6 +42,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if speed > base_speed:
 		speed = move_toward(speed, base_speed, delta * FRICTION)
+		print(speed)
 	velocity = speed * move_direction * delta 
 	_check_wall_rays()
 	move_and_slide()
@@ -49,12 +51,12 @@ func _physics_process(delta: float) -> void:
 func handle_despawn() -> void:
 	var scale_down_tween: Tween = get_tree().create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
 	var scale_down_time: float = 0.3
-	scale_down_tween.tween_property(breakable_sprite, "scale", Vector2.ZERO, scale_down_time)
+	scale_down_tween.tween_property(shape_sprite, "scale", Vector2.ZERO, scale_down_time)
 	# Allows it to still be blown up for a bit
 	await get_tree().create_timer(scale_down_time * 0.75).timeout
-	if is_instance_valid(self): # Checks if the breakable has been destroyed
+	if is_instance_valid(self): # Checks if the shape has been destroyed
 		hurtbox_collider.disabled = true
-		await scale_down_tween.finished # Checks if the breakable has been destroyed
+		await scale_down_tween.finished # Checks if the shape has been destroyed
 		queue_free()
 
 func _is_offscreen(check_position: Vector2) -> bool:
@@ -71,25 +73,26 @@ func _is_offscreen(check_position: Vector2) -> bool:
 
 func _set_up_colliders() -> void:
 	# Sets Colliders
-	var collision_shape: Shape2D = shape_component.get_shape_collider()
+	var collision_shape: Shape2D = shape_data.shape_collider
 	hurtbox_collider.set_deferred("shape", collision_shape)
 	detector_collider.set_deferred("shape", collision_shape)
-	breakable_collider.set_deferred("shape", collision_shape)
+	shape_collider.set_deferred("shape", collision_shape)
 
 
 func _set_up_health() -> void:
-	var health_amount = StatManager.get_shape_health(shape_component.get_shape_type())
+	var health_amount = StatManager.get_shape_health(shape_data.shape_type)
 	health.set_health(health_amount)
 	health.set_max_health(health_amount)
 	SignalManager.health_depleted.connect(_on_health_depleted)
 
 
 func _check_wall_rays() -> void:
+	# Checks vertical
 	if $WallRays/Up.is_colliding() and move_direction.y < 0:
 		move_direction.y = abs(move_direction.y)
 	elif $WallRays/Down.is_colliding() and move_direction.y > 0:
 		move_direction.y = -abs(move_direction.y)
-	
+	# Checks horizontal
 	if $WallRays/Right.is_colliding() and move_direction.x > 0:
 		move_direction.x = -abs(move_direction.x)
 	elif $WallRays/Left.is_colliding() and move_direction.x < 0:
@@ -98,7 +101,7 @@ func _check_wall_rays() -> void:
 
 func _on_health_depleted(health_node: Health) -> void:
 	if health_node in get_children():
-		$BreakableBehavior.handle_break(type)
+		$ShapeBreakBehaviorNode.handle_break(type)
 
 
 func _on_explosion_detector_area_entered(area: Area2D) -> void:

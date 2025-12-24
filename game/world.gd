@@ -68,26 +68,26 @@ func _set_points(amount: String) -> void:
 	
 
 
-func _handle_breakable_broken(breakable_instance: Breakable, bonus_multiplier: float = 1.0) -> void:
-	var shape_type: Enums.ShapeType = breakable_instance.shape_component.get_shape_type()
-	var size_type: Enums.ShapeSize = breakable_instance.shape_component.get_shape_size()
-	var breakable_value: int = ceil(StatManager.get_shape_value(shape_type, size_type) * bonus_multiplier)
-	total_points += breakable_value
+func _handle_shape_broken(shape_instance: Shape, bonus_multiplier: float = 1.0) -> void:
+	var shape_type: Enums.ShapeType = shape_instance.shape_data.shape_type
+	var size_type: Enums.ShapeSize = shape_instance.shape_data.shape_size
+	var shape_value: int = ceil(StatManager.get_shape_value(shape_type, size_type) * bonus_multiplier)
+	total_points += shape_value
 	SignalManager.points_changed.emit(total_points)
-	var text = "+" + str(breakable_value)
-	spawn_floating_text(text ,breakable_instance.position + Vector2(0, -10.0), Color.GREEN, 1.15)
-	breakable_instance.queue_free()
+	var text = "+" + str(shape_value)
+	spawn_floating_text(text ,shape_instance.position + Vector2(0, -10.0), Color.GREEN, 1.15)
+	shape_instance.queue_free()
 
 
-func _on_explosive_detonated(breakables_broken: Array[Node2D]) -> void:
+func _on_explosive_detonated(shapes_broken: Array[Node2D]) -> void:
 	var bonus_multiplier: float = 1.0
-	var bonus_breakable_threshold: int = 3
-	if breakables_broken.size() >= bonus_breakable_threshold:
+	var bonus_shape_threshold: int = 3
+	if shapes_broken.size() >= bonus_shape_threshold:
 		var exponent: float = 1.25
-		bonus_multiplier = (StatManager.get_bunch_multiplier() + pow(breakables_broken.size() - bonus_breakable_threshold, exponent))
+		bonus_multiplier = (StatManager.get_bunch_multiplier() + pow(shapes_broken.size() - bonus_shape_threshold, exponent))
 		 
-	for breakable in breakables_broken:
-		if is_instance_valid(breakable) and breakable is Breakable:
-			_handle_breakable_broken(breakable, bonus_multiplier) 
+	for shape in shapes_broken:
+		if is_instance_valid(shape) and shape is Shape:
+			_handle_shape_broken(shape, bonus_multiplier) 
 		else:
 			print("Not Valid")

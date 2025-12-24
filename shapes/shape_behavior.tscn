@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://crewdcx8grnpe"]
 
-[ext_resource type="Script" uid="uid://cge4a2lhplqh3" path="res://breakables/breakable_behavior.gd" id="1_ugnpk"]
+[ext_resource type="Script" uid="uid://cge4a2lhplqh3" path="res://shapes/shape_behavior.gd" id="1_ugnpk"]
 
 [node name="BreakableBehavior" type="Node"]
 script = ExtResource("1_ugnpk")

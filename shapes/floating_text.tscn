@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://d6a02rgt43js"]
 
-[ext_resource type="Script" uid="uid://dxxu7vwdebjoo" path="res://breakables/floating_text.gd" id="1_yflmp"]
+[ext_resource type="Script" uid="uid://dxxu7vwdebjoo" path="res://shapes/floating_text.gd" id="1_yflmp"]
 [ext_resource type="FontFile" uid="uid://cjprg7vrkgs6t" path="res://Pixelchunk.ttf" id="2_d66p7"]
 
 [node name="FloatingText" type="Marker2D"]

@@ -6,10 +6,10 @@
 [ext_resource type="Script" uid="uid://cpc1o46lwdj2q" path="res://components/shake_component.gd" id="3_4xpgs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fhh06"]
-size = Vector2(320, 10)
+size = Vector2(1280, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m4twg"]
-size = Vector2(10, 170)
+size = Vector2(10, 720)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_vn0wg")
@@ -29,33 +29,33 @@ script = ExtResource("2_aseec")
 [node name="WorldBounds" type="Node2D" parent="."]
 
 [node name="TopBound" type="StaticBody2D" parent="WorldBounds"]
+position = Vector2(0, -360)
 collision_layer = 5
 collision_mask = 5
 
 [node name="TopCollider" type="CollisionShape2D" parent="WorldBounds/TopBound"]
-position = Vector2(0, -95)
 shape = SubResource("RectangleShape2D_fhh06")
 
 [node name="BottomBound" type="StaticBody2D" parent="WorldBounds"]
+position = Vector2(0, 360)
 collision_layer = 5
 collision_mask = 5
 
 [node name="BottomCollider" type="CollisionShape2D" parent="WorldBounds/BottomBound"]
-position = Vector2(0, 95)
 shape = SubResource("RectangleShape2D_fhh06")
 
 [node name="LeftBounds" type="StaticBody2D" parent="WorldBounds"]
+position = Vector2(-640, 0)
 collision_layer = 5
 collision_mask = 5
 
 [node name="LeftCollider" type="CollisionShape2D" parent="WorldBounds/LeftBounds"]
-position = Vector2(-165, 0)
 shape = SubResource("RectangleShape2D_m4twg")
 
 [node name="RightBounds" type="StaticBody2D" parent="WorldBounds"]
+position = Vector2(640, 0)
 collision_layer = 5
 collision_mask = 5
 
 [node name="RightCollider" type="CollisionShape2D" parent="WorldBounds/RightBounds"]
-position = Vector2(165, 0)
 shape = SubResource("RectangleShape2D_m4twg")

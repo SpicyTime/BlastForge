@@ -1,17 +1,19 @@
 [gd_scene load_steps=9 format=3 uid="uid://ct3xcei10tcq0"]
 
 [ext_resource type="Script" uid="uid://dmw3gpe8emwgh" path="res://explosives/explosive.gd" id="1_ejdfl"]
-[ext_resource type="Texture2D" uid="uid://dm5612tygr7y0" path="res://explosives/explosive_bomb_sprite.png" id="2_5rd10"]
+[ext_resource type="Texture2D" uid="uid://dllf4116vcjd4" path="res://explosives/bomb.svg" id="2_5rd10"]
 [ext_resource type="PackedScene" uid="uid://bd8xm30ep1ibx" path="res://explosives/explosive_area_shader_box.tscn" id="3_wvlh0"]
 [ext_resource type="Material" uid="uid://bxctswug6cia7" path="res://explosives/materials/green_circle_material.tres" id="4_00hdp"]
 [ext_resource type="PackedScene" uid="uid://dgtb8vq48acyh" path="res://components/health_system/hitbox.tscn" id="4_5rd10"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_00hdp"]
+radius = 65.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wvlh0"]
+radius = 65.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5rd10"]
-radius = 19.235384
+radius = 142.00352
 
 [node name="Explosive" type="Node2D"]
 script = ExtResource("1_ejdfl")
@@ -19,7 +21,6 @@ keep_detection_active = true
 
 [node name="ExplosiveSprite" type="Sprite2D" parent="."]
 z_index = 2
-position = Vector2(-3.5762787e-07, -5)
 texture = ExtResource("2_5rd10")
 
 [node name="ExplosiveAreaShaderBox" parent="." instance=ExtResource("3_wvlh0")]
