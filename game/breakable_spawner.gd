@@ -16,8 +16,8 @@ var shape_type_lookup: Dictionary[Enums.ShapeType, String] = {
 	Enums.ShapeType.CIRCLE : "circle",
 }
 
-const MAX_BREAKABLE_SPEED: int = 5600
-const MIN_BREAKABLE_SPEED: int = 6000
+const MAX_BREAKABLE_SPEED: int = 2600
+const MIN_BREAKABLE_SPEED: int = 3200
 
 func _ready() -> void:
 	SignalManager.spawn_shape_request.connect(_on_spawn_shape_requested)

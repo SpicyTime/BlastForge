@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://tdoscbf6lnd6"]
 
 [ext_resource type="Script" uid="uid://4as2tdux84hn" path="res://ui/hud.gd" id="1_rbyyf"]
-[ext_resource type="FontFile" uid="uid://cjprg7vrkgs6t" path="res://Pixelchunk.ttf" id="2_276te"]
+[ext_resource type="FontFile" uid="uid://rkq0pwi80up6" path="res://leaguespartan-bold.ttf" id="2_276te"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -23,7 +23,6 @@ offset_top = 1.0
 offset_right = 2.0
 offset_bottom = 10.0
 grow_horizontal = 2
-theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("2_276te")
 theme_override_font_sizes/font_size = 64
 text = "0"

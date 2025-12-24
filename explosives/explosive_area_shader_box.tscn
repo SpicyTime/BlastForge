@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://bd8xm30ep1ibx"]
-
-[ext_resource type="Material" uid="uid://se3pvnqbe56e" path="res://explosives/materials/red_circle_material.tres" id="1_8qd7t"]
-[ext_resource type="Texture2D" uid="uid://do5361g8a3kp3" path="res://icon.svg" id="2_8qd7t"]
-
-[node name="ExplosiveAreaShaderBox" type="Sprite2D"]
-material = ExtResource("1_8qd7t")
-texture = ExtResource("2_8qd7t")

@@ -2,7 +2,7 @@ extends Node
 # Explosives
 var explosive_stats: Dictionary[String, float] = {
 	"damage" : 100.0,
-	"explosion_radius": 24.0,
+	"explosion_radius": 77.0,
 	"place_delay": 0.2,
 }
 

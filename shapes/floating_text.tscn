@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://d6a02rgt43js"]
 
 [ext_resource type="Script" uid="uid://dxxu7vwdebjoo" path="res://shapes/floating_text.gd" id="1_yflmp"]
-[ext_resource type="FontFile" uid="uid://cjprg7vrkgs6t" path="res://Pixelchunk.ttf" id="2_d66p7"]
+[ext_resource type="FontFile" uid="uid://rkq0pwi80up6" path="res://leaguespartan-bold.ttf" id="2_gvxod"]
 
 [node name="FloatingText" type="Marker2D"]
 z_index = 2
@@ -19,8 +19,7 @@ offset_right = 20.0
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("2_d66p7")
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("2_gvxod")
+theme_override_font_sizes/font_size = 36
 text = "10"
 horizontal_alignment = 1

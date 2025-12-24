@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://btmk54xyeo44e"]
 
 [ext_resource type="Script" uid="uid://d3iknp440glsy" path="res://shapes/shape.gd" id="1_4fy8l"]
-[ext_resource type="Texture2D" uid="uid://do071axbmjpwf" path="res://shapes/sprites/drawing.svg" id="2_4fy8l"]
+[ext_resource type="Texture2D" uid="uid://do071axbmjpwf" path="res://shapes/sprites/triangle.svg" id="2_4fy8l"]
 [ext_resource type="PackedScene" uid="uid://bcjrft2uixwu1" path="res://components/health_system/hurtbox.tscn" id="3_e6dkk"]
 [ext_resource type="Script" uid="uid://dyakc7t63f14m" path="res://components/health_system/health.gd" id="4_bo2oq"]
 [ext_resource type="Shape2D" uid="uid://82yjdnrv6lqq" path="res://shapes/collision_shapes/triangle_collision_shape.tres" id="4_o1kad"]
@@ -38,22 +38,22 @@ metadata/_custom_type_script = "uid://dyakc7t63f14m"
 [node name="WallRays" type="Node2D" parent="."]
 
 [node name="Up" type="RayCast2D" parent="WallRays"]
-target_position = Vector2(0, -70)
+target_position = Vector2(0, -55)
 collision_mask = 4
 hit_from_inside = true
 
 [node name="Down" type="RayCast2D" parent="WallRays"]
-target_position = Vector2(0, 70)
+target_position = Vector2(0, 55)
 collision_mask = 4
 hit_from_inside = true
 
 [node name="Right" type="RayCast2D" parent="WallRays"]
-target_position = Vector2(60, 0)
+target_position = Vector2(55, 0)
 collision_mask = 4
 hit_from_inside = true
 
 [node name="Left" type="RayCast2D" parent="WallRays"]
-target_position = Vector2(-60, 0)
+target_position = Vector2(-55, 0)
 collision_mask = 4
 hit_from_inside = true
 

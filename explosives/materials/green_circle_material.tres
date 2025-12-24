@@ -1,8 +1,0 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bxctswug6cia7"]
-
-[ext_resource type="Shader" uid="uid://db2gs1k5ytcoc" path="res://explosives/materials/green_explosive_area_shader.gdshader" id="1_o8oug"]
-
-[resource]
-shader = ExtResource("1_o8oug")
-shader_parameter/radius = 0.05
-shader_parameter/circle_color = Color(0, 1, 0, 0.5)
