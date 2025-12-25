@@ -20,7 +20,7 @@ enum BreakBehavior{
 	
 }
 
-enum AffectorType{
+enum OperationType{
 	ADDITIVE,
 	SUBTRACTIVE, 
 	MULTIPLICATIVE,

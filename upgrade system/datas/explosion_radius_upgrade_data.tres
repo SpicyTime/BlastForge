@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3 uid="uid://cwj2k3aew66ln"]
+
+[ext_resource type="Script" uid="uid://b3mtk4duhjde4" path="res://game/upgrade_data.gd" id="1_xnaqi"]
+
+[resource]
+script = ExtResource("1_xnaqi")
+tier_modifiers = Array[float]([1.5])
+tier_prices = Array[int]([0])
+tier_names = Array[String](["Explosion Area"])
+modify_stat_name = "explosion_radius"
+operation_type = 2
+metadata/_custom_type_script = "uid://b3mtk4duhjde4"

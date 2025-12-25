@@ -5,7 +5,7 @@ var current_tier: int = 0
 
 
 func has_reached_max_tier() -> bool:
-	return current_tier < data.values.size() 
+	return current_tier < data.tier_modifiers.size() 
 
 
 func get_price() -> int:
@@ -17,14 +17,14 @@ func get_name() -> String:
 
 
 func get_upgraded_stat(base_value) -> float:
-	match data.affector_type:
-		Enums.AffectorType.ADDITIVE:
-			return base_value + data.values[current_tier]
-		Enums.AffectorType.SUBTRACTIVE:
-			return base_value - data.values[current_tier]
-		Enums.AffectorType.MULTIPLICATIVE:
-			return base_value * data.values[current_tier]
-		Enums.AffectorType.DIVISITIVE: 
-			return base_value / data.values[current_tier]
+	match data.operation_type:
+		Enums.OperationType.ADDITIVE:
+			return base_value + data.tier_modifiers[current_tier]
+		Enums.OperationType.SUBTRACTIVE:
+			return base_value - data.tier_modifiers[current_tier]
+		Enums.OperationType.MULTIPLICATIVE:
+			return base_value * data.tier_modifiers[current_tier]
+		Enums.OperationType.DIVISITIVE: 
+			return base_value / data.tier_modifiers[current_tier]
 		_:
 			return base_value

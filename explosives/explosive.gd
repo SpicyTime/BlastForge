@@ -17,7 +17,7 @@ const RED_CIRCLE_TEXTURE = preload("uid://dkiuwqe4ix6im")
 
 func _ready() -> void:
 	var radius: float = StatManager.get_explosive_stat("explosion_radius")
-	_set_radii(radius, radius * 0.64)
+	_set_radii(radius)
 
 
 func _process(delta: float) -> void:
@@ -38,7 +38,9 @@ func handle_placed() -> void:
 	_start_pulse(Vector2(0.9, 0.9), 0.47)
 
 
-func _set_radii(explosion_radius: float, _shader_radius: float) -> void:
+func _set_radii(explosion_radius: float) -> void:
+	var scale_factor: float = explosion_radius / StatManager.explosive_stats["explosion_radius"] 
+	explosion_area_sprite.scale = Vector2(scale_factor, scale_factor)
 	hitbox_collider.shape.radius = explosion_radius
 	detection_area_collider.shape.radius = explosion_radius
 

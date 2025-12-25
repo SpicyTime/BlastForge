@@ -30,3 +30,15 @@ func _handle_max_tier_reached() -> void:
 
 func _handle_tier_increase(tier_number: int) -> void:
 	pass
+
+
+func _on_purchase_button_mouse_entered() -> void:
+	$UpgradeDataDisplay.visible = true
+
+
+func _on_purchase_button_mouse_exited() -> void:
+	$UpgradeDataDisplay.visible = false
+
+
+func _on_purchase_button_pressed() -> void:
+	StatManager.unlocked_upgrades[data.modify_stat_name] = upgrade

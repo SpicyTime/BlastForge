@@ -6,4 +6,4 @@ extends Resource
 @export var tier_names: Array[String] = []
 @export var description: String = ""
 @export var modify_stat_name: String = ""
-@export var affector_type: Enums.AffectorType = Enums.AffectorType.ADDITIVE
+@export var operation_type: Enums.OperationType = Enums.OperationType.ADDITIVE

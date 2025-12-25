@@ -81,6 +81,10 @@ func get_explosive_stats() -> Dictionary[String, float]:
 
 
 func get_explosive_stat(key: String) -> float:
+	if unlocked_upgrades.has(key):
+		var upgrade: Upgrade = unlocked_upgrades[key]
+		var upgraded_stat: float = upgrade.get_upgraded_stat(explosive_stats[key])
+		return upgraded_stat
 	return explosive_stats[key]
 
 
