@@ -4,11 +4,15 @@ extends Control
 var upgrade: Upgrade = null 
 var is_locked: bool = false
 var can_purchase: bool = false
-
+const UPGRADE_NODE_AFFORDABLE_THEME = preload("uid://bmi00awkluvkt")
+const UPGRADE_NODE_CANT_AFFORD_THEME = preload("uid://cpbqs1ys1nkeb")
+const UPGRADE_NODE_MAXED_THEME = preload("uid://b6ntk2x4lk85")
 @onready var name_label: Label = $UpgradeDataDisplay/NameDisplay/NameLabel
 @onready var description_label: Label = $UpgradeDataDisplay/NumberDataDisplay/InfoContainer/Labels/DescriptionLabel
 @onready var before_after_label: Label = $UpgradeDataDisplay/NumberDataDisplay/InfoContainer/Labels/BeforeAfterLabel
 @onready var price_label: Label = $UpgradeDataDisplay/NumberDataDisplay/InfoContainer/Labels/PriceLabel
+@onready var purchase_button: Button = $PurchaseButton
+
 
 
 func _ready() -> void:
@@ -21,6 +25,7 @@ func _ready() -> void:
 			can_purchase = true
 		else:
 			can_purchase = false
+		_update_theme()
 		)
 	if data:
 		upgrade = Upgrade.new()
@@ -29,6 +34,7 @@ func _ready() -> void:
 		before_after_label.text = upgrade.get_before_after()
 		description_label.text = upgrade.data.description
 		price_label.text = "$" + str(upgrade.get_current_price())
+		_update_theme()
 
 
 func can_purchase_tier(tier: int, player_points: int) -> bool:
@@ -53,11 +59,23 @@ func unlock_upgrade() -> void:
 
 func _update_display(tier_index: int) -> void:
 	before_after_label.text = upgrade.get_before_after()
+	_update_theme()
 	if upgrade.has_reached_max_tier():
 		price_label.text  = ""
 		return
 	name_label.text = str(upgrade.data.tier_names[tier_index])
 	price_label.text = "$" + str(upgrade.get_current_price())
+
+
+func _update_theme() -> void:
+	if not is_locked:
+		if upgrade.has_reached_max_tier():
+			purchase_button.theme = UPGRADE_NODE_MAXED_THEME
+			return
+		elif can_purchase:
+			purchase_button.theme = UPGRADE_NODE_AFFORDABLE_THEME
+		else:
+			purchase_button.theme = UPGRADE_NODE_CANT_AFFORD_THEME
 
 
 func _on_purchase_button_mouse_entered() -> void:
@@ -72,4 +90,3 @@ func _on_purchase_button_pressed() -> void:
 	if can_purchase:
 		# Purchases the tier above 
 		purchase_tier(upgrade.current_unpurchased_tier)
-		

@@ -99,4 +99,3 @@ func _on_explosive_detonated(shapes_broken: Array[Node2D]) -> void:
 
 func _on_upgrade_purchased(upgrade: Upgrade) -> void:
 	_set_points(total_points - upgrade.get_previous_price())
-	

@@ -24,15 +24,16 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showguides="false"
-     inkscape:zoom="0.87289876"
-     inkscape:cx="217.09276"
-     inkscape:cy="273.80037"
+     inkscape:zoom="0.68896662"
+     inkscape:cx="84.909774"
+     inkscape:cy="213.36302"
      inkscape:window-width="1366"
      inkscape:window-height="731"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="layer1"
+     showgrid="false" />
   <defs
      id="defs1" />
   <g
@@ -40,7 +41,7 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:#100f12;fill-opacity:1;stroke-width:0.569232"
+       style="fill:#171717;fill-opacity:1;stroke-width:0.569232"
        id="rect3"
        width="110"
        height="100"
