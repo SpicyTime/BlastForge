@@ -22,3 +22,6 @@ signal spawn_shape_bunch_request(amount: int, positions: Array[Vector2], shape_t
 
 # World
 signal spawn_explosive(explosive_position: Vector2)
+
+# Upgrades
+signal upgrade_purchased(upgrade: Upgrade)

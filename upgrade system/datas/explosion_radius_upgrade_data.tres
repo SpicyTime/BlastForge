@@ -4,9 +4,12 @@
 
 [resource]
 script = ExtResource("1_xnaqi")
-tier_modifiers = Array[float]([1.5])
-tier_prices = Array[int]([0])
-tier_names = Array[String](["Explosion Area"])
+base_value = 1.0
+tier_modifiers = Array[float]([1.5, 1.8])
+tier_prices = Array[int]([10, 35])
+tier_names = Array[String](["Finer Powder", "Charge Packing"])
+description = "Increases The Explosion Radius"
 modify_stat_name = "explosion_radius"
+extra_character = "x"
 operation_type = 2
 metadata/_custom_type_script = "uid://b3mtk4duhjde4"

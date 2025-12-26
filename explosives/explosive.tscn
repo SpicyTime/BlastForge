@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://ct3xcei10tcq0"]
 
 [ext_resource type="Script" uid="uid://dmw3gpe8emwgh" path="res://explosives/explosive.gd" id="1_ejdfl"]
-[ext_resource type="Texture2D" uid="uid://dllf4116vcjd4" path="res://explosives/bomb.svg" id="2_5rd10"]
+[ext_resource type="Texture2D" uid="uid://cor8vbtknq68y" path="res://explosives/explosive_bomb_sprite.svg" id="2_wvlh0"]
 [ext_resource type="Texture2D" uid="uid://bfacder6y156x" path="res://explosives/green_circle.svg" id="3_wvlh0"]
 [ext_resource type="PackedScene" uid="uid://dgtb8vq48acyh" path="res://components/health_system/hitbox.tscn" id="4_5rd10"]
 
@@ -12,7 +12,7 @@ radius = 68.0
 radius = 68.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5rd10"]
-radius = 85.0
+radius = 101.00495
 
 [node name="Explosive" type="Node2D"]
 script = ExtResource("1_ejdfl")
@@ -20,7 +20,8 @@ keep_detection_active = true
 
 [node name="ExplosiveSprite" type="Sprite2D" parent="."]
 z_index = 2
-texture = ExtResource("2_5rd10")
+position = Vector2(0, -4)
+texture = ExtResource("2_wvlh0")
 
 [node name="ExplosionAreaSprite" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.52156866)

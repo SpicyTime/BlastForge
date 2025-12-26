@@ -6,8 +6,9 @@ var can_create_explosive: bool = true
 @onready var explosives_container: Node2D = $ExplosivesContainer
 
 func _ready() -> void:
-	Console.add_command("set_points", _set_points, ["amount"], 1)
+	Console.add_command("set_points", _command_set_points, ["amount"], 1)
 	SignalManager.explosive_detonated.connect(_on_explosive_detonated)
+	SignalManager.upgrade_purchased.connect(_on_upgrade_purchased)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -62,18 +63,21 @@ func spawn_explosive(explosive_position: Vector2):
 	explosive_instance.call_deferred("handle_placed")
 
 
-func _set_points(amount: String) -> void:
-	total_points = amount.to_int()
+func _command_set_points(amount: String) -> void:
+	_set_points(amount.to_int())
+
+
+func _set_points(amount: int) -> void:
+	total_points = amount
+	print("Emitting")
 	SignalManager.points_changed.emit(total_points)
-	
 
 
 func _handle_shape_broken(shape_instance: Shape, bonus_multiplier: float = 1.0) -> void:
 	var shape_type: Enums.ShapeType = shape_instance.shape_data.shape_type
 	var size_type: Enums.ShapeSize = shape_instance.shape_data.shape_size
 	var shape_value: int = ceil(StatManager.get_shape_value(shape_type, size_type) * bonus_multiplier)
-	total_points += shape_value
-	SignalManager.points_changed.emit(total_points)
+	_set_points(total_points + shape_value)
 	var text = "+" + str(shape_value)
 	spawn_floating_text(text ,shape_instance.position + Vector2(0, -10.0), Color.GREEN, 1.15)
 	shape_instance.queue_free()
@@ -91,3 +95,8 @@ func _on_explosive_detonated(shapes_broken: Array[Node2D]) -> void:
 			_handle_shape_broken(shape, bonus_multiplier) 
 		else:
 			print("Not Valid")
+
+
+func _on_upgrade_purchased(upgrade: Upgrade) -> void:
+	_set_points(total_points - upgrade.get_previous_price())
+	

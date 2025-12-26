@@ -1,9 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://b758lb2dd2vli"]
+[gd_scene load_steps=7 format=3 uid="uid://b0p1igqr57bjq"]
 
-[ext_resource type="Script" uid="uid://dftmdgya4o8aj" path="res://ui/upgrade_hub/upgrade_hub.gd" id="1_0fe3o"]
-[ext_resource type="PackedScene" uid="uid://cuh5eo4mk36ak" path="res://upgrade system/upgrade_node.tscn" id="2_1qjr8"]
-[ext_resource type="FontFile" uid="uid://rkq0pwi80up6" path="res://leaguespartan-bold.ttf" id="2_os6ug"]
-[ext_resource type="Resource" uid="uid://cwj2k3aew66ln" path="res://upgrade system/datas/explosion_radius_upgrade_data.tres" id="4_xu6rm"]
+[ext_resource type="FontFile" uid="uid://rkq0pwi80up6" path="res://leaguespartan-bold.ttf" id="1_fd50i"]
+[ext_resource type="Script" uid="uid://ovsogdkt5bwv" path="res://ui/upgrade_hub.gd" id="1_t07eb"]
+[ext_resource type="PackedScene" uid="uid://cuh5eo4mk36ak" path="res://upgrade system/upgrade_node.tscn" id="2_t07eb"]
+[ext_resource type="Resource" uid="uid://cwj2k3aew66ln" path="res://upgrade system/datas/explosion_radius_upgrade_data.tres" id="3_ybw8w"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0fe3o"]
 bg_color = Color(0.14901961, 0.14901961, 0.14901961, 1)
@@ -18,7 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_0fe3o")
+script = ExtResource("1_t07eb")
 
 [node name="BackgroundPanel" type="Panel" parent="."]
 layout_mode = 1
@@ -38,7 +38,7 @@ offset_left = -20.0
 offset_right = 20.0
 offset_bottom = 23.0
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("2_os6ug")
+theme_override_fonts/font = ExtResource("1_fd50i")
 theme_override_font_sizes/font_size = 56
 text = "Upgrades"
 
@@ -54,11 +54,11 @@ offset_top = -59.0
 offset_right = 143.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_fonts/font = ExtResource("2_os6ug")
+theme_override_fonts/font = ExtResource("1_fd50i")
 theme_override_font_sizes/font_size = 32
 text = "Back To Game"
 
-[node name="UpgradeNode" parent="." instance=ExtResource("2_1qjr8")]
+[node name="UpgradeNode" parent="." instance=ExtResource("2_t07eb")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -67,6 +67,6 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-data = ExtResource("4_xu6rm")
+data = ExtResource("3_ybw8w")
 
 [connection signal="pressed" from="BackgroundPanel/BackToGameButton" to="." method="_on_back_to_game_button_pressed"]

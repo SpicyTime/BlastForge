@@ -8,5 +8,5 @@ func _ready() -> void:
 
 
 func _on_button_pressed() -> void:
-	UiManager.swap_menu("ShapeUpgradeHub")
+	UiManager.swap_menu("UpgradeHub")
 	UiManager.hide_overlay("Hud")
