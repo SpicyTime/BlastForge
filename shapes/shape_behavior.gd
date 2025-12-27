@@ -8,6 +8,7 @@ func _ready() -> void:
 
 
 func handle_break(_break_type: Enums.BreakBehavior) -> void:
+	print(_break_type)
 	# To Do: Handle logic based on type
 	var parent_break_behavior_type: Enums.BreakBehavior = shape.type
 	if parent_break_behavior_type == Enums.BreakBehavior.NORMAL:

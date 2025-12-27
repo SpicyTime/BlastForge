@@ -1,16 +1,16 @@
 extends Node
 # Explosives
 var explosive_stats: Dictionary[String, float] = {
-	"damage" : 100.0,
+	"damage" : 1.0,
 	"explosion_radius": 77.0,
-	"place_delay": 0.2,
+	"place_delay": 1.5,
 }
 
 # Shape Spawning
 var shape_spawn_stats: Dictionary[String, float] = {
-	"spawn_limit": 20,
+	"spawn_limit": 5,
 	"bunch_spawn_chance": 0.08,
-	"spawn_time": 1.3,
+	"spawn_time": 3,
 }
 var despawn_time_multiplier: float = 2.1
 var despawn_threshold_ratio: float = 0.75
@@ -66,7 +66,7 @@ var shape_size_weights: Dictionary[Enums.ShapeType, Dictionary] = {
 }
 
 var shape_stats: Dictionary[Enums.ShapeType, Dictionary] = {
-	Enums.ShapeType.TRIANGLE : {"points" : 1, "health" : 1},
+	Enums.ShapeType.TRIANGLE : {"points" : 1, "health" : 2},
 	Enums.ShapeType.SQUARE : {"points" : 1, "health" : 1},
 	Enums.ShapeType.PENTAGON : {"points" : 1, "health" : 1},
 	Enums.ShapeType.HEXAGON : {"points" : 1, "health" : 1},
@@ -74,7 +74,6 @@ var shape_stats: Dictionary[Enums.ShapeType, Dictionary] = {
 }
 
 var unlocked_upgrades: Dictionary[String, Upgrade] = {}
-
 
 func get_explosive_stats() -> Dictionary[String, float]:
 	return explosive_stats

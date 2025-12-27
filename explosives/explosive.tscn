@@ -12,7 +12,7 @@ radius = 68.0
 radius = 68.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5rd10"]
-radius = 101.00495
+radius = 130.0
 
 [node name="Explosive" type="Node2D"]
 script = ExtResource("1_ejdfl")
@@ -28,7 +28,6 @@ self_modulate = Color(1, 1, 1, 0.52156866)
 texture = ExtResource("3_wvlh0")
 
 [node name="ExplosionAreaHitbox" parent="." instance=ExtResource("4_5rd10")]
-damage = 1
 
 [node name="HitboxCollider" type="CollisionShape2D" parent="ExplosionAreaHitbox"]
 shape = SubResource("CircleShape2D_00hdp")

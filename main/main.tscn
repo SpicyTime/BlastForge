@@ -13,7 +13,6 @@ script = ExtResource("1_pjrb6")
 [node name="UiCanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Menus" type="Control" parent="UiCanvasLayer"]
-process_mode = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

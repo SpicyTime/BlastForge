@@ -1,23 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cuh5eo4mk36ak"]
+[gd_scene load_steps=5 format=3 uid="uid://cuh5eo4mk36ak"]
 
 [ext_resource type="Script" uid="uid://cxtsrr081cu1v" path="res://upgrade system/upgrade_node.gd" id="1_sigt7"]
 [ext_resource type="Theme" uid="uid://brntsa6831d7c" path="res://upgrade system/themes/upgrade_node_locked_theme.tres" id="2_2m2d3"]
 [ext_resource type="Theme" uid="uid://bmtgglhybhoi" path="res://ui/themes/upgrade_label.tres" id="2_m2iyk"]
 [ext_resource type="Texture2D" uid="uid://bctcrbr1wmlwb" path="res://upgrade system/assets/explosive_icon.svg" id="3_2m2d3"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slbv1"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.1, 0.1, 0.1, 0.6)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="Theme" id="Theme_m2iyk"]
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_slbv1")
 
 [node name="UpgradeNode" type="Control"]
 layout_mode = 3
@@ -37,7 +23,7 @@ theme = ExtResource("2_2m2d3")
 icon = ExtResource("3_2m2d3")
 icon_alignment = 1
 
-[node name="UpgradeDataDisplay" type="Control" parent="."]
+[node name="UpgradeDataDisplay" type="VBoxContainer" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = 7
@@ -45,27 +31,33 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -167.0
-offset_top = -148.0
-offset_right = 167.0
-offset_bottom = 1.0
+offset_left = -152.0
+offset_top = -137.0
+offset_right = 153.0
+offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_constants/separation = -8
+
+[node name="NameDisplay" type="PanelContainer" parent="UpgradeDataDisplay"]
+z_index = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
 mouse_filter = 1
-theme = SubResource("Theme_m2iyk")
+metadata/_edit_use_anchors_ = true
+
+[node name="NameLabel" type="Label" parent="UpgradeDataDisplay/NameDisplay"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_m2iyk")
+theme_override_font_sizes/font_size = 24
+text = "Explosive Power"
 
 [node name="NumberDataDisplay" type="PanelContainer" parent="UpgradeDataDisplay"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -167.0
-offset_top = -116.0
-offset_right = 167.0
-grow_horizontal = 2
-grow_vertical = 0
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
 mouse_filter = 1
 
 [node name="InfoContainer" type="MarginContainer" parent="UpgradeDataDisplay/NumberDataDisplay"]
@@ -80,9 +72,11 @@ layout_mode = 2
 
 [node name="DescriptionLabel" type="Label" parent="UpgradeDataDisplay/NumberDataDisplay/InfoContainer/Labels"]
 layout_mode = 2
+size_flags_vertical = 2
+size_flags_stretch_ratio = 14.02
 theme = ExtResource("2_m2iyk")
 theme_override_font_sizes/font_size = 16
-text = "Increases the explosion damage"
+text = "Increases explosion_power"
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -104,24 +98,6 @@ theme = ExtResource("2_m2iyk")
 theme_override_font_sizes/font_size = 18
 text = "$1000"
 horizontal_alignment = 1
-
-[node name="NameDisplay" type="PanelContainer" parent="UpgradeDataDisplay"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -102.0
-offset_right = 102.0
-offset_bottom = 40.0
-grow_horizontal = 2
-mouse_filter = 1
-
-[node name="NameLabel" type="Label" parent="UpgradeDataDisplay/NameDisplay"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme = ExtResource("2_m2iyk")
-theme_override_font_sizes/font_size = 24
-text = "Explosive Power"
 
 [connection signal="mouse_entered" from="PurchaseButton" to="." method="_on_purchase_button_mouse_entered"]
 [connection signal="mouse_exited" from="PurchaseButton" to="." method="_on_purchase_button_mouse_exited"]

@@ -69,7 +69,6 @@ func _command_set_points(amount: String) -> void:
 
 func _set_points(amount: int) -> void:
 	total_points = amount
-	print("Emitting")
 	SignalManager.points_changed.emit(total_points)
 
 

@@ -27,8 +27,6 @@ shape = ExtResource("4_o1kad")
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("4_bo2oq")
-health = 1
-max_health = 1
 metadata/_custom_type_script = "uid://dyakc7t63f14m"
 
 [node name="ShapeBreakBehaviorNode" parent="." instance=ExtResource("5_8wj2r")]
