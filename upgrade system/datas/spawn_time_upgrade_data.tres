@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3 uid="uid://bsdi6fr81gafw"]
+
+[ext_resource type="Script" uid="uid://b3mtk4duhjde4" path="res://game/upgrade_data.gd" id="1_1n7gh"]
+
+[resource]
+script = ExtResource("1_1n7gh")
+name = "Shape Spawn Time"
+base_value = 3.0
+tier_modifiers = Array[float]([2.5])
+base_price = 150
+description = "Decreases the time it takes to spawn shapes"
+modify_stat_name = "spawn_time"
+extra_character = "s"
+operation_type = 4
+metadata/_custom_type_script = "uid://b3mtk4duhjde4"

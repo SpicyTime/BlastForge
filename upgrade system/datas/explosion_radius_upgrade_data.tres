@@ -1,15 +1,17 @@
-[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3 uid="uid://cwj2k3aew66ln"]
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=3 format=3 uid="uid://cwj2k3aew66ln"]
 
+[ext_resource type="Texture2D" uid="uid://bctcrbr1wmlwb" path="res://upgrade system/assets/upgrade icons/explosive_icon.svg" id="1_jlelo"]
 [ext_resource type="Script" uid="uid://b3mtk4duhjde4" path="res://game/upgrade_data.gd" id="1_xnaqi"]
 
 [resource]
 script = ExtResource("1_xnaqi")
+name = "Explosion Radius"
 base_value = 1.0
-tier_modifiers = Array[float]([1.5, 1.8])
-tier_prices = Array[int]([10, 35])
-tier_names = Array[String](["Finer Powder", "Charge Packing"])
+tier_modifiers = Array[float]([1.15, 1.25])
+base_price = 15
 description = "Increases The Explosion Radius"
 modify_stat_name = "explosion_radius"
 extra_character = "x"
 operation_type = 2
+icon = ExtResource("1_jlelo")
 metadata/_custom_type_script = "uid://b3mtk4duhjde4"

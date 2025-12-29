@@ -83,20 +83,21 @@ func _start_pulse(scale_value: Vector2, alpha_value: float) -> void:
 	)
 	pulse_tween.finished.connect(_on_pulse_tween_finished)
 
-	
+
 func _on_pulse_tween_finished() -> void:
 	var pulse_scale: Vector2 = Vector2.ZERO
 	var pulse_alpha: float = 0.0
+	var min_alpha: float = 0.45
+	var max_alpha: float = 0.68 
 	if is_up_pulse:
 		is_up_pulse = false
 		pulse_scale = Vector2(0.95, 0.95)
-		pulse_alpha = 0.49
+		pulse_alpha = min_alpha
 	else:
 		is_up_pulse = true
 		pulse_scale = Vector2(1.05, 1.05)
-		pulse_alpha = 0.68
+		pulse_alpha = max_alpha
 	_start_pulse(pulse_scale, pulse_alpha)
-	
 
 
 func _on_explosion_push_area_body_entered(body: Node2D) -> void:

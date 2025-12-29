@@ -9,7 +9,7 @@ var explosive_stats: Dictionary[String, float] = {
 # Shape Spawning
 var shape_spawn_stats: Dictionary[String, float] = {
 	"spawn_limit": 5,
-	"bunch_spawn_chance": 0.08,
+	"bunch_spawn_chance": 2,
 	"spawn_time": 3,
 }
 var despawn_time_multiplier: float = 2.1

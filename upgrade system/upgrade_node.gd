@@ -21,7 +21,7 @@ func _ready() -> void:
 		if upgrade.has_reached_max_tier():
 			return
 		# Checks if the player can now purchase the current buyable tier
-		if can_purchase_tier(upgrade.current_unpurchased_tier, value):
+		if can_purchase_tier(value):
 			can_purchase = true
 		else:
 			can_purchase = false
@@ -34,21 +34,20 @@ func _ready() -> void:
 		before_after_label.text = upgrade.get_before_after()
 		description_label.text = upgrade.data.description
 		price_label.text = "$" + str(upgrade.get_current_price())
+		purchase_button.icon = data.icon
 		_update_theme()
 
 
-func can_purchase_tier(tier: int, player_points: int) -> bool:
-	var tier_index: int = tier - 1
-	return not is_locked and upgrade.data.tier_prices[tier_index] <= player_points
+func can_purchase_tier(player_points: int) -> bool:
+	return not is_locked and upgrade.get_current_price() <= player_points
 
 
 func purchase_tier(tier: int) -> void:
-	var _tier_index: int = tier - 1
 	StatManager.unlocked_upgrades[data.modify_stat_name] = upgrade
 	upgrade.current_purchased_tier = tier 
 	upgrade.current_unpurchased_tier = upgrade.current_purchased_tier + 1
 	SignalManager.upgrade_purchased.emit(upgrade)
-	_update_display(upgrade.current_unpurchased_tier - 1)
+	_update_display()
 	if upgrade.has_reached_max_tier():
 		can_purchase = false
 
@@ -57,13 +56,13 @@ func unlock_upgrade() -> void:
 	is_locked = false
 
 
-func _update_display(tier_index: int) -> void:
+func _update_display() -> void:
 	before_after_label.text = upgrade.get_before_after()
 	_update_theme()
 	if upgrade.has_reached_max_tier():
 		price_label.text  = ""
 		return
-	name_label.text = str(upgrade.data.tier_names[tier_index])
+	name_label.text = str(upgrade.data.name)
 	price_label.text = "$" + str(upgrade.get_current_price())
 
 

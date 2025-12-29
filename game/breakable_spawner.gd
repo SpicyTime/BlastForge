@@ -26,7 +26,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_handle_shape_auto_spawn(delta)
-	_handle_shape_auto_despawn(delta)
+	#_handle_shape_auto_despawn(delta)
 
 
 func spawn_shape(spawn_position: Vector2, shape_type: Enums.ShapeType, break_behavior_type: Enums.BreakBehavior = Enums.BreakBehavior.NORMAL) -> Shape:
@@ -64,7 +64,7 @@ func _handle_shape_auto_spawn(delta: float) -> void:
 		# If the max amount of shapes has not been reached, we spawn a new one.
 		if get_child_count() < StatManager.get_shape_spawn_stat("spawn_limit"):
 			
-			var bunch_spawn_roll: float = randf()
+			var bunch_spawn_roll: float = randi_range(0, 100)
 			if bunch_spawn_roll <= StatManager.get_shape_spawn_stat("bunch_spawn_chance"):
 				
 				var shape_position: Vector2 = _choose_random_pos(world_spawn_bounds)
@@ -103,7 +103,6 @@ func _calc_weighted_table_total(weighted_table: Dictionary) -> float:
 	for value in weighted_table:
 		total += value
 	return total
-
 
 
 # Chooses a random shape type based off of a weighted table

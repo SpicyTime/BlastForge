@@ -3,8 +3,7 @@ extends RefCounted
 var data: UpgradeData
 var current_unpurchased_tier: int = 1
 var current_purchased_tier: int = 0
-
-
+const PRICE_SCALE: float = 1.5
 func has_reached_max_tier() -> bool:
 	return current_purchased_tier >= data.tier_modifiers.size() 
  
@@ -30,18 +29,17 @@ func get_before_after() -> String:
 	return first_value + data.extra_character + arrow + second_value + data.extra_character
 
 
+
 func get_current_price() -> int:
-	var tier_index: int = current_unpurchased_tier - 1
-	return data.tier_prices[tier_index]
+	return _calculate_price(data.base_price, current_unpurchased_tier, PRICE_SCALE)
 
 
 func get_previous_price() -> int:
-	var tier_index: int = current_purchased_tier - 1
-	return data.tier_prices[tier_index]
+	return _calculate_price(data.base_price, current_purchased_tier, PRICE_SCALE)
 
 
 func get_name() -> String:
-	return data.tier_names[current_unpurchased_tier - 1]
+	return data.name
 
 
 func get_upgraded_stat(base_value) -> float:
@@ -59,3 +57,6 @@ func get_upgraded_stat(base_value) -> float:
 			return data.tier_modifiers[current_tier_index]
 		_:
 			return base_value
+
+func _calculate_price(base_value: int, n: int, price_scale: float) -> int:
+	return int(base_value + (n - 1) * (base_value * price_scale))

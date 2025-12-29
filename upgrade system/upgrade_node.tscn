@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cxtsrr081cu1v" path="res://upgrade system/upgrade_node.gd" id="1_sigt7"]
 [ext_resource type="Theme" uid="uid://brntsa6831d7c" path="res://upgrade system/themes/upgrade_node_locked_theme.tres" id="2_2m2d3"]
 [ext_resource type="Theme" uid="uid://bmtgglhybhoi" path="res://ui/themes/upgrade_label.tres" id="2_m2iyk"]
-[ext_resource type="Texture2D" uid="uid://bctcrbr1wmlwb" path="res://upgrade system/assets/explosive_icon.svg" id="3_2m2d3"]
+[ext_resource type="Texture2D" uid="uid://bctcrbr1wmlwb" path="res://upgrade system/assets/upgrade icons/explosive_icon.svg" id="3_2m2d3"]
 
 [node name="UpgradeNode" type="Control"]
 layout_mode = 3
