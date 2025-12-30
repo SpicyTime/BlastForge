@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b0p1igqr57bjq"]
+[gd_scene load_steps=10 format=3 uid="uid://b0p1igqr57bjq"]
 
 [ext_resource type="FontFile" uid="uid://rkq0pwi80up6" path="res://leaguespartan-bold.ttf" id="1_fd50i"]
 [ext_resource type="Script" uid="uid://ovsogdkt5bwv" path="res://ui/upgrade_hub.gd" id="1_t07eb"]
@@ -6,6 +6,7 @@
 [ext_resource type="Resource" uid="uid://cwj2k3aew66ln" path="res://upgrade system/datas/explosion_radius_upgrade_data.tres" id="3_ybw8w"]
 [ext_resource type="Resource" uid="uid://ck8675fg5a5g2" path="res://upgrade system/datas/explosive_damage_upgrade_data.tres" id="5_ybw8w"]
 [ext_resource type="Resource" uid="uid://xa83n738b2k4" path="res://upgrade system/datas/place_delay_upgrade_data.tres" id="6_gaygq"]
+[ext_resource type="Resource" uid="uid://ba3vxeyrhsrvf" path="res://upgrade system/datas/spawn_limit_upgrade_data.tres" id="7_0vk5b"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0fe3o"]
 bg_color = Color(0.14901961, 0.14901961, 0.14901961, 1)
@@ -90,5 +91,13 @@ offset_top = 563.0
 offset_right = 309.0
 offset_bottom = 563.0
 data = ExtResource("5_ybw8w")
+
+[node name="UpgradeNode4" parent="." instance=ExtResource("2_t07eb")]
+layout_mode = 0
+offset_left = 539.0
+offset_top = 235.0
+offset_right = 539.0
+offset_bottom = 235.0
+data = ExtResource("7_0vk5b")
 
 [connection signal="pressed" from="BackgroundPanel/BackToGameButton" to="." method="_on_back_to_game_button_pressed"]
