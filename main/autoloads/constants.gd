@@ -10,3 +10,6 @@ const VIEWPORT_HEIGHT: int = 180
 const BASE_SMALL_MULTIPLIER: float = 1.0
 const BASE_MEDIUM_MULTIPLIER: float = 3.0
 const BASE_LARGE_MULTIPLIER: float = 6.0
+const SCALE_RATIO: float = 0.1
+const CAMERA_SHAKE_INTENSITY_CAP: float = 8.0
+const UI_SHAKE_INTENSITY_CAP: float = 4.0

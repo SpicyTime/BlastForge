@@ -8,6 +8,7 @@ script = ExtResource("1_miwv1")
 name = "Bunch Spawn Chance"
 base_value = 2.0
 tier_modifiers = Array[float]([5.0])
+base_price = 12
 description = "Increases the chance chance to spawn multiple shapes"
 modify_stat_name = "bunch_spawn_chance"
 extra_character = "%"

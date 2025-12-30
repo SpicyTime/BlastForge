@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b0p1igqr57bjq"]
+[gd_scene load_steps=13 format=3 uid="uid://b0p1igqr57bjq"]
 
 [ext_resource type="FontFile" uid="uid://rkq0pwi80up6" path="res://leaguespartan-bold.ttf" id="1_fd50i"]
 [ext_resource type="Script" uid="uid://ovsogdkt5bwv" path="res://ui/upgrade_hub.gd" id="1_t07eb"]
@@ -6,7 +6,10 @@
 [ext_resource type="Resource" uid="uid://cwj2k3aew66ln" path="res://upgrade system/datas/explosion_radius_upgrade_data.tres" id="3_ybw8w"]
 [ext_resource type="Resource" uid="uid://ck8675fg5a5g2" path="res://upgrade system/datas/explosive_damage_upgrade_data.tres" id="5_ybw8w"]
 [ext_resource type="Resource" uid="uid://xa83n738b2k4" path="res://upgrade system/datas/place_delay_upgrade_data.tres" id="6_gaygq"]
-[ext_resource type="Resource" uid="uid://ba3vxeyrhsrvf" path="res://upgrade system/datas/spawn_limit_upgrade_data.tres" id="7_0vk5b"]
+[ext_resource type="Resource" uid="uid://bsdi6fr81gafw" path="res://upgrade system/datas/spawn_time_upgrade_data.tres" id="7_h8fa1"]
+[ext_resource type="Resource" uid="uid://ba3vxeyrhsrvf" path="res://upgrade system/datas/spawn_limit_upgrade_data.tres" id="8_a7fhf"]
+[ext_resource type="Resource" uid="uid://dj1gg3ys2qwx6" path="res://upgrade system/datas/bunch_spawn_chance_upgrade_data.tres" id="9_d6sdc"]
+[ext_resource type="Resource" uid="uid://bx2qhdj5l0a5a" path="res://upgrade system/datas/bunch_spawn_number_upgrade_data.tres" id="10_a7fhf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0fe3o"]
 bg_color = Color(0.14901961, 0.14901961, 0.14901961, 1)
@@ -61,43 +64,72 @@ theme_override_fonts/font = ExtResource("1_fd50i")
 theme_override_font_sizes/font_size = 32
 text = "Back To Game"
 
-[node name="UpgradeNode" parent="." instance=ExtResource("2_t07eb")]
+[node name="UpgradeNodes" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.496875
+anchor_top = 0.3263889
+anchor_right = 0.50625
+anchor_bottom = 0.3263889
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="ExplosiveUpgrades" type="HBoxContainer" parent="UpgradeNodes"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_left = -150.0
+offset_right = 150.0
 grow_horizontal = 2
 grow_vertical = 2
-data = ExtResource("3_ybw8w")
+theme_override_constants/separation = 150
+alignment = 1
 
-[node name="UpgradeNode2" parent="." instance=ExtResource("2_t07eb")]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -428.0
-offset_top = 332.0
-offset_right = -428.0
-offset_bottom = 332.0
-grow_horizontal = 2
-data = ExtResource("6_gaygq")
-
-[node name="UpgradeNode3" parent="." instance=ExtResource("2_t07eb")]
-layout_mode = 0
-offset_left = 309.0
-offset_top = 563.0
-offset_right = 309.0
-offset_bottom = 563.0
+[node name="ExplosiveDamageUpgrade" parent="UpgradeNodes/ExplosiveUpgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 2
 data = ExtResource("5_ybw8w")
 
-[node name="UpgradeNode4" parent="." instance=ExtResource("2_t07eb")]
-layout_mode = 0
-offset_left = 539.0
-offset_top = 235.0
-offset_right = 539.0
-offset_bottom = 235.0
-data = ExtResource("7_0vk5b")
+[node name="ExplosiveRadiusUpgrade" parent="UpgradeNodes/ExplosiveUpgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 2
+data = ExtResource("3_ybw8w")
+
+[node name="ExplosivePlaceDelayUpgrade" parent="UpgradeNodes/ExplosiveUpgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 2
+data = ExtResource("6_gaygq")
+
+[node name="SpawningUpgrades" type="HBoxContainer" parent="UpgradeNodes"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = 144.0
+offset_right = 150.0
+offset_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 150
+alignment = 1
+
+[node name="SpawnTimeUpgrade" parent="UpgradeNodes/SpawningUpgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 2
+data = ExtResource("7_h8fa1")
+
+[node name="SpawnLimitUpgrade" parent="UpgradeNodes/SpawningUpgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 2
+data = ExtResource("8_a7fhf")
+
+[node name="BunchChanceUpgrade" parent="UpgradeNodes/SpawningUpgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 2
+data = ExtResource("9_d6sdc")
+
+[node name="BunchNumberUpgrade" parent="UpgradeNodes/SpawningUpgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 2
+data = ExtResource("10_a7fhf")
 
 [connection signal="pressed" from="BackgroundPanel/BackToGameButton" to="." method="_on_back_to_game_button_pressed"]

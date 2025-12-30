@@ -6,7 +6,7 @@ signal health_depleted
 signal damage_taken(value: int)
  
 # Explosives
-signal explosive_detonated(shapes_broken: Array[Node2D ])
+signal explosive_detonated(shapes_broken: Array[Node2D])
 
 
 # Breakable

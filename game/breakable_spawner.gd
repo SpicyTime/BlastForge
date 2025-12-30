@@ -68,7 +68,7 @@ func _handle_shape_auto_spawn(delta: float) -> void:
 			if bunch_spawn_roll <= StatManager.get_shape_spawn_stat("bunch_spawn_chance"):
 				
 				var shape_position: Vector2 = _choose_random_pos(world_spawn_bounds)
-				var shape_spawn_bunch_number: int = 2
+				var shape_spawn_bunch_number: int = StatManager.get_shape_spawn_stat("bunch_spawn_number")
 				var spawn_positions: Array[Vector2] = []
 				var shape_types: Array[Enums.ShapeType] = []
 				var break_behavior_types: Array[Enums.BreakBehavior] = []

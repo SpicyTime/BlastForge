@@ -28,7 +28,7 @@ func _physics_process(delta: float) -> void:
 		offset = lerp(offset, Vector2.ZERO, lerp_weight * delta)
 	get_parent().position += offset
 
-func shake(intensity: int, time: float) -> void:
+func shake(intensity: float, time: float) -> void:
 	# Makes sure that it is different every time
 	randomize()
 	noise.seed = randi()
