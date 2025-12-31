@@ -6,8 +6,7 @@ extends Node
 func set_health(value: int) -> void:
 	health = value
 
-
-	SignalManager.health_changed.emit(abs(health - value))
+	SignalManager.health_changed.emit(self, abs(health - value))
 	if health == 0:
 		SignalManager.health_depleted.emit(self)
 
