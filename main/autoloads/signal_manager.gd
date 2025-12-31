@@ -25,3 +25,4 @@ signal spawn_explosive(explosive_position: Vector2)
 
 # Upgrades
 signal upgrade_purchased(upgrade: Upgrade)
+signal purchase_amount_changed(value: int)

@@ -14,19 +14,7 @@ const UPGRADE_NODE_MAXED_THEME = preload("uid://b6ntk2x4lk85")
 @onready var purchase_button: Button = $PurchaseButton
 
 
-
 func _ready() -> void:
-	SignalManager.points_changed.connect(func(value: int): 
-		# Ignores any values changing if the upgrade is already at max tier
-		if upgrade.has_reached_max_tier():
-			return
-		# Checks if the player can now purchase the current buyable tier
-		if can_purchase_tier(value):
-			can_purchase = true
-		else:
-			can_purchase = false
-		_update_theme()
-		)
 	if data:
 		upgrade = Upgrade.new()
 		upgrade.data = data
@@ -35,7 +23,10 @@ func _ready() -> void:
 		description_label.text = upgrade.data.description
 		price_label.text = "$" + str(upgrade.get_current_price())
 		purchase_button.icon = data.icon
-		_update_theme()
+		update_theme()
+
+func is_at_max_tier() -> bool:
+	return upgrade.has_reached_max_tier()
 
 
 func can_purchase_tier(player_points: int) -> bool:
@@ -56,17 +47,7 @@ func unlock_upgrade() -> void:
 	is_locked = false
 
 
-func _update_display() -> void:
-	before_after_label.text = upgrade.get_before_after()
-	_update_theme()
-	if upgrade.has_reached_max_tier():
-		price_label.text  = ""
-		return
-	name_label.text = str(upgrade.data.name)
-	price_label.text = "$" + str(upgrade.get_current_price())
-
-
-func _update_theme() -> void:
+func update_theme() -> void:
 	if not is_locked:
 		if upgrade.has_reached_max_tier():
 			purchase_button.theme = UPGRADE_NODE_MAXED_THEME
@@ -75,6 +56,16 @@ func _update_theme() -> void:
 			purchase_button.theme = UPGRADE_NODE_AFFORDABLE_THEME
 		else:
 			purchase_button.theme = UPGRADE_NODE_CANT_AFFORD_THEME
+
+
+func _update_display() -> void:
+	before_after_label.text = upgrade.get_before_after()
+	update_theme()
+	if upgrade.has_reached_max_tier():
+		price_label.text  = "MAXED"
+		return
+	name_label.text = str(upgrade.data.name)
+	price_label.text = "$" + str(upgrade.get_current_price())
 
 
 func _on_purchase_button_mouse_entered() -> void:

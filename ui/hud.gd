@@ -7,6 +7,12 @@ func _ready() -> void:
 		points_label.text = str(new_value)
 		)
 	SignalManager.explosive_detonated.connect(_on_explosive_detonated)
+	SignalManager.purchase_amount_changed.connect(func(amount: int) -> void:
+		if amount > 0:
+			$Button/PlusSignRect.visible = true
+		else:
+			$Button/PlusSignRect.visible = false
+		)
 
 
 func _on_button_pressed() -> void:

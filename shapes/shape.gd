@@ -118,13 +118,12 @@ func _on_health_changed(health_node: Health, _diff: int) -> void:
 		var health_ratio: float = float(health_node.health) / float(health_node.max_health)
 		
 		if health_ratio <= 0.5:
-			shape_sprite.texture = preload("uid://cw2rbwaelyvnk")
-			$BreakParticles.emitting = true
-			#var modulate_change: float = 0.9
-			#explosion_detected_modulate *= modulate_change
-			#explosion_detected_modulate.a = 1.0
-			#base_modulate *= modulate_change
-			#base_modulate.a = 1.0
+			shape_sprite.texture = preload("uid://cls1p7i0ixput")
+			var modulate_change: float = 0.9
+			explosion_detected_modulate *= modulate_change
+			explosion_detected_modulate.a = 1.0
+			base_modulate *= modulate_change
+			base_modulate.a = 1.0
 
 
 func _on_health_depleted(health_node: Health) -> void:

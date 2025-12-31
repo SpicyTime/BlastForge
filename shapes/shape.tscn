@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://btmk54xyeo44e"]
+[gd_scene load_steps=8 format=3 uid="uid://btmk54xyeo44e"]
 
 [ext_resource type="Script" uid="uid://d3iknp440glsy" path="res://shapes/shape.gd" id="1_4fy8l"]
 [ext_resource type="Texture2D" uid="uid://do071axbmjpwf" path="res://shapes/sprites/triangle.svg" id="2_4fy8l"]
@@ -8,24 +8,12 @@
 [ext_resource type="Shape2D" uid="uid://82yjdnrv6lqq" path="res://shapes/collision_shapes/triangle_collision_shape.tres" id="4_o1kad"]
 [ext_resource type="PackedScene" uid="uid://crewdcx8grnpe" path="res://shapes/shape_behavior.tscn" id="5_8wj2r"]
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_e6dkk"]
-lifetime_randomness = 0.5
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(20, 30, 1)
-spread = 180.0
-initial_velocity_min = 50.0
-initial_velocity_max = 50.0
-gravity = Vector3(0, 0, 0)
-scale_min = 3.0
-scale_max = 6.0
-color = Color(0.36078432, 0.88235295, 0.9019608, 1)
-
 [node name="Shape" type="CharacterBody2D"]
 collision_mask = 6
 script = ExtResource("1_4fy8l")
 
 [node name="ShadowSprite" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(0, 4.5)
 texture = ExtResource("2_e6dkk")
 
@@ -72,14 +60,6 @@ hit_from_inside = true
 target_position = Vector2(-55, 0)
 collision_mask = 4
 hit_from_inside = true
-
-[node name="BreakParticles" type="GPUParticles2D" parent="."]
-position = Vector2(0, 9)
-emitting = false
-amount = 20
-one_shot = true
-collision_base_size = 0.0
-process_material = SubResource("ParticleProcessMaterial_e6dkk")
 
 [connection signal="area_entered" from="ExplosionDetector" to="." method="_on_explosion_detector_area_entered"]
 [connection signal="area_exited" from="ExplosionDetector" to="." method="_on_explosion_detector_area_exited"]

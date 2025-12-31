@@ -6,9 +6,9 @@
 [resource]
 script = ExtResource("1_p6kjr")
 name = "Spawn Limit"
-base_value = 5.0
 tier_modifiers = Array[float]([10.0, 25.0])
-base_price = 50
+base_value = 5.0
+base_price = 20
 description = "Increases the amount of blocks that can spawn"
 modify_stat_name = "spawn_limit"
 operation_type = 4
