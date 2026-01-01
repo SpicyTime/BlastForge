@@ -2,12 +2,6 @@ extends Node2D
 var spawn_time_passed: float = 0.0
 var despawn_time_passed: float = 0.0
 
-var break_behavior_type_lookup: Dictionary[Enums.BreakBehavior, String] = {
-	Enums.BreakBehavior.NORMAL : "normal",
-	Enums.BreakBehavior.bomb  : "bomb",
-	Enums.BreakBehavior.SPAWNER  : "spawner"
-}
-
 var shape_type_lookup: Dictionary[Enums.ShapeType, String] = {
 	Enums.ShapeType.TRIANGLE : "triangle",
 	Enums.ShapeType.SQUARE : "square",
@@ -29,12 +23,11 @@ func _process(delta: float) -> void:
 	#_handle_shape_auto_despawn(delta)
 
 
-func spawn_shape(spawn_position: Vector2, shape_type: Enums.ShapeType, break_behavior_type: Enums.BreakBehavior = Enums.BreakBehavior.NORMAL) -> Shape:
+func spawn_shape(spawn_position: Vector2, shape_type: Enums.ShapeType) -> Shape:
 	# Initializes the actual shape object
 	var packed_shape_scene: PackedScene = load(Constants.SHAPE_SCENE_PATH)
 	var shape_instance: Shape = packed_shape_scene.instantiate()
 	shape_instance.position = spawn_position
-	shape_instance.type = break_behavior_type
 	# Initializes the data for the desired shape (based off of the name)
 	var shape_data: ShapeData = load(Constants.SHAPE_RESOURCE_PATH_START + shape_type_lookup[shape_type] + Constants.SHAPE_RESOURCE_PATH_END).duplicate()
 	
@@ -44,15 +37,14 @@ func spawn_shape(spawn_position: Vector2, shape_type: Enums.ShapeType, break_beh
 	shape_instance.move_direction = _choose_random_direction()
 	shape_instance.speed = _choose_random_speed()
 	shape_instance.base_speed = shape_instance.speed
-	shape_data.shape_size = _choose_random_shape_size(shape_type)
-	
+	_add_modifiers(shape_instance)
 	add_child(shape_instance)
 	return shape_instance
 
 
-func spawn_shape_bunch(amount: int, spawn_positions: Array[Vector2], shape_types: Array[Enums.ShapeType], break_behavior_types: Array[Enums.BreakBehavior]) -> void:
+func spawn_shape_bunch(amount: int, spawn_positions: Array[Vector2], shape_types: Array[Enums.ShapeType]) -> void:
 	for i in range(amount):
-		spawn_shape(spawn_positions[i], shape_types[i], break_behavior_types[i])
+		spawn_shape(spawn_positions[i], shape_types[i])
 
 
 func _handle_shape_auto_spawn(delta: float) -> void:
@@ -71,23 +63,19 @@ func _handle_shape_auto_spawn(delta: float) -> void:
 				var shape_spawn_bunch_number: int = StatManager.get_shape_spawn_stat("bunch_spawn_number")
 				var spawn_positions: Array[Vector2] = []
 				var shape_types: Array[Enums.ShapeType] = []
-				var break_behavior_types: Array[Enums.BreakBehavior] = []
 				# Spawns x amount of shapes, setting all the datas for each
 				for i in range(shape_spawn_bunch_number):
 					var offset_bounds: Array[int] = [-40, 40, -40, 40]
 					var shape_position_offset: Vector2 =_choose_random_pos(offset_bounds)
 					var chosen_shape_type: Enums.ShapeType = _choose_random_shape_type()
-					var chosen_break_behavior_type: Enums.BreakBehavior = _choose_random_break_behavior_type()
 					shape_types.append(chosen_shape_type)
-					break_behavior_types.append(chosen_break_behavior_type)
 					spawn_positions.append(shape_position + shape_position_offset)
-				spawn_shape_bunch(shape_spawn_bunch_number, spawn_positions, shape_types, break_behavior_types)
+				spawn_shape_bunch(shape_spawn_bunch_number, spawn_positions, shape_types)
 			else: 
 				# Order: left, right, top, bottom
 				var shape_position: Vector2 = _choose_random_pos(world_spawn_bounds)
 				var chosen_shape_type: Enums.ShapeType = _choose_random_shape_type()
-				var chosen_break_behavior_type: Enums.BreakBehavior = _choose_random_break_behavior_type()
-				spawn_shape(shape_position, chosen_shape_type, chosen_break_behavior_type)
+				spawn_shape(shape_position, chosen_shape_type)
 
 
 func _handle_shape_auto_despawn(delta) -> void:
@@ -105,6 +93,18 @@ func _calc_weighted_table_total(weighted_table: Dictionary) -> float:
 	return total
 
 
+func _add_modifiers(shape: Shape) -> void:
+	var modifiers: Array[Enums.ShapeModifiers] = []
+	for modifier_type in Enums.ShapeModifiers.keys():
+		if _should_add_modifier(StatManager.get_shape_modifier_chance(modifier_type)):
+			modifiers.append(modifier_type)
+	shape.shape_modifiers = modifiers
+
+func _should_add_modifier(modifier_chance: float) -> bool:
+	var chance_roll: int = randi_range(0, 100)
+	return modifier_chance <= chance_roll
+
+
 # Chooses a random shape type based off of a weighted table
 func _choose_random_shape_type() -> Enums.ShapeType:
 	var shape_type_weights: Dictionary[Enums.ShapeType, float] = StatManager.get_shape_type_weights()
@@ -116,24 +116,6 @@ func _choose_random_shape_type() -> Enums.ShapeType:
 	# Fall back
 	return Enums.ShapeType.TRIANGLE
 
-# Chooses a random shape type based off of a weighted table 
-func _choose_random_break_behavior_type() -> Enums.BreakBehavior:
-	var break_behavior_type_weights: Dictionary[Enums.BreakBehavior, float] = StatManager.get_break_behavior_type_weights()
-	var weight_roll: float = randf() * _calc_weighted_table_total(break_behavior_type_weights)
-	# Goes through the weights to eventually choose the type
-	for break_behavior_type in break_behavior_type_weights.keys():
-		weight_roll -= break_behavior_type_weights[break_behavior_type]
-		if weight_roll <= 0.0: return break_behavior_type
-	return Enums.BreakBehavior.NORMAL
-
-
-func _choose_random_shape_size(shape_type: Enums.ShapeType) -> Enums.ShapeSize:
-	var size_type_weights: Dictionary = StatManager.get_shape_size_weights(shape_type)
-	var weight_roll: float = randf() * _calc_weighted_table_total(size_type_weights)
-	for size_type in size_type_weights.keys():
-		weight_roll -= size_type_weights[size_type]
-		if weight_roll <= 0.0: return size_type
-	return Enums.ShapeSize.SMALL 
 
 
 func _choose_random_pos(spawn_position_bounds: Array[int]) -> Vector2:
@@ -164,9 +146,11 @@ func _choose_random_speed() -> int:
 	return randi_range(MIN_BREAKABLE_SPEED, MAX_BREAKABLE_SPEED)
 
 
-func _on_spawn_shape_requested(spawn_position: Vector2, shape_type: Enums.ShapeType, break_behavior_type: Enums.BreakBehavior) -> void:
-	spawn_shape(spawn_position, shape_type, break_behavior_type)
+
+
+func _on_spawn_shape_requested(spawn_position: Vector2, shape_type: Enums.ShapeType) -> void:
+	spawn_shape(spawn_position, shape_type)
  
 
-func _on_spawn_shape_bunch_requested(amount: int, spawn_positions: Array[Vector2], shape_types: Array[Enums.ShapeType], break_behavior_types: Array[Enums.BreakBehavior]) -> void:
-	spawn_shape_bunch(amount, spawn_positions, shape_types, break_behavior_types)
+func _on_spawn_shape_bunch_requested(amount: int, spawn_positions: Array[Vector2], shape_types: Array[Enums.ShapeType]) -> void:
+	spawn_shape_bunch(amount, spawn_positions, shape_types)

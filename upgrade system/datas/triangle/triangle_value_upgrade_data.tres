@@ -4,4 +4,11 @@
 
 [resource]
 script = ExtResource("1_r4636")
+name = "Triangle Value"
+tier_modifiers = Array[float]([3.0])
+base_value = 1.0
+base_price = 50
+description = "Increases the value of the triangle shapes"
+modify_stat_name = "triangle_value"
+operation_type = 4
 metadata/_custom_type_script = "uid://b3mtk4duhjde4"

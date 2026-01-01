@@ -16,9 +16,5 @@ func get_shape_type() -> Enums.ShapeType:
 	return shape_data.shape_type
 
 
-func get_shape_size() -> Enums.ShapeSize:
-	return shape_data.shape_size
-
-
 func get_shape_texture() -> Texture2D:
 	return shape_data.shape_texture

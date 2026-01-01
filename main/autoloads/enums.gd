@@ -7,17 +7,10 @@ enum ShapeType{
 	CIRCLE
 }
 
-enum ShapeSize{
-	SMALL,
-	MEDIUM,
-	LARGE
-}
-
-enum BreakBehavior{
-	NORMAL,
-	bomb,
-	SPAWNER,
-	
+enum ShapeModifiers{
+	REINFORCED,
+	LUCKY,
+	SIERPINSKIES_BLESSING
 }
 
 enum OperationType{

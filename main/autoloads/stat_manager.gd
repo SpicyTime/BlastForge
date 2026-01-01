@@ -15,20 +15,10 @@ var shape_spawn_stats: Dictionary[String, float] = {
 }
 var despawn_time_multiplier: float = 2.1
 var despawn_threshold_ratio: float = 0.75
-
-var size_multiplier_stats: Dictionary[String, int] = {
-	"small": 1,
-	"medium": 3,
-	"large": 6
-}
 var bunch_multiplier: float = 1.5
 
 
-var break_behavior_type_weights: Dictionary[Enums.BreakBehavior, float] = {
-	Enums.BreakBehavior.NORMAL : 1.0,
-	Enums.BreakBehavior.bomb : 0.0,
-	Enums.BreakBehavior.SPAWNER : 0.0
-}
+
 
 var shape_type_weights: Dictionary[Enums.ShapeType, float] = {
 	Enums.ShapeType.TRIANGLE : 1.0,
@@ -38,33 +28,6 @@ var shape_type_weights: Dictionary[Enums.ShapeType, float] = {
 	Enums.ShapeType.CIRCLE : 0.0
 }
 
-var shape_size_weights: Dictionary[Enums.ShapeType, Dictionary] = {
-	Enums.ShapeType.TRIANGLE: {
-		Enums.ShapeSize.SMALL: 1.0,
-		Enums.ShapeSize.MEDIUM: 0.0,
-		Enums.ShapeSize.LARGE: 0.0
-	},
-	Enums.ShapeType.SQUARE: {
-		Enums.ShapeSize.SMALL: 1.0,
-		Enums.ShapeSize.MEDIUM: 1.0,
-		Enums.ShapeSize.LARGE: 1.0
-	},
-	Enums.ShapeType.PENTAGON: {
-		Enums.ShapeSize.SMALL: 1.0,
-		Enums.ShapeSize.MEDIUM: 1.0,
-		Enums.ShapeSize.LARGE: 1.0
-	},
-	Enums.ShapeType.HEXAGON: {
-		Enums.ShapeSize.SMALL: 1.0,
-		Enums.ShapeSize.MEDIUM: 1.0,
-		Enums.ShapeSize.LARGE: 1.0
-	},
-	Enums.ShapeType.CIRCLE: {
-		Enums.ShapeSize.SMALL: 1.0,
-		Enums.ShapeSize.MEDIUM: 1.0,
-		Enums.ShapeSize.LARGE: 1.0
-	}
-}
 
 var shape_stats: Dictionary[Enums.ShapeType, Dictionary] = {
 	Enums.ShapeType.TRIANGLE : {"points" : 1, "health" : 2},
@@ -73,7 +36,11 @@ var shape_stats: Dictionary[Enums.ShapeType, Dictionary] = {
 	Enums.ShapeType.HEXAGON : {"points" : 1, "health" : 1},
 	Enums.ShapeType.CIRCLE : {"points" : 1, "health" : 1},
 }
-
+var shape_modifier_chances: Dictionary[Enums.ShapeModifiers, float] = {
+	Enums.ShapeModifiers.REINFORCED: 0.0,
+	Enums.ShapeModifiers.LUCKY: 0.0,
+	Enums.ShapeModifiers.SIERPINSKIES_BLESSING: 0.0
+}
 var unlocked_upgrades: Dictionary[String, Upgrade] = {}
 
 func get_bomb_stats() -> Dictionary[String, float]:
@@ -93,27 +60,15 @@ func get_shape_spawn_stats() -> Dictionary[String, float]:
 
 
 func get_shape_spawn_stat(key: String) -> float:
+	if unlocked_upgrades.has(key):
+		var upgrade: Upgrade = unlocked_upgrades[key]
+		var upgraded_stat: float = upgrade.get_upgraded_stat(shape_spawn_stats[key])
+		return upgraded_stat
 	return shape_spawn_stats[key]
-
-
-func get_shape_size_weights(shape_type: Enums.ShapeType) -> Dictionary:
-	return shape_size_weights[shape_type]
 
 
 func get_shape_type_weights() -> Dictionary[Enums.ShapeType, float]:
 	return shape_type_weights
-
-
-func get_break_behavior_type_weights() -> Dictionary[Enums.BreakBehavior, float]:
-	return break_behavior_type_weights
-
-
-func get_shape_size_multiplier(shape_size: Enums.ShapeSize) -> int:
-	if shape_size == Enums.ShapeSize.SMALL:
-		return size_multiplier_stats["small"]
-	elif shape_size == Enums.ShapeSize.MEDIUM:
-		return size_multiplier_stats["medium"]
-	return size_multiplier_stats["large"]
 
 
 func get_despawn_threshold() -> float:
@@ -128,9 +83,25 @@ func get_despawn_time() -> float:
 	return shape_spawn_stats["spawn_time"] * despawn_time_multiplier
 
 
-func get_shape_value(shape_type: Enums.ShapeType, shape_size: Enums.ShapeSize) -> int:
-	return shape_stats[shape_type]["points"] * get_shape_size_multiplier(shape_size)
+func get_shape_value(shape_type: Enums.ShapeType) -> int:
+	var shape_name: String = Enums.ShapeType.keys()[shape_type].to_lower()
+	var upgrade_key: String = shape_name + "_value"
+	if unlocked_upgrades.has(upgrade_key):
+		var upgrade: Upgrade = unlocked_upgrades[upgrade_key]
+		var upgraded_shape_value: float = upgrade.get_upgraded_stat(shape_stats[shape_type]["points"])
+		return int(upgraded_shape_value) 
+	return shape_stats[shape_type]["points"] 
 
 
 func get_shape_health(shape_type: Enums.ShapeType) -> int:
 	return shape_stats[shape_type]["health"]
+
+
+func get_shape_modifier_chance(modifier: Enums.ShapeModifiers) -> float:
+	var modifier_name: String = Enums.ShapeType.keys()[modifier].to_lower()
+	var upgrade_key: String = modifier_name + "_chance"
+	if unlocked_upgrades.has(upgrade_key):
+		var upgrade: Upgrade = unlocked_upgrades[upgrade_key]
+		var upgraded_stat: float = upgrade.get_upgraded_stat(shape_modifier_chances[modifier])
+		return upgraded_stat
+	return shape_modifier_chances[modifier]

@@ -3,18 +3,13 @@ extends CharacterBody2D
 
 var base_modulate: Color = modulate
 var explosion_detected_modulate: Color = Color(0.5, 0.5, 0.5)
-var type: Enums.BreakBehavior = Enums.BreakBehavior.NORMAL
 var is_scaled: bool = false
 var move_direction: Vector2 = Vector2(1, 1)
 var speed: float = 0.0
 var base_speed: float = 0.0
 var prev_pos: Vector2 = Vector2.ZERO
 var shape_data: ShapeData = null
-var size_scales: Dictionary[Enums.ShapeSize, float] = {
-	Enums.ShapeSize.SMALL : 1.0,
-	Enums.ShapeSize.MEDIUM : 1.15,
-	Enums.ShapeSize.LARGE :  1.35
-}
+var shape_modifiers: Array[Enums.ShapeModifiers] = []
 const OFFSCREEN_PADDING: int = 20
 const FRICTION: int = 11500
 @onready var shape_sprite: Sprite2D = $ShapeSprite
@@ -34,9 +29,9 @@ func _ready() -> void:
 	shape_sprite.texture = shape_data.shape_texture
 	shadow_sprite.scale = Vector2.ZERO
 	shape_sprite.scale = Vector2.ZERO
-	var final_scale: Vector2 = Vector2(size_scales[shape_data.shape_size], size_scales[shape_data.shape_size])
 	var scale_up_tween: Tween = get_tree().create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
 	var scale_up_time: float = 0.2
+	var final_scale: Vector2 = Vector2(1.0, 1.0)
 	scale_up_tween.tween_property(shape_sprite, "scale", final_scale, scale_up_time)
 	scale_up_tween.parallel().tween_property(shadow_sprite, "scale", final_scale, scale_up_time)
 	# This will make it feel a little nicer
@@ -128,5 +123,4 @@ func _on_health_changed(health_node: Health, _diff: int) -> void:
 
 func _on_health_depleted(health_node: Health) -> void:
 	if health_node in get_children():
-		
-		$ShapeBreakBehaviorNode.handle_break(type)
+		SignalManager.shape_broken.emit(self)

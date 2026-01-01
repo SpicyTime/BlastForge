@@ -74,8 +74,7 @@ func _set_points(amount: int) -> void:
 
 func _handle_shape_broken(shape_instance: Shape, bonus_multiplier: float = 1.0) -> void:
 	var shape_type: Enums.ShapeType = shape_instance.shape_data.shape_type
-	var size_type: Enums.ShapeSize = shape_instance.shape_data.shape_size
-	var shape_value: int = ceil(StatManager.get_shape_value(shape_type, size_type) * bonus_multiplier)
+	var shape_value: int = ceil(StatManager.get_shape_value(shape_type) * bonus_multiplier)
 	_set_points(total_points + shape_value)
 	var text = "+" + str(shape_value)
 	spawn_floating_text(text ,shape_instance.position + Vector2(0, -10.0), Color.GREEN, 1.15)
