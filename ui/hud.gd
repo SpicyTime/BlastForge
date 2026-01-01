@@ -6,7 +6,7 @@ func _ready() -> void:
 	SignalManager.points_changed.connect(func(new_value: int) -> void:
 		points_label.text = str(new_value)
 		)
-	SignalManager.explosive_detonated.connect(_on_explosive_detonated)
+	SignalManager.bomb_detonated.connect(_on_bomb_detonated)
 	SignalManager.purchase_amount_changed.connect(func(amount: int) -> void:
 		if amount > 0:
 			$Button/PlusSignRect.visible = true
@@ -20,7 +20,7 @@ func _on_button_pressed() -> void:
 	UiManager.hide_overlay("Hud")
 
 
-func _on_explosive_detonated(_shapes_broken: Array[Node2D]) -> void:
-	var shake_intensity: float = base_shake_intensity + StatManager.get_explosive_stat("damage") * Constants.SCALE_RATIO
+func _on_bomb_detonated(_shapes_broken: Array[Node2D]) -> void:
+	var shake_intensity: float = base_shake_intensity + StatManager.get_bomb_stat("damage") * Constants.SCALE_RATIO
 	shake_intensity = min(shake_intensity, Constants.UI_SHAKE_INTENSITY_CAP)
 	$ShakeComponent.shake(shake_intensity, 0.8)

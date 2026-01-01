@@ -5,8 +5,8 @@ signal max_health_changed(diff: int) # The difference can be used for further ca
 signal health_depleted
 signal damage_taken(value: int)
  
-# Explosives
-signal explosive_detonated(shapes_broken: Array[Node2D])
+# bombs
+signal bomb_detonated(shapes_broken: Array[Node2D])
 
 
 # Breakable
@@ -21,7 +21,7 @@ signal spawn_shape_request(position: Vector2, shape_type: Enums.ShapeType, break
 signal spawn_shape_bunch_request(amount: int, positions: Array[Vector2], shape_types: Array[Enums.ShapeType], break_behavior_types: Array[Enums.BreakBehavior])
 
 # World
-signal spawn_explosive(explosive_position: Vector2)
+signal spawn_bomb(bomb_position: Vector2)
 
 # Upgrades
 signal upgrade_purchased(upgrade: Upgrade)

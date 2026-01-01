@@ -26,7 +26,7 @@ func handle_normal() -> void:
 
 func handle_exploder() -> void:
 	# Other data might need to be sent, but this is it for now
-	SignalManager.spawn_explosive.emit(shape.position)
+	SignalManager.spawn_bomb.emit(shape.position)
 
 
 func handle_spawner() -> void:

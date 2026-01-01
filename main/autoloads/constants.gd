@@ -1,5 +1,5 @@
 extends Node
-const EXPLOSIVE_SCENE_PATH: String = "res://explosives/explosive.tscn"
+const BOMB_SCENE_PATH: String = "res://bomb/bomb.tscn"
 const SHAPE_SCENE_PATH: String = "res://shapes/shape.tscn"
 const SHAPE_RESOURCE_PATH_START: String = "res://shapes/shape_resources/"
 const SHAPE_RESOURCE_PATH_END: String = "_shape.tres"

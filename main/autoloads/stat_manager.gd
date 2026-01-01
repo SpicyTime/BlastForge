@@ -1,6 +1,6 @@
 extends Node
-# Explosives
-var explosive_stats: Dictionary[String, float] = {
+# bombs
+var bomb_stats: Dictionary[String, float] = {
 	"damage" : 1.0,
 	"explosion_radius": 77.0,
 	"place_delay": 1.5,
@@ -26,7 +26,7 @@ var bunch_multiplier: float = 1.5
 
 var break_behavior_type_weights: Dictionary[Enums.BreakBehavior, float] = {
 	Enums.BreakBehavior.NORMAL : 1.0,
-	Enums.BreakBehavior.EXPLOSIVE : 0.0,
+	Enums.BreakBehavior.bomb : 0.0,
 	Enums.BreakBehavior.SPAWNER : 0.0
 }
 
@@ -76,16 +76,16 @@ var shape_stats: Dictionary[Enums.ShapeType, Dictionary] = {
 
 var unlocked_upgrades: Dictionary[String, Upgrade] = {}
 
-func get_explosive_stats() -> Dictionary[String, float]:
-	return explosive_stats
+func get_bomb_stats() -> Dictionary[String, float]:
+	return bomb_stats
 
 
-func get_explosive_stat(key: String) -> float:
+func get_bomb_stat(key: String) -> float:
 	if unlocked_upgrades.has(key):
 		var upgrade: Upgrade = unlocked_upgrades[key]
-		var upgraded_stat: float = upgrade.get_upgraded_stat(explosive_stats[key])
+		var upgraded_stat: float = upgrade.get_upgraded_stat(bomb_stats[key])
 		return upgraded_stat
-	return explosive_stats[key]
+	return bomb_stats[key]
 
 
 func get_shape_spawn_stats() -> Dictionary[String, float]:

@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="UpgradeData" load_steps=3 format=3 uid="uid://bsdi6fr81gafw"]
 
 [ext_resource type="Script" uid="uid://b3mtk4duhjde4" path="res://game/upgrade_data.gd" id="1_1n7gh"]
-[ext_resource type="Texture2D" uid="uid://c6c7k6q0csddi" path="res://upgrade system/assets/upgrade icons/spawn_time_decrease_icon.svg" id="1_lwd5t"]
+[ext_resource type="Texture2D" uid="uid://c6c7k6q0csddi" path="res://upgrade system/assets/upgrade icons/spawn_rate_decrease_icon.svg" id="1_lwd5t"]
 
 [resource]
 script = ExtResource("1_1n7gh")
-name = "Shape Spawn Time"
+name = "Shape Spawn Rate"
 tier_modifiers = Array[float]([2.5])
 base_value = 3.0
 base_price = 25

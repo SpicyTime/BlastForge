@@ -1,4 +1,4 @@
-class_name Explosive
+class_name Bomb
 extends Node2D
 @export var keep_detection_active: bool = false
 @export var detonation_time: float = 1.5
@@ -6,7 +6,7 @@ var phase_time: float = 0.0
 var is_up_pulse: bool = false
 var pulse_time: float = 0.46
 const RED_CIRCLE_TEXTURE = preload("uid://dkiuwqe4ix6im")
-@onready var explosive_sprite: Sprite2D = $ExplosiveSprite
+@onready var bomb_sprite: Sprite2D = $BombSprite
 @onready var explosion_area_sprite: Sprite2D = $ExplosionAreaSprite
 @onready var explosion_area_hitbox: Hitbox = $ExplosionAreaHitbox
 @onready var hitbox_collider: CollisionShape2D = $ExplosionAreaHitbox/HitboxCollider
@@ -16,7 +16,7 @@ const RED_CIRCLE_TEXTURE = preload("uid://dkiuwqe4ix6im")
 @onready var detonation_timer: Timer = $DetonationTimer
 
 func _ready() -> void:
-	var radius: float = StatManager.get_explosive_stat("explosion_radius")
+	var radius: float = StatManager.get_bomb_stat("explosion_radius")
 	_set_radii(radius)
 
 
@@ -39,7 +39,7 @@ func handle_placed() -> void:
 
 
 func _set_radii(explosion_radius: float) -> void:
-	var scale_factor: float = explosion_radius / StatManager.explosive_stats["explosion_radius"] 
+	var scale_factor: float = explosion_radius / StatManager.bomb_stats["explosion_radius"] 
 	explosion_area_sprite.scale = Vector2(scale_factor, scale_factor)
 	hitbox_collider.shape.radius = explosion_radius
 	detection_area_collider.shape.radius = explosion_radius
@@ -51,11 +51,11 @@ func _on_detonation_timer_timeout() -> void:
 	push_area_collider.disabled = false
 	var final_scale: Vector2 = Vector2(1.35, 1.35)
 	var scale_up_explosion_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
-	scale_up_explosion_tween.tween_property(explosive_sprite, "scale", final_scale, 0.11)
+	scale_up_explosion_tween.tween_property(bomb_sprite, "scale", final_scale, 0.11)
 	var alpha_explosion_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
 	alpha_explosion_tween.tween_property(explosion_area_sprite, "self_modulate:a", 0.68, 0.11)
 	var shapes_inside_range: Array[Node2D] = explosion_detection_area.get_overlapping_bodies()
-	explosion_area_hitbox.damage = StatManager.get_explosive_stat("damage") as int
+	explosion_area_hitbox.damage = StatManager.get_bomb_stat("damage") as int
 	await scale_up_explosion_tween.finished
 	queue_free()
 	var shapes_broken: Array[Node2D] = []
@@ -63,7 +63,7 @@ func _on_detonation_timer_timeout() -> void:
 		if shape is Shape:
 			if shape.health.health <= 0:
 				shapes_broken.append(shape)
-	SignalManager.explosive_detonated.emit(shapes_broken)
+	SignalManager.bomb_detonated.emit(shapes_broken)
 
 
 func _start_pulse(scale_value: Vector2, alpha_value: float) -> void:
@@ -76,7 +76,7 @@ func _start_pulse(scale_value: Vector2, alpha_value: float) -> void:
 	)
 
 	pulse_tween.parallel().tween_property(
-		explosive_sprite,
+		bomb_sprite,
 		"scale",
 		scale_value,
 		pulse_time 

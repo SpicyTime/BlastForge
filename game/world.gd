@@ -1,48 +1,48 @@
 class_name World
-extends Node2D
-var held_explosive: Explosive = null
+extends Node2D 
+var held_bomb: Bomb = null
 var total_points: int = 0
-var can_create_explosive: bool = true
-@onready var explosives_container: Node2D = $ExplosivesContainer
+var can_create_bomb: bool = true
+@onready var bomb_container: Node2D = $BombContainer
 
 func _ready() -> void:
 	Console.add_command("set_points", _command_set_points, ["amount"], 1)
-	SignalManager.explosive_detonated.connect(_on_explosive_detonated)
+	SignalManager.bomb_detonated.connect(_on_bomb_detonated)
 	SignalManager.upgrade_purchased.connect(_on_upgrade_purchased)
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		var mouse_position: Vector2 = get_global_mouse_position()
-		# The explosive will be created when the explosive_action is pressed
-		if Input.is_action_just_pressed("explosive_action") and not held_explosive and can_create_explosive:
-			held_explosive = create_explosive(mouse_position)
-			can_create_explosive = false
-		# The explosive will be placed when the explosive_action is released
-		if Input.is_action_just_released("explosive_action") and held_explosive:
-			call_deferred("place_explosive") 
-			get_tree().create_timer(StatManager.get_explosive_stat("place_delay")).connect("timeout", func(): can_create_explosive = true)
+		# The bomb will be created when the bomb_action is pressed
+		if Input.is_action_just_pressed("bomb_place_action") and not held_bomb and can_create_bomb:
+			held_bomb = create_bomb(mouse_position)
+			can_create_bomb = false
+		# The bomb will be placed when the bomb_action is released
+		if Input.is_action_just_released("bomb_place_action") and held_bomb:
+			call_deferred("place_bomb") 
+			get_tree().create_timer(StatManager.get_bomb_stat("place_delay")).connect("timeout", func(): can_create_bomb = true)
 	elif event is InputEventMouseMotion:
-		if held_explosive:
-			held_explosive.position = get_global_mouse_position()
+		if held_bomb:
+			held_bomb.position = get_global_mouse_position()
 
 
-# Initializes an explosive at a certain position (usually the mouse position)
-func create_explosive(spawn_position: Vector2) -> Explosive:
-	var packed_explosive_scene: PackedScene = load(Constants.EXPLOSIVE_SCENE_PATH)
-	var explosive_instance: Explosive = packed_explosive_scene.instantiate()
-	explosive_instance.position = spawn_position
+# Initializes an bomb at a certain position (usually the mouse position)
+func create_bomb(spawn_position: Vector2) -> Bomb:
+	var packed_bomb_scene: PackedScene = load(Constants.BOMB_SCENE_PATH)
+	var bomb_instance: Bomb = packed_bomb_scene.instantiate()
+	bomb_instance.position = spawn_position
 	
 	# I get a bunch of errors if it is not deferred
-	explosives_container.call_deferred("add_child", explosive_instance)
-	return explosive_instance
+	bomb_container.call_deferred("add_child", bomb_instance)
+	return bomb_instance
 
  
-func place_explosive() -> void:
-	if held_explosive:
-		held_explosive.handle_placed()
+func place_bomb() -> void:
+	if held_bomb:
+		held_bomb.handle_placed()
 		# This effectively "places" the bomb by not resetting its position to the mouse
-		held_explosive = null 
+		held_bomb = null 
 
 
 func spawn_floating_text(text: String, text_position: Vector2, text_color: Color, visible_time: float):
@@ -57,10 +57,10 @@ func spawn_floating_text(text: String, text_position: Vector2, text_color: Color
 	floating_text.queue_free()
 
 
-func spawn_explosive(explosive_position: Vector2):
-	var explosive_instance: Explosive = create_explosive(explosive_position)
+func spawn_bomb(bomb_position: Vector2):
+	var bomb_instance: Bomb = create_bomb(bomb_position)
 	# Matches the defer in the creation
-	explosive_instance.call_deferred("handle_placed")
+	bomb_instance.call_deferred("handle_placed")
 
 
 func _command_set_points(amount: String) -> void:
@@ -82,7 +82,7 @@ func _handle_shape_broken(shape_instance: Shape, bonus_multiplier: float = 1.0) 
 	shape_instance.queue_free()
 
 
-func _on_explosive_detonated(shapes_broken: Array[Node2D]) -> void:
+func _on_bomb_detonated(shapes_broken: Array[Node2D]) -> void:
 	var bonus_multiplier: float = 1.0
 	var bonus_shape_threshold: int = 3
 	if shapes_broken.size() >= bonus_shape_threshold:

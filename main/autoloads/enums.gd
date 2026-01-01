@@ -15,7 +15,7 @@ enum ShapeSize{
 
 enum BreakBehavior{
 	NORMAL,
-	EXPLOSIVE,
+	bomb,
 	SPAWNER,
 	
 }

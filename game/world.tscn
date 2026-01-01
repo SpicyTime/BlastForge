@@ -24,7 +24,7 @@ metadata/_custom_type_script = "uid://cpc1o46lwdj2q"
 [node name="BreakableSpawner" type="Node2D" parent="."]
 script = ExtResource("2_aseec")
 
-[node name="ExplosivesContainer" type="Node2D" parent="."]
+[node name="BombContainer" type="Node2D" parent="."]
 
 [node name="WorldBounds" type="Node2D" parent="."]
 

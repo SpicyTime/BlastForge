@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://ct3xcei10tcq0"]
 
-[ext_resource type="Script" uid="uid://dmw3gpe8emwgh" path="res://explosives/explosive.gd" id="1_ejdfl"]
-[ext_resource type="Texture2D" uid="uid://cor8vbtknq68y" path="res://explosives/explosive_bomb_sprite.svg" id="2_wvlh0"]
-[ext_resource type="Texture2D" uid="uid://bfacder6y156x" path="res://explosives/green_circle.svg" id="3_wvlh0"]
-[ext_resource type="PackedScene" uid="uid://dgtb8vq48acyh" path="res://components/health_system/hitbox.tscn" id="4_5rd10"]
+[ext_resource type="Script" uid="uid://dmw3gpe8emwgh" path="res://bomb/bomb.gd" id="1_1h7gg"]
+[ext_resource type="Texture2D" uid="uid://cor8vbtknq68y" path="res://bomb/bomb_sprite.svg" id="2_f3gsr"]
+[ext_resource type="Texture2D" uid="uid://bfacder6y156x" path="res://bomb/green_circle.svg" id="3_27ssy"]
+[ext_resource type="PackedScene" uid="uid://dgtb8vq48acyh" path="res://components/health_system/hitbox.tscn" id="4_5f04w"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_00hdp"]
 radius = 68.0
@@ -14,20 +14,20 @@ radius = 68.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_5rd10"]
 radius = 130.0
 
-[node name="Explosive" type="Node2D"]
-script = ExtResource("1_ejdfl")
+[node name="Bomb" type="Node2D"]
+script = ExtResource("1_1h7gg")
 keep_detection_active = true
 
-[node name="ExplosiveSprite" type="Sprite2D" parent="."]
+[node name="BombSprite" type="Sprite2D" parent="."]
 z_index = 2
 position = Vector2(0, -4)
-texture = ExtResource("2_wvlh0")
+texture = ExtResource("2_f3gsr")
 
 [node name="ExplosionAreaSprite" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.41568628)
-texture = ExtResource("3_wvlh0")
+texture = ExtResource("3_27ssy")
 
-[node name="ExplosionAreaHitbox" parent="." instance=ExtResource("4_5rd10")]
+[node name="ExplosionAreaHitbox" parent="." instance=ExtResource("4_5f04w")]
 
 [node name="HitboxCollider" type="CollisionShape2D" parent="ExplosionAreaHitbox"]
 shape = SubResource("CircleShape2D_00hdp")

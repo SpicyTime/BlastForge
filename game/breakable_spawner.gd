@@ -4,7 +4,7 @@ var despawn_time_passed: float = 0.0
 
 var break_behavior_type_lookup: Dictionary[Enums.BreakBehavior, String] = {
 	Enums.BreakBehavior.NORMAL : "normal",
-	Enums.BreakBehavior.EXPLOSIVE  : "explosive",
+	Enums.BreakBehavior.bomb  : "bomb",
 	Enums.BreakBehavior.SPAWNER  : "spawner"
 }
 
