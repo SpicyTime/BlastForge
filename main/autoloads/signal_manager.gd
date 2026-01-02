@@ -17,8 +17,12 @@ signal points_changed(new_value: int)
 
 
 # Spawn System
-signal spawn_shape_request(position: Vector2, shape_type: Enums.ShapeType)
-signal spawn_shape_bunch_request(amount: int, positions: Array[Vector2], shape_types: Array[Enums.ShapeType])
+signal spawn_shape_request(position: Vector2, shape_type: Enums.ShapeType, 
+speed: int, direction: Vector2, modifiers: Array[Enums.ShapeModifiers], include_modifiers: bool)
+signal spawn_shape_bunch_request(amount: int, 
+positions: Array[Vector2], shape_types: Array[Enums.ShapeType], speeds: Array[int], directions: Array[Vector2],
+modifier_array: Array[Array], include_modifiers: bool 
+)
 
 # World
 signal spawn_bomb(bomb_position: Vector2)

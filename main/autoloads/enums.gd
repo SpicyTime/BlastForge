@@ -6,7 +6,7 @@ enum ShapeType{
 	HEXAGON,
 	CIRCLE
 }
-
+# The NONE
 enum ShapeModifiers{
 	REINFORCED,
 	LUCKY,

@@ -10,8 +10,7 @@ var shape_type_lookup: Dictionary[Enums.ShapeType, String] = {
 	Enums.ShapeType.CIRCLE : "circle",
 }
 
-const MAX_BREAKABLE_SPEED: int = 2400
-const MIN_BREAKABLE_SPEED: int = 3000
+
 
 func _ready() -> void:
 	SignalManager.spawn_shape_request.connect(_on_spawn_shape_requested)
@@ -23,7 +22,7 @@ func _process(delta: float) -> void:
 	#_handle_shape_auto_despawn(delta)
 
 
-func spawn_shape(spawn_position: Vector2, shape_type: Enums.ShapeType) -> Shape:
+func spawn_shape(spawn_position: Vector2, shape_type: Enums.ShapeType, speed: int = 0, direction: Vector2 = Vector2.ZERO, modifiers: Array[Enums.ShapeModifiers] = [], include_modifiers: bool = true) -> Shape:
 	# Initializes the actual shape object
 	var packed_shape_scene: PackedScene = load(Constants.SHAPE_SCENE_PATH)
 	var shape_instance: Shape = packed_shape_scene.instantiate()
@@ -33,49 +32,78 @@ func spawn_shape(spawn_position: Vector2, shape_type: Enums.ShapeType) -> Shape:
 	
 	# Sets the shape data variable
 	shape_data.shape_type = shape_type
+	
+	# Sets all the shape variables
 	shape_instance.shape_data = shape_data
-	shape_instance.move_direction = _choose_random_direction()
-	shape_instance.speed = _choose_random_speed()
+	if speed == 0:
+		shape_instance.speed = _choose_random_speed()
+	else:
+		shape_instance.speed = speed
+	if direction == Vector2.ZERO:
+		shape_instance.move_direction = _choose_random_direction()
+	else:
+		shape_instance.move_direction = direction
 	shape_instance.base_speed = shape_instance.speed
-	_add_modifiers(shape_instance)
-	add_child(shape_instance)
+	if modifiers == [] and include_modifiers:
+		_add_modifiers(shape_instance)
+	else:
+		shape_instance.shape_modifiers = modifiers
+	# Flushing queries issue
+	call_deferred("add_child", shape_instance)
+	await shape_instance.tree_entered
 	return shape_instance
 
 
-func spawn_shape_bunch(amount: int, spawn_positions: Array[Vector2], shape_types: Array[Enums.ShapeType]) -> void:
+func spawn_shape_bunch(amount: int, spawn_positions: Array[Vector2], shape_types: Array[Enums.ShapeType], speeds: Array[int], directions: Array[Vector2], modifiers: Array[Array], add_modifiers: bool ) -> void:
 	for i in range(amount):
-		spawn_shape(spawn_positions[i], shape_types[i])
+		var speed: int = 0
+		var direction: Vector2 = Vector2.ZERO
+		var shape_modifiers: Array[Enums.ShapeModifiers]= []
+
+		if i < speeds.size():
+			speed = speeds[i]
+
+		if i < directions.size():
+			direction = directions[i]
+
+		if i < modifiers.size():
+			for m in modifiers[i]:
+				shape_modifiers.append(m as Enums.ShapeModifiers)
+		spawn_shape(spawn_positions[i], shape_types[i], speed, direction, shape_modifiers, add_modifiers)
 
 
 func _handle_shape_auto_spawn(delta: float) -> void:
 	spawn_time_passed += delta
 	var world_spawn_bounds: Array[int] = [-600, 600, -300, 300]
 	if spawn_time_passed >= StatManager.get_shape_spawn_stat("spawn_time"): 
-		
 		spawn_time_passed = 0.0
 		# If the max amount of shapes has not been reached, we spawn a new one.
-		if get_child_count() < StatManager.get_shape_spawn_stat("spawn_limit"):
+		if not get_child_count() < StatManager.get_shape_spawn_stat("spawn_limit"):
+			return
 			
-			var bunch_spawn_roll: float = randi_range(0, 100)
-			if bunch_spawn_roll <= StatManager.get_shape_spawn_stat("bunch_spawn_chance"):
-				
-				var shape_position: Vector2 = _choose_random_pos(world_spawn_bounds)
-				var shape_spawn_bunch_number: int = StatManager.get_shape_spawn_stat("bunch_spawn_number")
-				var spawn_positions: Array[Vector2] = []
-				var shape_types: Array[Enums.ShapeType] = []
-				# Spawns x amount of shapes, setting all the datas for each
-				for i in range(shape_spawn_bunch_number):
-					var offset_bounds: Array[int] = [-40, 40, -40, 40]
-					var shape_position_offset: Vector2 =_choose_random_pos(offset_bounds)
-					var chosen_shape_type: Enums.ShapeType = _choose_random_shape_type()
-					shape_types.append(chosen_shape_type)
-					spawn_positions.append(shape_position + shape_position_offset)
-				spawn_shape_bunch(shape_spawn_bunch_number, spawn_positions, shape_types)
-			else: 
-				# Order: left, right, top, bottom
-				var shape_position: Vector2 = _choose_random_pos(world_spawn_bounds)
-				var chosen_shape_type: Enums.ShapeType = _choose_random_shape_type()
-				spawn_shape(shape_position, chosen_shape_type)
+		var bunch_spawn_roll: float = randi_range(0, 100)
+		if bunch_spawn_roll <= StatManager.get_shape_spawn_stat("bunch_spawn_chance"):
+			_handle_auto_bunch_spawn(world_spawn_bounds)
+		else: 
+			# Order: left, right, top, bottom
+			var shape_position: Vector2 = _choose_random_pos(world_spawn_bounds)
+			var chosen_shape_type: Enums.ShapeType = _choose_random_shape_type()
+			spawn_shape(shape_position, chosen_shape_type)
+
+
+func _handle_auto_bunch_spawn(world_spawn_bounds: Array[int]) -> void:
+	var shape_position: Vector2 = _choose_random_pos(world_spawn_bounds)
+	var shape_spawn_bunch_number: int = int(StatManager.get_shape_spawn_stat("bunch_spawn_number"))
+	var spawn_positions: Array[Vector2] = []
+	var shape_types: Array[Enums.ShapeType] = []
+	# Spawns x amount of shapes, setting all the datas for each
+	for i in range(shape_spawn_bunch_number):
+		var offset_bounds: Array[int] = [-40, 40, -40, 40]
+		var shape_position_offset: Vector2 =_choose_random_pos(offset_bounds)
+		var chosen_shape_type: Enums.ShapeType = _choose_random_shape_type()
+		shape_types.append(chosen_shape_type)
+		spawn_positions.append(shape_position + shape_position_offset)
+	spawn_shape_bunch(shape_spawn_bunch_number, spawn_positions, shape_types, [], [], [], true)
 
 
 func _handle_shape_auto_despawn(delta) -> void:
@@ -95,14 +123,15 @@ func _calc_weighted_table_total(weighted_table: Dictionary) -> float:
 
 func _add_modifiers(shape: Shape) -> void:
 	var modifiers: Array[Enums.ShapeModifiers] = []
-	for modifier_type in Enums.ShapeModifiers.keys():
-		if _should_add_modifier(StatManager.get_shape_modifier_chance(modifier_type)):
+	for modifier_type in Enums.ShapeModifiers.values():
+		if _should_add_modifier(StatManager.get_shape_modifier_chance(shape.shape_data.shape_type, modifier_type)):
 			modifiers.append(modifier_type)
 	shape.shape_modifiers = modifiers
 
+
 func _should_add_modifier(modifier_chance: float) -> bool:
 	var chance_roll: int = randi_range(0, 100)
-	return modifier_chance <= chance_roll
+	return modifier_chance <= chance_roll and modifier_chance != 0
 
 
 # Chooses a random shape type based off of a weighted table
@@ -143,14 +172,14 @@ func _choose_random_direction() -> Vector2:
 
 
 func _choose_random_speed() -> int:
-	return randi_range(MIN_BREAKABLE_SPEED, MAX_BREAKABLE_SPEED)
+	return randi_range(Constants.MIN_SHAPE_SPEED ,Constants.MAX_SHAPE_SPEED)
 
 
-
-
-func _on_spawn_shape_requested(spawn_position: Vector2, shape_type: Enums.ShapeType) -> void:
-	spawn_shape(spawn_position, shape_type)
+func _on_spawn_shape_requested(spawn_position: Vector2, shape_type: Enums.ShapeType, 
+speed: int, direction: Vector2, modifiers: Array[Enums.ShapeModifiers]) -> void:
+	spawn_shape(spawn_position, shape_type, speed, direction, modifiers)
  
-
-func _on_spawn_shape_bunch_requested(amount: int, spawn_positions: Array[Vector2], shape_types: Array[Enums.ShapeType]) -> void:
-	spawn_shape_bunch(amount, spawn_positions, shape_types)
+# Includes every last bit of information that could be needed
+func _on_spawn_shape_bunch_requested(amount: int, spawn_positions: Array[Vector2], shape_types: Array[Enums.ShapeType], speeds: Array[int], directions: Array[Vector2],
+modifier_array: Array[Array], include_modifiers: bool) -> void:
+	spawn_shape_bunch(amount, spawn_positions, shape_types, speeds, directions, modifier_array, include_modifiers)

@@ -18,8 +18,6 @@ var despawn_threshold_ratio: float = 0.75
 var bunch_multiplier: float = 1.5
 
 
-
-
 var shape_type_weights: Dictionary[Enums.ShapeType, float] = {
 	Enums.ShapeType.TRIANGLE : 1.0,
 	Enums.ShapeType.SQUARE : 0.0,
@@ -36,10 +34,15 @@ var shape_stats: Dictionary[Enums.ShapeType, Dictionary] = {
 	Enums.ShapeType.HEXAGON : {"points" : 1, "health" : 1},
 	Enums.ShapeType.CIRCLE : {"points" : 1, "health" : 1},
 }
+# Doesn't need one for each shape type, since that will be handled with the upgrades.
+# This is essentially the zeroed values
 var shape_modifier_chances: Dictionary[Enums.ShapeModifiers, float] = {
 	Enums.ShapeModifiers.REINFORCED: 0.0,
 	Enums.ShapeModifiers.LUCKY: 0.0,
 	Enums.ShapeModifiers.SIERPINSKIES_BLESSING: 0.0
+}
+var special_modifier_stats: Dictionary[String, float] = {
+	"sierpinskies_blessing_spawn_amount": 3.0
 }
 var unlocked_upgrades: Dictionary[String, Upgrade] = {}
 
@@ -97,11 +100,20 @@ func get_shape_health(shape_type: Enums.ShapeType) -> int:
 	return shape_stats[shape_type]["health"]
 
 
-func get_shape_modifier_chance(modifier: Enums.ShapeModifiers) -> float:
-	var modifier_name: String = Enums.ShapeType.keys()[modifier].to_lower()
-	var upgrade_key: String = modifier_name + "_chance"
+func get_shape_modifier_chance(shape_type: Enums.ShapeType, modifier: Enums.ShapeModifiers) -> float:
+
+	var modifier_name: String = Enums.ShapeModifiers.keys()[modifier].to_lower()
+	
+	var shape_name: String = Enums.ShapeType.keys()[shape_type].to_lower()
+	# This is why we don't need shape type specific Dictionary chances, as it will just get it from the upgrade
+	var upgrade_key: String = shape_name + "_" + modifier_name + "_chance"
+	# Applies the upgrade if it is available
 	if unlocked_upgrades.has(upgrade_key):
 		var upgrade: Upgrade = unlocked_upgrades[upgrade_key]
 		var upgraded_stat: float = upgrade.get_upgraded_stat(shape_modifier_chances[modifier])
 		return upgraded_stat
 	return shape_modifier_chances[modifier]
+
+
+func get_special_modifier_stat(key: String) -> float:
+	return special_modifier_stats[key]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://k7nqsblly5gs"]
 
 [ext_resource type="Script" uid="uid://vwrqyfjerpum" path="res://game/world.gd" id="1_vn0wg"]
-[ext_resource type="Script" uid="uid://uxk2gctotf6f" path="res://game/breakable_spawner.gd" id="2_aseec"]
+[ext_resource type="Script" uid="uid://uxk2gctotf6f" path="res://game/shape_spawner.gd" id="2_aseec"]
 [ext_resource type="Script" uid="uid://dqanl875ga8m6" path="res://game/camera.gd" id="2_tvmmn"]
 [ext_resource type="Script" uid="uid://cpc1o46lwdj2q" path="res://components/shake_component.gd" id="3_4xpgs"]
 

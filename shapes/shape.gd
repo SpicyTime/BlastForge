@@ -10,6 +10,7 @@ var base_speed: float = 0.0
 var prev_pos: Vector2 = Vector2.ZERO
 var shape_data: ShapeData = null
 var shape_modifiers: Array[Enums.ShapeModifiers] = []
+var modifier_multipliers_total: float = 1.0
 const OFFSCREEN_PADDING: int = 20
 const FRICTION: int = 11500
 @onready var shape_sprite: Sprite2D = $ShapeSprite
@@ -26,6 +27,8 @@ func _ready() -> void:
 	prev_pos = position
 	_set_up_colliders()
 	_set_up_health()
+	for modifier in shape_modifiers:
+		_apply_modifier(modifier)
 	shape_sprite.texture = shape_data.shape_texture
 	shadow_sprite.scale = Vector2.ZERO
 	shape_sprite.scale = Vector2.ZERO
@@ -70,6 +73,34 @@ func _is_offscreen(check_position: Vector2) -> bool:
 	return false
 
 
+func _apply_modifier(modifier_type: Enums.ShapeModifiers) -> void:
+	match modifier_type:
+		Enums.ShapeModifiers.REINFORCED:
+			#To Do: Add the sprite overlay
+			health.health *= 2
+			modifier_multipliers_total *= 3
+		Enums.ShapeModifiers.LUCKY:
+			#To Do: Add the sprite overlay
+			modifier_multipliers_total *= 5
+		Enums.ShapeModifiers.SIERPINSKIES_BLESSING:
+			# This modifier is triangle specific
+			if not shape_data.shape_type == Enums.ShapeType.TRIANGLE: return
+
+
+func _spawn_sub_triangles(triangle_position: Vector2) -> void:
+	var sub_triangle_positions: Array[Vector2] = [triangle_position + Vector2(0, -60), triangle_position + Vector2(-60, 60), triangle_position + Vector2(60, 60)]
+	var type_array: Array[Enums.ShapeType] = [Enums.ShapeType.TRIANGLE, Enums.ShapeType.TRIANGLE, Enums.ShapeType.TRIANGLE]
+	var sub_triangle_speed: int = int((Constants.MIN_SHAPE_SPEED + Constants.MAX_SHAPE_SPEED) / 2)
+	var speed_array: Array[int] = [sub_triangle_speed, sub_triangle_speed, sub_triangle_speed]
+	# Directions
+	var top_triangle_direction: Vector2 = Vector2(0, -1)
+	var left_triangle_direction: Vector2 = Vector2(-1, 0)
+	var right_triangle_direction: Vector2 = Vector2(1, 0)
+	var direction_array: Array[Vector2] = [top_triangle_direction, left_triangle_direction, right_triangle_direction]
+	var modifier_arrays_array: Array[Array] = []
+	SignalManager.spawn_shape_bunch_request.emit(3, sub_triangle_positions, type_array, speed_array, direction_array, modifier_arrays_array, false)
+
+
 func _set_up_colliders() -> void:
 	# Sets Colliders
 	var collision_shape: Shape2D = shape_data.shape_collider
@@ -111,7 +142,6 @@ func _on_explosion_detector_area_exited(area: Area2D) -> void:
 func _on_health_changed(health_node: Health, _diff: int) -> void:
 	if health_node == $Health:
 		var health_ratio: float = float(health_node.health) / float(health_node.max_health)
-		
 		if health_ratio <= 0.5:
 			shape_sprite.texture = preload("uid://cls1p7i0ixput")
 			var modulate_change: float = 0.9
@@ -123,4 +153,5 @@ func _on_health_changed(health_node: Health, _diff: int) -> void:
 
 func _on_health_depleted(health_node: Health) -> void:
 	if health_node in get_children():
+		_spawn_sub_triangles(position)
 		SignalManager.shape_broken.emit(self)
