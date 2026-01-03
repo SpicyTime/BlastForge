@@ -5,9 +5,9 @@ extends Resource
 @export var tier_modifiers: Array[float] = []
 @export var base_value: float = 0.0
 @export var base_price: int = 0
-@export var price_scale: float = 1.5
 @export var description: String = ""
 @export var modify_stat_name: String = ""
 @export var extra_character: String = ""
 @export var operation_type: Enums.OperationType = Enums.OperationType.ADDITIVE
 @export var icon: Texture2D = null
+var price_scale: float = 1.5

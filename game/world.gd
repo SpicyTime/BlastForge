@@ -4,24 +4,32 @@ var held_bomb: Bomb = null
 var total_points: int = 0
 var can_create_bomb: bool = true
 @onready var bomb_container: Node2D = $BombContainer
+@onready var place_delay_timer: Timer = $PlaceDelayTimer
 
 func _ready() -> void:
 	Console.add_command("set_points", _command_set_points, ["amount"], 1)
 	SignalManager.bomb_detonated.connect(_on_bomb_detonated)
 	SignalManager.upgrade_purchased.connect(_on_upgrade_purchased)
 
+func _process(_delta: float) -> void:
+	if not place_delay_timer.is_stopped():
+		SignalManager.place_delay_timer_changed.emit(snapped(place_delay_timer.time_left, 0.1))
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		var mouse_position: Vector2 = get_global_mouse_position()
 		# The bomb will be created when the bomb_action is pressed
-		if Input.is_action_just_pressed("bomb_place_action") and not held_bomb and can_create_bomb:
-			held_bomb = create_bomb(mouse_position)
-			can_create_bomb = false
+		if Input.is_action_just_pressed("bomb_place_action") and not held_bomb:
+			if can_create_bomb:
+				held_bomb = create_bomb(mouse_position)
+				can_create_bomb = false
+			else:
+				SignalManager.unsuccessful_bomb_place.emit()
 		# The bomb will be placed when the bomb_action is released
 		if Input.is_action_just_released("bomb_place_action") and held_bomb:
 			call_deferred("place_bomb") 
-			get_tree().create_timer(StatManager.get_bomb_stat("place_delay")).connect("timeout", func(): can_create_bomb = true)
+			place_delay_timer.start(StatManager.get_bomb_stat("place_delay"))
+			
 	elif event is InputEventMouseMotion:
 		if held_bomb:
 			held_bomb.position = get_global_mouse_position()
@@ -97,3 +105,8 @@ func _on_bomb_detonated(shapes_broken: Array[Node2D]) -> void:
 
 func _on_upgrade_purchased(upgrade: Upgrade) -> void:
 	_set_points(total_points - upgrade.get_previous_price())
+
+
+func _on_place_delay_timer_timeout() -> void:
+	place_delay_timer.stop()
+	can_create_bomb = true

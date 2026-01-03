@@ -81,7 +81,7 @@ func _apply_modifier(modifier_type: Enums.ShapeModifiers) -> void:
 			modifier_multipliers_total *= 3
 		Enums.ShapeModifiers.LUCKY:
 			#To Do: Add the sprite overlay
-			modifier_multipliers_total *= 5
+			modifier_multipliers_total *= StatManager.get_special_modifier_stat("lucky_triangle_multiplier")
 		Enums.ShapeModifiers.SIERPINSKIES_BLESSING:
 			# This modifier is triangle specific
 			if not shape_data.shape_type == Enums.ShapeType.TRIANGLE: return
@@ -90,7 +90,7 @@ func _apply_modifier(modifier_type: Enums.ShapeModifiers) -> void:
 func _spawn_sub_triangles(triangle_position: Vector2) -> void:
 	var sub_triangle_positions: Array[Vector2] = [triangle_position + Vector2(0, -60), triangle_position + Vector2(-60, 60), triangle_position + Vector2(60, 60)]
 	var type_array: Array[Enums.ShapeType] = [Enums.ShapeType.TRIANGLE, Enums.ShapeType.TRIANGLE, Enums.ShapeType.TRIANGLE]
-	var sub_triangle_speed: int = int((Constants.MIN_SHAPE_SPEED + Constants.MAX_SHAPE_SPEED) / 2)
+	const sub_triangle_speed: int = int((Constants.MIN_SHAPE_SPEED + Constants.MAX_SHAPE_SPEED) / 2)
 	var speed_array: Array[int] = [sub_triangle_speed, sub_triangle_speed, sub_triangle_speed]
 	# Directions
 	var top_triangle_direction: Vector2 = Vector2(0, -1)
@@ -153,5 +153,6 @@ func _on_health_changed(health_node: Health, _diff: int) -> void:
 
 func _on_health_depleted(health_node: Health) -> void:
 	if health_node in get_children():
-		_spawn_sub_triangles(position)
+		if shape_modifiers.has(Enums.ShapeModifiers.SIERPINSKIES_BLESSING):
+			_spawn_sub_triangles(position)
 		SignalManager.shape_broken.emit(self)

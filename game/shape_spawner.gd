@@ -124,14 +124,19 @@ func _calc_weighted_table_total(weighted_table: Dictionary) -> float:
 func _add_modifiers(shape: Shape) -> void:
 	var modifiers: Array[Enums.ShapeModifiers] = []
 	for modifier_type in Enums.ShapeModifiers.values():
-		if _should_add_modifier(StatManager.get_shape_modifier_chance(shape.shape_data.shape_type, modifier_type)):
+		var shape_name: String = Enums.ShapeType.keys()[shape.shape_data.shape_type].to_lower()
+		var modifier_name: String = Enums.ShapeModifiers.keys()[modifier_type].to_lower()
+		var modifier_chance_stat_name: String = modifier_name + "_" + shape_name + "_chance"
+		if _should_add_modifier(StatManager.get_special_modifier_stat(modifier_chance_stat_name)):
 			modifiers.append(modifier_type)
 	shape.shape_modifiers = modifiers
 
 
 func _should_add_modifier(modifier_chance: float) -> bool:
 	var chance_roll: int = randi_range(0, 100)
-	return modifier_chance <= chance_roll and modifier_chance != 0
+	if modifier_chance <= 0:
+		return false
+	return chance_roll <= modifier_chance 
 
 
 # Chooses a random shape type based off of a weighted table
@@ -144,7 +149,6 @@ func _choose_random_shape_type() -> Enums.ShapeType:
 		if weight_roll <= 0.0: return shape_type
 	# Fall back
 	return Enums.ShapeType.TRIANGLE
-
 
 
 func _choose_random_pos(spawn_position_bounds: Array[int]) -> Vector2:

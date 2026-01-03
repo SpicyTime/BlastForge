@@ -14,7 +14,7 @@ signal shape_broken(instance: Shape)
 
 # Ui
 signal points_changed(new_value: int)
-
+signal place_delay_timer_changed(value: float)
 
 # Spawn System
 signal spawn_shape_request(position: Vector2, shape_type: Enums.ShapeType, 
@@ -26,7 +26,7 @@ modifier_array: Array[Array], include_modifiers: bool
 
 # World
 signal spawn_bomb(bomb_position: Vector2)
-
+signal unsuccessful_bomb_place
 # Upgrades
 signal upgrade_purchased(upgrade: Upgrade)
 signal purchase_amount_changed(value: int)

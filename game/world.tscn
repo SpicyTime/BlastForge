@@ -59,3 +59,7 @@ collision_mask = 5
 
 [node name="RightCollider" type="CollisionShape2D" parent="WorldBounds/RightBounds"]
 shape = SubResource("RectangleShape2D_m4twg")
+
+[node name="PlaceDelayTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="PlaceDelayTimer" to="." method="_on_place_delay_timer_timeout"]

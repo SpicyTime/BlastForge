@@ -3,7 +3,7 @@ extends Node
 var bomb_stats: Dictionary[String, float] = {
 	"damage" : 1.0,
 	"explosion_radius": 77.0,
-	"place_delay": 1.5,
+	"place_delay": 4,
 }
 
 # Shape Spawning
@@ -28,21 +28,20 @@ var shape_type_weights: Dictionary[Enums.ShapeType, float] = {
 
 
 var shape_stats: Dictionary[Enums.ShapeType, Dictionary] = {
-	Enums.ShapeType.TRIANGLE : {"points" : 1, "health" : 2},
+	Enums.ShapeType.TRIANGLE : {"points" : 1, "health" : 1},
 	Enums.ShapeType.SQUARE : {"points" : 1, "health" : 1},
 	Enums.ShapeType.PENTAGON : {"points" : 1, "health" : 1},
 	Enums.ShapeType.HEXAGON : {"points" : 1, "health" : 1},
 	Enums.ShapeType.CIRCLE : {"points" : 1, "health" : 1},
 }
-# Doesn't need one for each shape type, since that will be handled with the upgrades.
-# This is essentially the zeroed values
-var shape_modifier_chances: Dictionary[Enums.ShapeModifiers, float] = {
-	Enums.ShapeModifiers.REINFORCED: 0.0,
-	Enums.ShapeModifiers.LUCKY: 0.0,
-	Enums.ShapeModifiers.SIERPINSKIES_BLESSING: 0.0
-}
+
 var special_modifier_stats: Dictionary[String, float] = {
-	"sierpinskies_blessing_spawn_amount": 3.0
+	"sierpinskies_blessing_triangle_chance": 0.0,
+	"fractalization_chance": 0.0,
+	"subtriangle_value" : 1.0,
+	"lucky_triangle_chance": 0.0,
+	"lucky_triangle_multiplier": 5.0,
+	"reinforced_triangle_chance": 0.0,
 }
 var unlocked_upgrades: Dictionary[String, Upgrade] = {}
 
@@ -98,21 +97,6 @@ func get_shape_value(shape_type: Enums.ShapeType) -> int:
 
 func get_shape_health(shape_type: Enums.ShapeType) -> int:
 	return shape_stats[shape_type]["health"]
-
-
-func get_shape_modifier_chance(shape_type: Enums.ShapeType, modifier: Enums.ShapeModifiers) -> float:
-
-	var modifier_name: String = Enums.ShapeModifiers.keys()[modifier].to_lower()
-	
-	var shape_name: String = Enums.ShapeType.keys()[shape_type].to_lower()
-	# This is why we don't need shape type specific Dictionary chances, as it will just get it from the upgrade
-	var upgrade_key: String = shape_name + "_" + modifier_name + "_chance"
-	# Applies the upgrade if it is available
-	if unlocked_upgrades.has(upgrade_key):
-		var upgrade: Upgrade = unlocked_upgrades[upgrade_key]
-		var upgraded_stat: float = upgrade.get_upgraded_stat(shape_modifier_chances[modifier])
-		return upgraded_stat
-	return shape_modifier_chances[modifier]
 
 
 func get_special_modifier_stat(key: String) -> float:
