@@ -8,6 +8,5 @@ extends Resource
 @export var description: String = ""
 @export var modify_stat_name: String = ""
 @export var extra_character: String = ""
-@export var operation_type: Enums.OperationType = Enums.OperationType.SET
 @export var icon: Texture2D = null
 var price_scale: float = 1.5

@@ -42,21 +42,10 @@ func get_name() -> String:
 	return data.name
 
 
-func get_upgraded_stat(base_value) -> float:
+func get_upgraded_stat() -> float:
 	var current_tier_index: int = current_purchased_tier - 1
-	match data.operation_type:
-		Enums.OperationType.ADDITIVE:
-			return base_value + data.tier_modifiers[current_tier_index]
-		Enums.OperationType.SUBTRACTIVE:
-			return base_value - data.tier_modifiers[current_tier_index]
-		Enums.OperationType.MULTIPLICATIVE:
-			return base_value * data.tier_modifiers[current_tier_index]
-		Enums.OperationType.DIVISITIVE: 
-			return base_value / data.tier_modifiers[current_tier_index]
-		Enums.OperationType.SET:
-			return data.tier_modifiers[current_tier_index]
-		_:
-			return base_value
+	return data.tier_modifiers[current_tier_index]
+	
 
 func _calculate_price(base_value: int, n: int, price_scale: float) -> int:
 	return int(base_value + (n - 1) * (base_value * price_scale))

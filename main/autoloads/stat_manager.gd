@@ -3,6 +3,7 @@ extends Node
 var bomb_stats: Dictionary[String, float] = {
 	"damage" : 1.0,
 	"explosion_radius": 77.0,
+	"explosion_radius_size_percent": 100.0,
 	"place_delay": 4,
 }
 
@@ -52,8 +53,11 @@ func get_bomb_stats() -> Dictionary[String, float]:
 func get_bomb_stat(key: String) -> float:
 	if unlocked_upgrades.has(key):
 		var upgrade: Upgrade = unlocked_upgrades[key]
-		var upgraded_stat: float = upgrade.get_upgraded_stat(bomb_stats[key])
+		var upgraded_stat: float = upgrade.get_upgraded_stat()
 		return upgraded_stat
+	if key == "explosion_radius":
+		print(get_bomb_stat("explosion_radius_size_percent") / 100.0)
+		return Constants.BASE_BOMB_RADIUS * (get_bomb_stat("explosion_radius_size_percent") / 100.0)
 	return bomb_stats[key]
 
 
@@ -64,7 +68,7 @@ func get_shape_spawn_stats() -> Dictionary[String, float]:
 func get_shape_spawn_stat(key: String) -> float:
 	if unlocked_upgrades.has(key):
 		var upgrade: Upgrade = unlocked_upgrades[key]
-		var upgraded_stat: float = upgrade.get_upgraded_stat(shape_spawn_stats[key])
+		var upgraded_stat: float = upgrade.get_upgraded_stat()
 		return upgraded_stat
 	return shape_spawn_stats[key]
 
@@ -90,7 +94,7 @@ func get_shape_value(shape_type: Enums.ShapeType) -> int:
 	var upgrade_key: String = shape_name + "_value"
 	if unlocked_upgrades.has(upgrade_key):
 		var upgrade: Upgrade = unlocked_upgrades[upgrade_key]
-		var upgraded_shape_value: float = upgrade.get_upgraded_stat(shape_stats[shape_type]["points"])
+		var upgraded_shape_value: float = upgrade.get_upgraded_stat()
 		return int(upgraded_shape_value) 
 	return shape_stats[shape_type]["points"] 
 
