@@ -26,6 +26,9 @@ func _ready() -> void:
 		)
 	place_delay_progress_bar.pivot_offset = place_delay_progress_bar.size * 0.5
 
+func _process(delta: float) -> void:
+	$MouseFollowerWrapper.position = get_global_mouse_position() 
+
 
 func _on_button_pressed() -> void:
 	UiManager.swap_menu("UpgradeHub")
@@ -64,11 +67,6 @@ func _on_unsuccessful_bomb_place() -> void:
 	place_delay_progress_bar.texture_progress = RING_FILL_WHITE
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
-		$MouseFollowerWrapper.position = get_global_mouse_position() 
-
-
 func _on_place_delay_timer_changed(value: float) -> void:
 	if value > 0.0:
 		if not place_delay_progress_bar.visible:
@@ -79,3 +77,15 @@ func _on_place_delay_timer_changed(value: float) -> void:
 	else:
 		place_delay_progress_bar.value = 100
 		place_delay_progress_bar.texture_progress = RING_FILL_WHITE
+
+
+func _on_button_mouse_entered() -> void:
+	place_delay_progress_bar.visible = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
+func _on_button_mouse_exited() -> void:
+	place_delay_progress_bar.visible = true
+	if UiManager.active_menu == null:
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	

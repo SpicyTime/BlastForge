@@ -5,6 +5,11 @@ func _ready() -> void:
 	SignalManager.points_changed.connect(_on_points_changed)
 
 
+func handle_entered() -> void:
+	print("Showing")
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
 func _on_points_changed(value: int) -> void:
 	points_label.text = "$ " + str(value)
 	var upgrade_containers = $UpgradeNodes.get_children()

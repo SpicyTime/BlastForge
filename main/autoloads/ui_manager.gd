@@ -40,11 +40,17 @@ func swap_menu(menu_key: String) -> void:
 	if menu_key == "None":
 		if active_menu:
 			active_menu.visible = false
+			active_menu = null
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		return
 	if not ui_menus.has(menu_key):
 		push_error("Menu %s does not exist")
 	var menu: Control = ui_menus[menu_key]
 	if active_menu:
 		active_menu.visible = false
+		
+	if menu.has_method("handle_entered"):
+		menu.handle_entered()
+	
 	active_menu = menu
 	active_menu.visible = true
