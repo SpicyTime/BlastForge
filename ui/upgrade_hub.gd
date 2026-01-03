@@ -1,9 +1,12 @@
 extends Control
+@onready var points_label: Label = $BackgroundPanel/PointsLabel
+
 func _ready() -> void:
 	SignalManager.points_changed.connect(_on_points_changed)
 
 
 func _on_points_changed(value: int) -> void:
+	points_label.text = "$ " + str(value)
 	var upgrade_containers = $UpgradeNodes.get_children()
 	var purchasable_node_count: int = 0
 	# Loops through all the containers to get the upgrade nodes

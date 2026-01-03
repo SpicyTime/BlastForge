@@ -29,6 +29,7 @@ func _ready() -> void:
 	_set_up_health()
 	for modifier in shape_modifiers:
 		_apply_modifier(modifier)
+		
 	shape_sprite.texture = shape_data.shape_texture
 	shadow_sprite.scale = Vector2.ZERO
 	shape_sprite.scale = Vector2.ZERO
@@ -155,4 +156,5 @@ func _on_health_depleted(health_node: Health) -> void:
 	if health_node in get_children():
 		if shape_modifiers.has(Enums.ShapeModifiers.SIERPINSKIES_BLESSING):
 			_spawn_sub_triangles(position)
+		
 		SignalManager.shape_broken.emit(self)

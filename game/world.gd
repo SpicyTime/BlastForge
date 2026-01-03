@@ -43,6 +43,7 @@ func create_bomb(spawn_position: Vector2) -> Bomb:
 	
 	# I get a bunch of errors if it is not deferred
 	bomb_container.call_deferred("add_child", bomb_instance)
+	SignalManager.bomb_created.emit()
 	return bomb_instance
 
  
@@ -84,7 +85,7 @@ func _handle_shape_broken(shape_instance: Shape, bonus_multiplier: float = 1.0) 
 	var shape_type: Enums.ShapeType = shape_instance.shape_data.shape_type
 	var shape_value: int = ceil(StatManager.get_shape_value(shape_type) * bonus_multiplier * shape_instance.modifier_multipliers_total)
 	_set_points(total_points + shape_value)
-	var text = "+" + str(shape_value)
+	var text = "+$" + str(shape_value)
 	spawn_floating_text(text ,shape_instance.position + Vector2(0, -10.0), Color.GREEN, 1.15)
 	shape_instance.queue_free()
 
