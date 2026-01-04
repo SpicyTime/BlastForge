@@ -15,6 +15,7 @@ var shape_type_lookup: Dictionary[Enums.ShapeType, String] = {
 func _ready() -> void:
 	SignalManager.spawn_shape_request.connect(_on_spawn_shape_requested)
 	SignalManager.spawn_shape_bunch_request.connect(_on_spawn_shape_bunch_requested)
+	SignalManager.spawn_sierpinski_triangles.connect(_spawn_sierpinski_subtriangles)
 
 
 func _process(delta: float) -> void:
@@ -22,7 +23,7 @@ func _process(delta: float) -> void:
 	#_handle_shape_auto_despawn(delta)
 
 
-func spawn_shape(spawn_position: Vector2, shape_type: Enums.ShapeType, speed: int = 0, direction: Vector2 = Vector2.ZERO, modifiers: Array[Enums.ShapeModifiers] = [], include_modifiers: bool = true) -> Shape:
+func spawn_shape(spawn_position: Vector2, shape_type: Enums.ShapeType, modifiers: Array[Enums.ShapeModifiers] = [], include_random_modifiers: bool = true) -> Shape:
 	# Initializes the actual shape object
 	var packed_shape_scene: PackedScene = load(Constants.SHAPE_SCENE_PATH)
 	var shape_instance: Shape = packed_shape_scene.instantiate()
@@ -35,16 +36,10 @@ func spawn_shape(spawn_position: Vector2, shape_type: Enums.ShapeType, speed: in
 	
 	# Sets all the shape variables
 	shape_instance.shape_data = shape_data
-	if speed == 0:
-		shape_instance.speed = _choose_random_speed()
-	else:
-		shape_instance.speed = speed
-	if direction == Vector2.ZERO:
-		shape_instance.move_direction = _choose_random_direction()
-	else:
-		shape_instance.move_direction = direction
+	shape_instance.speed = _choose_random_speed()
+	shape_instance.move_direction = _choose_random_direction()
 	shape_instance.base_speed = shape_instance.speed
-	if modifiers == [] and include_modifiers:
+	if modifiers == [] and include_random_modifiers:
 		_add_modifiers(shape_instance)
 	else:
 		shape_instance.shape_modifiers = modifiers
@@ -54,22 +49,37 @@ func spawn_shape(spawn_position: Vector2, shape_type: Enums.ShapeType, speed: in
 	return shape_instance
 
 
-func spawn_shape_bunch(amount: int, spawn_positions: Array[Vector2], shape_types: Array[Enums.ShapeType], speeds: Array[int], directions: Array[Vector2], modifiers: Array[Array], add_modifiers: bool ) -> void:
+func spawn_shape_bunch(amount: int, spawn_positions: Array[Vector2], shape_types: Array[Enums.ShapeType], modifiers: Array[Array], include_random_modifiers: bool = true) -> Array[Shape]:
+	var shapes: Array[Shape] = []
 	for i in range(amount):
-		var speed: int = 0
-		var direction: Vector2 = Vector2.ZERO
 		var shape_modifiers: Array[Enums.ShapeModifiers]= []
-
-		if i < speeds.size():
-			speed = speeds[i]
-
-		if i < directions.size():
-			direction = directions[i]
-
 		if i < modifiers.size():
 			for m in modifiers[i]:
 				shape_modifiers.append(m as Enums.ShapeModifiers)
-		spawn_shape(spawn_positions[i], shape_types[i], speed, direction, shape_modifiers, add_modifiers)
+		shapes.append(await spawn_shape(spawn_positions[i], shape_types[i], shape_modifiers, include_random_modifiers))
+	return shapes
+
+
+func _spawn_sierpinski_subtriangles(triangle_position: Vector2, modifier_arrays_array: Array[Array]) -> void:
+	var sub_triangle_positions: Array[Vector2] = [triangle_position + Vector2(0, -60), triangle_position + Vector2(-60, 60), triangle_position + Vector2(60, 60)]
+	var type_array: Array[Enums.ShapeType] = [Enums.ShapeType.TRIANGLE, Enums.ShapeType.TRIANGLE, Enums.ShapeType.TRIANGLE]
+		
+	var shapes: Array[Shape] = await spawn_shape_bunch(3, sub_triangle_positions, type_array, modifier_arrays_array, false)
+	# Speed
+	const sub_triangle_speed: int = int((Constants.MIN_SHAPE_SPEED + Constants.MAX_SHAPE_SPEED) / 2.0)
+	var speed_array: Array[int] = [sub_triangle_speed, sub_triangle_speed, sub_triangle_speed]
+		
+	# Directions
+	var top_triangle_direction: Vector2 = Vector2(0, -1)
+	var left_triangle_direction: Vector2 = Vector2(-1, 0)
+	var right_triangle_direction: Vector2 = Vector2(1, 0)
+	var direction_array: Array[Vector2] = [top_triangle_direction, left_triangle_direction, right_triangle_direction]
+	# Overrrides values
+	for i in range(shapes.size()):
+		shapes[i].speed = speed_array[i]
+		shapes[i].base_speed = speed_array[i]
+		shapes[i].move_direction = direction_array[i]
+		shapes[i].scale = Vector2(0.9, 0.9)
 
 
 func _handle_shape_auto_spawn(delta: float) -> void:
@@ -103,7 +113,7 @@ func _handle_auto_bunch_spawn(world_spawn_bounds: Array[int]) -> void:
 		var chosen_shape_type: Enums.ShapeType = _choose_random_shape_type()
 		shape_types.append(chosen_shape_type)
 		spawn_positions.append(shape_position + shape_position_offset)
-	spawn_shape_bunch(shape_spawn_bunch_number, spawn_positions, shape_types, [], [], [], true)
+	spawn_shape_bunch(shape_spawn_bunch_number, spawn_positions, shape_types, [])
 
 
 func _handle_shape_auto_despawn(delta) -> void:
@@ -179,11 +189,9 @@ func _choose_random_speed() -> int:
 	return randi_range(Constants.MIN_SHAPE_SPEED ,Constants.MAX_SHAPE_SPEED)
 
 
-func _on_spawn_shape_requested(spawn_position: Vector2, shape_type: Enums.ShapeType, 
-speed: int, direction: Vector2, modifiers: Array[Enums.ShapeModifiers]) -> void:
-	spawn_shape(spawn_position, shape_type, speed, direction, modifiers)
+func _on_spawn_shape_requested(spawn_position: Vector2, shape_type: Enums.ShapeType, modifiers: Array[Enums.ShapeModifiers]) -> void:
+	spawn_shape(spawn_position, shape_type, modifiers)
  
-# Includes every last bit of information that could be needed
-func _on_spawn_shape_bunch_requested(amount: int, spawn_positions: Array[Vector2], shape_types: Array[Enums.ShapeType], speeds: Array[int], directions: Array[Vector2],
-modifier_array: Array[Array], include_modifiers: bool) -> void:
-	spawn_shape_bunch(amount, spawn_positions, shape_types, speeds, directions, modifier_array, include_modifiers)
+
+func _on_spawn_shape_bunch_requested(amount: int, spawn_positions: Array[Vector2], shape_types: Array[Enums.ShapeType], modifier_array: Array[Array]) -> void:
+	spawn_shape_bunch(amount, spawn_positions, shape_types, modifier_array)

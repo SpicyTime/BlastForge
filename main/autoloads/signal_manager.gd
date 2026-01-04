@@ -9,7 +9,7 @@ signal damage_taken(value: int)
 signal bomb_detonated(shapes_broken: Array[Node2D])
 signal bomb_created
 
-# Breakable
+# Shapes
 signal shape_broken(instance: Shape)
 
 # Ui
@@ -17,12 +17,9 @@ signal points_changed(new_value: int)
 signal place_delay_timer_changed(value: float)
 
 # Spawn System
-signal spawn_shape_request(position: Vector2, shape_type: Enums.ShapeType, 
-speed: int, direction: Vector2, modifiers: Array[Enums.ShapeModifiers], include_modifiers: bool)
-signal spawn_shape_bunch_request(amount: int, 
-positions: Array[Vector2], shape_types: Array[Enums.ShapeType], speeds: Array[int], directions: Array[Vector2],
-modifier_array: Array[Array], include_modifiers: bool )
-
+signal spawn_shape_request(position: Vector2, shape_type: Enums.ShapeType, modifiers: Array[Enums.ShapeModifiers])
+signal spawn_shape_bunch_request(amount: int, positions: Array[Vector2], shape_types: Array[Enums.ShapeType], modifier_array: Array[Array])
+signal spawn_sierpinski_triangles(triangle_position: Vector2, modifier_arrays_array: Array[Array])
 # World
 signal spawn_bomb(bomb_position: Vector2)
 signal unsuccessful_bomb_place

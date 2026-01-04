@@ -14,13 +14,6 @@ func get_before_after() -> String:
 	var first_value: String = ""
 	var arrow: String = " -> "
 	var second_value: String = ""
-	# Modifies it to show the final value
-	if data.operation_type == Enums.OperationType.ADDITIVE:
-		second_value = str(data.tier_modifiers[current_unpurchased_tier - 1] + data.base_value)
-	elif data.operation_type == Enums.OperationType.SUBTRACTIVE:
-		second_value = str(data.tier_modifiers[current_unpurchased_tier - 1] - data.base_value)
-	else:
-		second_value = str(data.tier_modifiers[current_unpurchased_tier - 1])
 	
 	if current_purchased_tier == 0:
 		first_value = str(data.base_value)

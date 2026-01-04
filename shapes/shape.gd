@@ -1,6 +1,5 @@
 class_name Shape
 extends CharacterBody2D
-
 var base_modulate: Color = modulate
 var explosion_detected_modulate: Color = Color(0.5, 0.5, 0.5)
 var is_scaled: bool = false
@@ -11,6 +10,7 @@ var prev_pos: Vector2 = Vector2.ZERO
 var shape_data: ShapeData = null
 var shape_modifiers: Array[Enums.ShapeModifiers] = []
 var modifier_multipliers_total: float = 1.0
+var modifier_value_adders_total: float = 0.0
 const OFFSCREEN_PADDING: int = 20
 const FRICTION: int = 11500
 @onready var shape_sprite: Sprite2D = $ShapeSprite
@@ -86,20 +86,12 @@ func _apply_modifier(modifier_type: Enums.ShapeModifiers) -> void:
 		Enums.ShapeModifiers.SIERPINSKIES_BLESSING:
 			# This modifier is triangle specific
 			if not shape_data.shape_type == Enums.ShapeType.TRIANGLE: return
+			
+			
+			modifier_value_adders_total += StatManager.get_special_modifier_stat("subtriangle_value")
 
 
-func _spawn_sub_triangles(triangle_position: Vector2) -> void:
-	var sub_triangle_positions: Array[Vector2] = [triangle_position + Vector2(0, -60), triangle_position + Vector2(-60, 60), triangle_position + Vector2(60, 60)]
-	var type_array: Array[Enums.ShapeType] = [Enums.ShapeType.TRIANGLE, Enums.ShapeType.TRIANGLE, Enums.ShapeType.TRIANGLE]
-	const sub_triangle_speed: int = int((Constants.MIN_SHAPE_SPEED + Constants.MAX_SHAPE_SPEED) / 2)
-	var speed_array: Array[int] = [sub_triangle_speed, sub_triangle_speed, sub_triangle_speed]
-	# Directions
-	var top_triangle_direction: Vector2 = Vector2(0, -1)
-	var left_triangle_direction: Vector2 = Vector2(-1, 0)
-	var right_triangle_direction: Vector2 = Vector2(1, 0)
-	var direction_array: Array[Vector2] = [top_triangle_direction, left_triangle_direction, right_triangle_direction]
-	var modifier_arrays_array: Array[Array] = []
-	SignalManager.spawn_shape_bunch_request.emit(3, sub_triangle_positions, type_array, speed_array, direction_array, modifier_arrays_array, false)
+
 
 
 func _set_up_colliders() -> void:
@@ -155,6 +147,10 @@ func _on_health_changed(health_node: Health, _diff: int) -> void:
 func _on_health_depleted(health_node: Health) -> void:
 	if health_node in get_children():
 		if shape_modifiers.has(Enums.ShapeModifiers.SIERPINSKIES_BLESSING):
-			_spawn_sub_triangles(position)
-		
+			var modifier_arrays_array: Array[Array] = [[], [], []]
+			for i in range(3):
+				var chance_roll: int = randi_range(0, 100)
+				if chance_roll <= StatManager.get_special_modifier_stat("fractalization_chance"):
+					modifier_arrays_array[i] = [Enums.ShapeModifiers.SIERPINSKIES_BLESSING]
+			SignalManager.spawn_sierpinski_triangles.emit(position, modifier_arrays_array)
 		SignalManager.shape_broken.emit(self)
