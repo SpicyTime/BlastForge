@@ -10,7 +10,8 @@ enum ShapeType{
 enum ShapeModifiers{
 	REINFORCED,
 	LUCKY,
-	SIERPINSKIES_BLESSING
+	SIERPINSKIES
+	
 }
 
 enum OperationType{

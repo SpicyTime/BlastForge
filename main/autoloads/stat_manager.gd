@@ -37,8 +37,8 @@ var shape_stats: Dictionary[Enums.ShapeType, Dictionary] = {
 }
 
 var special_modifier_stats: Dictionary[String, float] = {
-	"sierpinskies_blessing_triangle_chance": 100.0,
-	"fractalization_chance": 100.0,
+	"sierpinskies_triangle_chance": 0.0,
+	"fractalization_chance": 0.0,
 	"subtriangle_value" : 1.0,
 	"lucky_triangle_chance": 0.0,
 	"lucky_triangle_multiplier": 5.0,

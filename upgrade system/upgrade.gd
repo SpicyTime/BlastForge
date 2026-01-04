@@ -19,6 +19,7 @@ func get_before_after() -> String:
 		first_value = str(data.base_value)
 	else:
 		first_value = str(data.tier_modifiers[current_purchased_tier - 1])
+	second_value = str(data.tier_modifiers[current_unpurchased_tier - 1])
 	return first_value + data.extra_character + arrow + second_value + data.extra_character
 
 

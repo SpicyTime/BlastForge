@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="80"
-   height="80"
-   viewBox="0 0 21.166667 21.166667"
+   width="75"
+   height="75"
+   viewBox="0 0 19.84375 19.84375"
    version="1.1"
    id="svg1"
    sodipodi:docname="spawn_limit_icon.svg"
@@ -24,8 +24,8 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      inkscape:zoom="4.9845672"
-     inkscape:cx="25.87988"
-     inkscape:cy="33.102172"
+     inkscape:cx="44.437158"
+     inkscape:cy="43.534371"
      inkscape:window-width="1366"
      inkscape:window-height="731"
      inkscape:window-x="0"
@@ -38,7 +38,7 @@
      id="layer1" />
   <g
      id="g5"
-     transform="matrix(0.91666666,0,0,0.91666666,2.6458334,3.9687499)">
+     transform="matrix(0.91666666,0,0,0.91666666,2.6458334,2.6458334)">
     <path
        id="rect1"
        style="fill:#000000;stroke-width:0.264583"

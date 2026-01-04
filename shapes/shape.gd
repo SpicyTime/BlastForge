@@ -83,7 +83,7 @@ func _apply_modifier(modifier_type: Enums.ShapeModifiers) -> void:
 		Enums.ShapeModifiers.LUCKY:
 			#To Do: Add the sprite overlay
 			modifier_multipliers_total *= StatManager.get_special_modifier_stat("lucky_triangle_multiplier")
-		Enums.ShapeModifiers.SIERPINSKIES_BLESSING:
+		Enums.ShapeModifiers.SIERPINSKIES:
 			# This modifier is triangle specific
 			if not shape_data.shape_type == Enums.ShapeType.TRIANGLE: return
 			
@@ -146,11 +146,11 @@ func _on_health_changed(health_node: Health, _diff: int) -> void:
 
 func _on_health_depleted(health_node: Health) -> void:
 	if health_node in get_children():
-		if shape_modifiers.has(Enums.ShapeModifiers.SIERPINSKIES_BLESSING):
+		if shape_modifiers.has(Enums.ShapeModifiers.SIERPINSKIES):
 			var modifier_arrays_array: Array[Array] = [[], [], []]
 			for i in range(3):
 				var chance_roll: int = randi_range(0, 100)
 				if chance_roll <= StatManager.get_special_modifier_stat("fractalization_chance"):
-					modifier_arrays_array[i] = [Enums.ShapeModifiers.SIERPINSKIES_BLESSING]
+					modifier_arrays_array[i] = [Enums.ShapeModifiers.SIERPINSKIES]
 			SignalManager.spawn_sierpinski_triangles.emit(position, modifier_arrays_array)
 		SignalManager.shape_broken.emit(self)
