@@ -4,7 +4,7 @@
 [ext_resource type="FontFile" uid="uid://rkq0pwi80up6" path="res://leaguespartan-bold.ttf" id="2_276te"]
 [ext_resource type="Texture2D" uid="uid://cia4pi0df1vql" path="res://ui/plus_sign.svg" id="3_7ihmi"]
 [ext_resource type="Script" uid="uid://cpc1o46lwdj2q" path="res://components/shake_component.gd" id="3_546lt"]
-[ext_resource type="Texture2D" uid="uid://c2nau2t4kid3p" path="res://ui/ring_fill_white.svg" id="5_en2x2"]
+[ext_resource type="Texture2D" uid="uid://c2nau2t4kid3p" path="res://ui/assets/radial_progress_bar_textures/ring_fill_white.svg" id="5_en2x2"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -47,9 +47,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -4.0
-offset_top = -8.0
-offset_right = 4.0
+offset_left = -123.0
+offset_top = -50.0
+offset_right = 123.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_fonts/font = ExtResource("2_276te")
@@ -79,16 +79,17 @@ anchors_preset = 0
 mouse_filter = 2
 
 [node name="PlaceDelayProgressBar" type="TextureProgressBar" parent="MouseFollowerWrapper"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -34.0
-offset_top = -34.0
-offset_right = 34.0
-offset_bottom = 34.0
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2

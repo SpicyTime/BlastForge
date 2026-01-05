@@ -3,11 +3,23 @@ extends Control
 
 func _ready() -> void:
 	SignalManager.points_changed.connect(_on_points_changed)
+	$BackgroundPanel/BackToGameButton.mouse_entered.connect(_on_mouse_entered)
+	$BackgroundPanel/BackToGameButton.mouse_exited.connect(_on_mouse_exited)
+	var upgrade_containers = $UpgradeNodes.get_children()
+	$BackgroundPanel/BackToGameButton.grab_focus()
+	# Loops through all the containers to get the upgrade nodes
+	for container in upgrade_containers:
+		for child in container.get_children():
+			if child is not UpgradeNode:
+				continue
+			var upgrade_node: UpgradeNode = child as UpgradeNode
+			upgrade_node.purchase_button.mouse_entered.connect(_on_mouse_entered)
+			upgrade_node.purchase_button.mouse_exited.connect(_on_mouse_exited)
 
 
 func handle_entered() -> void:
-	print("Showing")
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	Input.set_custom_mouse_cursor(Constants.NORMAL_CURSOR_ICON, Input.CURSOR_ARROW)
 
 
 func _on_points_changed(value: int) -> void:
@@ -36,3 +48,12 @@ func _on_points_changed(value: int) -> void:
 func _on_back_to_game_button_pressed() -> void:
 	UiManager.swap_menu("None")
 	UiManager.show_overlay("Hud")
+	Input.set_custom_mouse_cursor(Constants.OPEN_HAND_CURSOR_ICON, Input.CURSOR_ARROW, Constants.OPEN_HAND_CURSOR_ICON.get_size() / 2)
+
+
+func _on_mouse_entered() -> void:
+	Input.set_custom_mouse_cursor(Constants.POINTER_HAND_CURSOR_ICON, Input.CURSOR_ARROW)#, Constants.POINTER_HAND_CURSOR_ICON.get_size() / 2)
+
+
+func _on_mouse_exited() -> void:
+	Input.set_custom_mouse_cursor(Constants.NORMAL_CURSOR_ICON, Input.CURSOR_ARROW)

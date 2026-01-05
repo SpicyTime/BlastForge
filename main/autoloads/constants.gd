@@ -17,3 +17,7 @@ const MIN_SHAPE_SPEED: int = 2400
 const MAX_SHAPE_SPEED: int = 3000
 const BASE_BOMB_RADIUS: int = 77
 const SPRITE_SCALE: float = 0.5
+const DRAG_HAND_CURSOR_ICON: Texture2D = preload("res://ui/assets/cursors/grab_cursor_icon.svg")
+const POINTER_HAND_CURSOR_ICON: Texture2D = preload("res://ui/assets/cursors/point_hand_cursor.svg")
+const OPEN_HAND_CURSOR_ICON: Texture2D = preload("res://ui/assets/cursors/open_hand_cursor.svg")
+const NORMAL_CURSOR_ICON: Texture2D = preload("res://ui/assets/cursors/cursor.svg")

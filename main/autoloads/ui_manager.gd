@@ -21,6 +21,8 @@ func show_overlay(overlay_key: String) -> void:
 	if not ui_overlays.has(overlay_key):
 		push_error("Failed to show overlay. Overlay %s does not exist" % overlay_key)
 	var overlay: Control = ui_overlays[overlay_key]
+	if overlay.has_method("handle_shown"):
+		overlay.handle_shown()
 	overlay.visible = true
 	active_overlays.push_back(overlay)
 	active_overlay_names.push_back(overlay.name)
@@ -41,7 +43,6 @@ func swap_menu(menu_key: String) -> void:
 		if active_menu:
 			active_menu.visible = false
 			active_menu = null
-		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		return
 	if not ui_menus.has(menu_key):
 		push_error("Menu %s does not exist")

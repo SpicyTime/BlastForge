@@ -29,7 +29,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if Input.is_action_just_released("bomb_place_action") and held_bomb:
 			call_deferred("place_bomb") 
 			place_delay_timer.start(StatManager.get_bomb_stat("place_delay"))
-			
+			SignalManager.bomb_placed.emit()
 	elif event is InputEventMouseMotion:
 		if held_bomb:
 			held_bomb.position = get_global_mouse_position()

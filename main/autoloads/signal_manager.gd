@@ -8,7 +8,7 @@ signal damage_taken(value: int)
 # bombs
 signal bomb_detonated(shapes_broken: Array[Node2D])
 signal bomb_created
-
+signal bomb_placed
 # Shapes
 signal shape_broken(instance: Shape)
 
