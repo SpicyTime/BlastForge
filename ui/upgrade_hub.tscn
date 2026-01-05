@@ -43,6 +43,7 @@ grow_vertical = 2
 theme = SubResource("Theme_os6ug")
 
 [node name="TitleLabel" type="Label" parent="BackgroundPanel"]
+z_index = 2
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -56,6 +57,7 @@ theme_override_font_sizes/font_size = 56
 text = "Upgrades"
 
 [node name="PointsLabel" type="Label" parent="BackgroundPanel"]
+z_index = 2
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.44140625
@@ -69,7 +71,6 @@ grow_horizontal = 2
 theme_override_fonts/font = ExtResource("1_fd50i")
 theme_override_font_sizes/font_size = 40
 text = "$0"
-metadata/_edit_use_anchors_ = true
 
 [node name="BackToGameButton" type="Button" parent="BackgroundPanel"]
 layout_mode = 1
@@ -97,7 +98,7 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="ExplosiveUpgrades" type="HBoxContainer" parent="UpgradeNodes"]
+[node name="NonShapeUpgrades" type="FlowContainer" parent="UpgradeNodes"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -105,96 +106,94 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -150.0
-offset_right = 150.0
+offset_top = -76.0
+offset_right = 250.0
+offset_bottom = 224.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 150
-alignment = 1
+theme_override_constants/h_separation = 150
+theme_override_constants/v_separation = 150
+last_wrap_alignment = 2
 
-[node name="ExplosiveDamageUpgrade" parent="UpgradeNodes/ExplosiveUpgrades" instance=ExtResource("2_t07eb")]
+[node name="ExplosiveDamageUpgrade" parent="UpgradeNodes/NonShapeUpgrades" instance=ExtResource("2_t07eb")]
 layout_mode = 2
 data = ExtResource("5_ybw8w")
 
-[node name="ExplosiveRadiusUpgrade" parent="UpgradeNodes/ExplosiveUpgrades" instance=ExtResource("2_t07eb")]
+[node name="ExplosiveRadiusUpgrade" parent="UpgradeNodes/NonShapeUpgrades" instance=ExtResource("2_t07eb")]
 layout_mode = 2
 data = ExtResource("3_ybw8w")
 
-[node name="ExplosivePlaceDelayUpgrade" parent="UpgradeNodes/ExplosiveUpgrades" instance=ExtResource("2_t07eb")]
+[node name="ExplosivePlaceDelayUpgrade" parent="UpgradeNodes/NonShapeUpgrades" instance=ExtResource("2_t07eb")]
 layout_mode = 2
 data = ExtResource("6_gaygq")
 
-[node name="SpawningUpgrades" type="HBoxContainer" parent="UpgradeNodes"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = 144.0
-offset_right = 150.0
-offset_bottom = 144.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 150
-alignment = 1
-
-[node name="SpawnTimeUpgrade" parent="UpgradeNodes/SpawningUpgrades" instance=ExtResource("2_t07eb")]
+[node name="SpawnTimeUpgrade" parent="UpgradeNodes/NonShapeUpgrades" instance=ExtResource("2_t07eb")]
 layout_mode = 2
 data = ExtResource("7_h8fa1")
 
-[node name="SpawnLimitUpgrade" parent="UpgradeNodes/SpawningUpgrades" instance=ExtResource("2_t07eb")]
+[node name="SpawnLimitUpgrade" parent="UpgradeNodes/NonShapeUpgrades" instance=ExtResource("2_t07eb")]
 layout_mode = 2
 data = ExtResource("8_a7fhf")
 
-[node name="BunchChanceUpgrade" parent="UpgradeNodes/SpawningUpgrades" instance=ExtResource("2_t07eb")]
+[node name="BunchSpawnChance" parent="UpgradeNodes/NonShapeUpgrades" instance=ExtResource("2_t07eb")]
 layout_mode = 2
 data = ExtResource("9_d6sdc")
 
-[node name="BunchNumberUpgrade" parent="UpgradeNodes/SpawningUpgrades" instance=ExtResource("2_t07eb")]
+[node name="BunchNumberUpgrade" parent="UpgradeNodes/NonShapeUpgrades" instance=ExtResource("2_t07eb")]
 layout_mode = 2
 data = ExtResource("10_a7fhf")
 
-[node name="Triangle Upgrades" type="HBoxContainer" parent="UpgradeNodes"]
+[node name="TriangleUpgrades" type="Control" parent="UpgradeNodes"]
 layout_mode = 1
 anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -450.0
-offset_top = 294.0
-offset_right = 450.0
-offset_bottom = 294.0
+offset_left = -1188.0
+offset_top = 252.0
+offset_right = -1188.0
+offset_bottom = 252.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 150
 
-[node name="TriangleValueUpgrade" parent="UpgradeNodes/Triangle Upgrades" instance=ExtResource("2_t07eb")]
-layout_mode = 2
+[node name="TriangleValueUpgrade" parent="UpgradeNodes/TriangleUpgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 0
 data = ExtResource("11_kqqwt")
 
-[node name="LuckyChanceUpgrade" parent="UpgradeNodes/Triangle Upgrades" instance=ExtResource("2_t07eb")]
-layout_mode = 2
+[node name="LuckyChanceUpgrade" parent="UpgradeNodes/TriangleUpgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 0
+offset_left = 150.0
+offset_right = 150.0
 data = ExtResource("13_xxrst")
 
-[node name="LuckyMultiplierUpgrade" parent="UpgradeNodes/Triangle Upgrades" instance=ExtResource("2_t07eb")]
-layout_mode = 2
+[node name="LuckyMultiplierUpgrade" parent="UpgradeNodes/TriangleUpgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 0
+offset_left = 300.0
+offset_right = 300.0
 data = ExtResource("15_comr0")
 
-[node name="ReinforcedChanceUpgrade" parent="UpgradeNodes/Triangle Upgrades" instance=ExtResource("2_t07eb")]
-layout_mode = 2
+[node name="ReinforcedChanceUpgrade" parent="UpgradeNodes/TriangleUpgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 0
+offset_left = 450.0
+offset_right = 450.0
 data = ExtResource("12_0vmu3")
 
-[node name="SierpinskiesTriangleChanceUpgrade" parent="UpgradeNodes/Triangle Upgrades" instance=ExtResource("2_t07eb")]
-layout_mode = 2
+[node name="SierpinskiesTriangleChanceUpgrade" parent="UpgradeNodes/TriangleUpgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 0
+offset_left = 600.0
+offset_right = 600.0
 data = ExtResource("14_14r0x")
 
-[node name="SubTriangleValueUpgrade" parent="UpgradeNodes/Triangle Upgrades" instance=ExtResource("2_t07eb")]
-layout_mode = 2
+[node name="SubTriangleValueUpgrade" parent="UpgradeNodes/TriangleUpgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 0
+offset_left = 750.0
+offset_right = 750.0
 data = ExtResource("16_c0vch")
 
-[node name="FractalizationChanceUpgrade" parent="UpgradeNodes/Triangle Upgrades" instance=ExtResource("2_t07eb")]
-layout_mode = 2
+[node name="FractalizationChanceUpgrade" parent="UpgradeNodes/TriangleUpgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 0
+offset_left = 900.0
+offset_right = 900.0
 data = ExtResource("17_cppn7")
 
 [connection signal="pressed" from="BackgroundPanel/BackToGameButton" to="." method="_on_back_to_game_button_pressed"]
