@@ -17,7 +17,6 @@ position = Vector2(0, 4.5)
 texture = ExtResource("2_e6dkk")
 
 [node name="ShapeSprite" type="Sprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_4fy8l")
 
 [node name="Hurtbox" parent="." node_paths=PackedStringArray("health_node") instance=ExtResource("3_e6dkk")]

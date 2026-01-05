@@ -17,6 +17,7 @@ const RED_CIRCLE_TEXTURE = preload("uid://dkiuwqe4ix6im")
 
 func _ready() -> void:
 	var radius: float = StatManager.get_bomb_stat("explosion_radius")
+	bomb_sprite.scale = Vector2(Constants.SPRITE_SCALE, Constants.SPRITE_SCALE)
 	_set_radii(radius)
 
 
