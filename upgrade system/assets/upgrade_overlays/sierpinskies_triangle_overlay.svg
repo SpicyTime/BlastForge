@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="68"
+   height="68.000008"
+   viewBox="0 0 17.991667 17.991669"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="sierpinskies_triangle_overlay.svg"
+   inkscape:version="1.4.2 (ebf0e94, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="3.1765316"
+     inkscape:cx="-5.8239621"
+     inkscape:cy="61.702518"
+     inkscape:window-width="1366"
+     inkscape:window-height="731"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg5" />
+  <defs
+     id="defs2" />
+  <g
+     id="layer1"
+     transform="translate(-0.51084187,-0.16878104)">
+    <g
+       id="g1"
+       transform="matrix(-0.36188564,0,0,-0.36188564,14.213604,18.161356)"
+       style="fill:#008080">
+      <path
+         style="display:inline;fill:#008080;fill-opacity:1;stroke-width:0.264583"
+         id="path1"
+         d="M 21.766159,132.13785 10.668498,84.786364 -0.42916352,37.434876 46.127261,51.499764 92.683684,65.564652 57.22492,98.851254 Z"
+         transform="matrix(0.18687634,0.20293526,-0.17645527,0.21642177,19.755515,-8.0121254)" />
+    </g>
+  </g>
+</svg>

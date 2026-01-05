@@ -37,12 +37,12 @@ var shape_stats: Dictionary[Enums.ShapeType, Dictionary] = {
 }
 
 var special_modifier_stats: Dictionary[String, float] = {
-	"sierpinskies_triangle_chance": 0.0,
+	"sierpinskies_triangle_chance": 100.0,
 	"fractalization_chance": 0.0,
 	"subtriangle_value" : 1.0,
 	"lucky_triangle_chance": 0.0,
 	"lucky_triangle_multiplier": 5.0,
-	"reinforced_triangle_chance": 0.0,
+	"reinforced_triangle_chance": 100.0,
 }
 var unlocked_upgrades: Dictionary[String, Upgrade] = {}
 
@@ -56,7 +56,6 @@ func get_bomb_stat(key: String) -> float:
 		var upgraded_stat: float = upgrade.get_upgraded_stat()
 		return upgraded_stat
 	if key == "explosion_radius":
-		print(get_bomb_stat("explosion_radius_size_percent") / 100.0)
 		return Constants.BASE_BOMB_RADIUS * (get_bomb_stat("explosion_radius_size_percent") / 100.0)
 	return bomb_stats[key]
 

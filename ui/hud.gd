@@ -83,11 +83,9 @@ func _on_place_delay_timer_changed(value: float) -> void:
 	if value > 0.0:
 		if not place_delay_progress_bar.visible and not progress_bar_cancel:
 			place_delay_progress_bar.visible = true
-			print("Hiding")
 			Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		if not place_delay_progress_bar.texture_progress == RING_FILL_YELLOW and not is_handling_unsuccessful_place and not progress_bar_cancel:
 			place_delay_progress_bar.texture_progress = RING_FILL_YELLOW
-			print("Hiding")
 			Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		place_delay_progress_bar.value = place_delay_progress_bar.max_value * (1 - value / StatManager.get_bomb_stat("place_delay"))
 	else:
@@ -122,7 +120,6 @@ func _on_button_mouse_exited() -> void:
 		place_delay_progress_bar.visible = true
 		
 		if UiManager.active_menu == null and visible:
-			print("Hiding")
 			Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	else:
 		if visible:

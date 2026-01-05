@@ -11,9 +11,11 @@ func _ready() -> void:
 	SignalManager.bomb_detonated.connect(_on_bomb_detonated)
 	SignalManager.upgrade_purchased.connect(_on_upgrade_purchased)
 
+
 func _process(_delta: float) -> void:
 	if not place_delay_timer.is_stopped():
 		SignalManager.place_delay_timer_changed.emit(snapped(place_delay_timer.time_left, 0.1))
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:

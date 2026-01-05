@@ -4,17 +4,19 @@ var base_modulate: Color = modulate
 var explosion_detected_modulate: Color = Color(0.5, 0.5, 0.5)
 var is_scaled: bool = false
 var move_direction: Vector2 = Vector2(1, 1)
+var prev_pos: Vector2 = Vector2.ZERO
+var shape_modifiers: Array[Enums.ShapeModifiers] = []
 var speed: float = 0.0
 var base_speed: float = 0.0
-var prev_pos: Vector2 = Vector2.ZERO
-var shape_data: ShapeData = null
-var shape_modifiers: Array[Enums.ShapeModifiers] = []
 var modifier_multipliers_total: float = 1.0
 var modifier_value_adders_total: float = 0.0
+var shape_data: ShapeData = null
 const OFFSCREEN_PADDING: int = 20
 const FRICTION: int = 11500
+const REINFORCED_PATH_BEGIN: String = "res://upgrade system/assets/upgrade_overlays/reinforced_"
 @onready var shape_sprite: Sprite2D = $ShapeSprite
 @onready var shadow_sprite: Sprite2D = $ShadowSprite
+@onready var modifier_overlay_sprites: Node2D = $ModifierOverlaySprites
 
 @onready var hurtbox_collider: CollisionShape2D = $Hurtbox/HurtboxCollider
 @onready var detector_collider: CollisionShape2D = $ExplosionDetector/DetectorCollider
@@ -33,11 +35,13 @@ func _ready() -> void:
 	shape_sprite.texture = shape_data.shape_texture
 	shadow_sprite.scale = Vector2.ZERO
 	shape_sprite.scale = Vector2.ZERO
+	modifier_overlay_sprites.scale = Vector2.ZERO
 	var scale_up_tween: Tween = get_tree().create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
 	var scale_up_time: float = 0.2
 	var final_scale: Vector2 = Vector2(1.0, 1.0) * Constants.SPRITE_SCALE
 	scale_up_tween.tween_property(shape_sprite, "scale", final_scale, scale_up_time)
 	scale_up_tween.parallel().tween_property(shadow_sprite, "scale", final_scale, scale_up_time)
+	scale_up_tween.parallel().tween_property(modifier_overlay_sprites, "scale", final_scale, scale_up_time)
 	# This will make it feel a little nicer
 	await get_tree().create_timer(scale_up_time / 2).timeout
 	hurtbox_collider.disabled = false
@@ -77,21 +81,31 @@ func _is_offscreen(check_position: Vector2) -> bool:
 func _apply_modifier(modifier_type: Enums.ShapeModifiers) -> void:
 	match modifier_type:
 		Enums.ShapeModifiers.REINFORCED:
-			#To Do: Add the sprite overlay
+			var reinforced_overlay_shape_path: String = REINFORCED_PATH_BEGIN + Enums.ShapeType.keys()[shape_data.shape_type].to_lower() + "_overlay.svg"
+			_add_modifier_overlay(load(reinforced_overlay_shape_path), "ReinforcedOverlay")
 			health.health *= 2
+			health.max_health *= 2
 			modifier_multipliers_total *= 3
 		Enums.ShapeModifiers.LUCKY:
-			#To Do: Add the sprite overlay
+			#To Do: Add the particles
 			modifier_multipliers_total *= StatManager.get_special_modifier_stat("lucky_triangle_multiplier")
 		Enums.ShapeModifiers.SIERPINSKIES:
 			# This modifier is triangle specific
 			if not shape_data.shape_type == Enums.ShapeType.TRIANGLE: return
-			
-			
+			# Adds the overlay sprite
+			_add_modifier_overlay(load("res://upgrade system/assets/upgrade_overlays/sierpinskies_triangle_overlay.svg"), "SierpinskiesOverlay")
 			modifier_value_adders_total += StatManager.get_special_modifier_stat("subtriangle_value")
 
 
-
+func _add_modifier_overlay(texture: Texture2D, overlay_sprite_name: String, z_order: int = 0) -> Sprite2D:
+	var overlay_sprite: Sprite2D = Sprite2D.new()
+	overlay_sprite.texture = texture
+	overlay_sprite.z_index = z_order
+	overlay_sprite.z_as_relative = true
+	overlay_sprite.name = overlay_sprite_name
+	modifier_overlay_sprites.add_child(overlay_sprite)
+	overlay_sprite.owner = modifier_overlay_sprites
+	return overlay_sprite
 
 
 func _set_up_colliders() -> void:
@@ -122,6 +136,14 @@ func _check_wall_rays() -> void:
 		move_direction.x = abs(move_direction.x)
 
 
+func _modulate_based_on_health(_health_ratio: float) -> void:
+	var modulate_change: float = 0.9
+	explosion_detected_modulate *= modulate_change
+	explosion_detected_modulate.a = 1.0
+	base_modulate *= modulate_change
+	base_modulate.a = 1.0
+
+
 func _on_explosion_detector_area_entered(area: Area2D) -> void:
 	if area.name == "ExplosionDetectionArea":
 		modulate = explosion_detected_modulate
@@ -135,13 +157,15 @@ func _on_explosion_detector_area_exited(area: Area2D) -> void:
 func _on_health_changed(health_node: Health, _diff: int) -> void:
 	if health_node == $Health:
 		var health_ratio: float = float(health_node.health) / float(health_node.max_health)
+		# Since Reinforced doubles the health we need to modify these checks to account for that
 		if health_ratio <= 0.5:
-			shape_sprite.texture = preload("uid://cls1p7i0ixput")
-			var modulate_change: float = 0.9
-			explosion_detected_modulate *= modulate_change
-			explosion_detected_modulate.a = 1.0
-			base_modulate *= modulate_change
-			base_modulate.a = 1.0
+			var reinforced_overlay: Sprite2D = modifier_overlay_sprites.find_child("ReinforcedOverlay")
+			if reinforced_overlay:
+				reinforced_overlay.queue_free()
+			if not Enums.ShapeModifiers.REINFORCED in shape_modifiers:
+				_modulate_based_on_health(health_ratio)
+		elif health_ratio <= 0.25 and Enums.ShapeModifiers.REINFORCED in shape_modifiers:
+			_modulate_based_on_health(health_ratio)
 
 
 func _on_health_depleted(health_node: Health) -> void:

@@ -8,9 +8,9 @@ enum ShapeType{
 }
 # The NONE
 enum ShapeModifiers{
-	REINFORCED,
 	LUCKY,
-	SIERPINSKIES
+	SIERPINSKIES,
+	REINFORCED,
 	
 }
 
