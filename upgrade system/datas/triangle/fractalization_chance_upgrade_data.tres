@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3 uid="uid://87nxhpxrfg6b"]
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=3 format=3 uid="uid://87nxhpxrfg6b"]
 
+[ext_resource type="Texture2D" uid="uid://c2s6yu6vh8uxd" path="res://upgrade system/assets/upgrade icons/triangle/fractalization_chance_icon.svg" id="1_cmh30"]
 [ext_resource type="Script" uid="uid://b3mtk4duhjde4" path="res://game/upgrade_data.gd" id="1_i7yvt"]
 
 [resource]
@@ -10,4 +11,5 @@ base_price = 80
 description = "Increases the chance for a Sierpinskie's triangle to contain more Sierpinskie's triangles "
 modify_stat_name = "fractalization_chance"
 extra_character = "%"
+icon = ExtResource("1_cmh30")
 metadata/_custom_type_script = "uid://b3mtk4duhjde4"

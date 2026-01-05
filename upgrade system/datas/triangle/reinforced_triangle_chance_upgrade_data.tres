@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3 uid="uid://dr0owyqhlfiso"]
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=3 format=3 uid="uid://dr0owyqhlfiso"]
 
+[ext_resource type="Texture2D" uid="uid://dhrfgwdob0py4" path="res://upgrade system/assets/upgrade icons/triangle/reinforced_triangle_chance_icon.svg" id="1_geadp"]
 [ext_resource type="Script" uid="uid://b3mtk4duhjde4" path="res://game/upgrade_data.gd" id="1_w443r"]
 
 [resource]
@@ -10,5 +11,5 @@ base_price = 50
 description = "Increases the chance for a reinforced triangle to spawn"
 modify_stat_name = "reinforced_triangle_chance"
 extra_character = "%"
-operation_type = 4
+icon = ExtResource("1_geadp")
 metadata/_custom_type_script = "uid://b3mtk4duhjde4"

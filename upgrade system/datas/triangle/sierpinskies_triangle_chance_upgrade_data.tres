@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3 uid="uid://b6ck0c6sbq4fh"]
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=3 format=3 uid="uid://b6ck0c6sbq4fh"]
 
+[ext_resource type="Texture2D" uid="uid://bkq3088g8xphe" path="res://upgrade system/assets/upgrade icons/triangle/sierpinskies_triangle_chance_icon.svg" id="1_jt2vo"]
 [ext_resource type="Script" uid="uid://b3mtk4duhjde4" path="res://game/upgrade_data.gd" id="1_n8o3j"]
 
 [resource]
@@ -10,4 +11,5 @@ base_price = 70
 description = "Increases the chance for a triangle to be a Sierpinskie's Triangle"
 modify_stat_name = "sierpinskies_triangle_chance"
 extra_character = "%"
+icon = ExtResource("1_jt2vo")
 metadata/_custom_type_script = "uid://b3mtk4duhjde4"

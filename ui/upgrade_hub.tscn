@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b0p1igqr57bjq"]
+[gd_scene load_steps=20 format=3 uid="uid://b0p1igqr57bjq"]
 
 [ext_resource type="FontFile" uid="uid://rkq0pwi80up6" path="res://leaguespartan-bold.ttf" id="1_fd50i"]
 [ext_resource type="Script" uid="uid://ovsogdkt5bwv" path="res://ui/upgrade_hub.gd" id="1_t07eb"]
@@ -10,6 +10,13 @@
 [ext_resource type="Resource" uid="uid://ba3vxeyrhsrvf" path="res://upgrade system/datas/spawning/spawn_limit_upgrade_data.tres" id="8_a7fhf"]
 [ext_resource type="Resource" uid="uid://dj1gg3ys2qwx6" path="res://upgrade system/datas/spawning/bunch_spawn_chance_upgrade_data.tres" id="9_d6sdc"]
 [ext_resource type="Resource" uid="uid://bx2qhdj5l0a5a" path="res://upgrade system/datas/spawning/bunch_spawn_number_upgrade_data.tres" id="10_a7fhf"]
+[ext_resource type="Resource" uid="uid://de56bx33q55qd" path="res://upgrade system/datas/triangle/triangle_value_upgrade_data.tres" id="11_kqqwt"]
+[ext_resource type="Resource" uid="uid://dr0owyqhlfiso" path="res://upgrade system/datas/triangle/reinforced_triangle_chance_upgrade_data.tres" id="12_0vmu3"]
+[ext_resource type="Resource" uid="uid://da4oqddqo13o3" path="res://upgrade system/datas/triangle/lucky_triangle_chance_upgrade_data.tres" id="13_xxrst"]
+[ext_resource type="Resource" uid="uid://b6ck0c6sbq4fh" path="res://upgrade system/datas/triangle/sierpinskies_triangle_chance_upgrade_data.tres" id="14_14r0x"]
+[ext_resource type="Resource" uid="uid://bhgcpjiomii1" path="res://upgrade system/datas/triangle/lucky_triangle_multiplier_upgrade_data.tres" id="15_comr0"]
+[ext_resource type="Resource" uid="uid://bo84g03r0gd2" path="res://upgrade system/datas/triangle/subtriangle_value_upgrade_data.tres" id="16_c0vch"]
+[ext_resource type="Resource" uid="uid://87nxhpxrfg6b" path="res://upgrade system/datas/triangle/fractalization_chance_upgrade_data.tres" id="17_cppn7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0fe3o"]
 bg_color = Color(0.14901961, 0.14901961, 0.14901961, 1)
@@ -147,5 +154,47 @@ data = ExtResource("9_d6sdc")
 [node name="BunchNumberUpgrade" parent="UpgradeNodes/SpawningUpgrades" instance=ExtResource("2_t07eb")]
 layout_mode = 2
 data = ExtResource("10_a7fhf")
+
+[node name="Triangle Upgrades" type="HBoxContainer" parent="UpgradeNodes"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -450.0
+offset_top = 294.0
+offset_right = 450.0
+offset_bottom = 294.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 150
+
+[node name="TriangleValueUpgrade" parent="UpgradeNodes/Triangle Upgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 2
+data = ExtResource("11_kqqwt")
+
+[node name="LuckyChanceUpgrade" parent="UpgradeNodes/Triangle Upgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 2
+data = ExtResource("13_xxrst")
+
+[node name="LuckyMultiplierUpgrade" parent="UpgradeNodes/Triangle Upgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 2
+data = ExtResource("15_comr0")
+
+[node name="ReinforcedChanceUpgrade" parent="UpgradeNodes/Triangle Upgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 2
+data = ExtResource("12_0vmu3")
+
+[node name="SierpinskiesTriangleChanceUpgrade" parent="UpgradeNodes/Triangle Upgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 2
+data = ExtResource("14_14r0x")
+
+[node name="SubTriangleValueUpgrade" parent="UpgradeNodes/Triangle Upgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 2
+data = ExtResource("16_c0vch")
+
+[node name="FractalizationChanceUpgrade" parent="UpgradeNodes/Triangle Upgrades" instance=ExtResource("2_t07eb")]
+layout_mode = 2
+data = ExtResource("17_cppn7")
 
 [connection signal="pressed" from="BackgroundPanel/BackToGameButton" to="." method="_on_back_to_game_button_pressed"]
