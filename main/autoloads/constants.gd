@@ -16,3 +16,4 @@ const UI_SHAKE_INTENSITY_CAP: float = 4.0
 const MIN_SHAPE_SPEED: int = 2400
 const MAX_SHAPE_SPEED: int = 3000
 const BASE_BOMB_RADIUS: int = 77
+const SPRITE_SCALE: float = 0.5

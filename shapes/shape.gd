@@ -35,7 +35,7 @@ func _ready() -> void:
 	shape_sprite.scale = Vector2.ZERO
 	var scale_up_tween: Tween = get_tree().create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
 	var scale_up_time: float = 0.2
-	var final_scale: Vector2 = Vector2(1.0, 1.0)
+	var final_scale: Vector2 = Vector2(1.0, 1.0) * Constants.SPRITE_SCALE
 	scale_up_tween.tween_property(shape_sprite, "scale", final_scale, scale_up_time)
 	scale_up_tween.parallel().tween_property(shadow_sprite, "scale", final_scale, scale_up_time)
 	# This will make it feel a little nicer

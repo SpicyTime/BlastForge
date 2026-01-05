@@ -61,3 +61,4 @@ environment/ssao/quality=0
 viewport/hdr_2d=true
 environment/glow/upscale_mode=0
 environment/defaults/default_clear_color=Color(0.14901961, 0.14901961, 0.14901961, 1)
+viewport/canvas_textures/default_texture_filter=1

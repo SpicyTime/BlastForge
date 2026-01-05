@@ -21,6 +21,7 @@ keep_detection_active = true
 [node name="BombSprite" type="Sprite2D" parent="."]
 z_index = 2
 position = Vector2(0, -4)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_f3gsr")
 
 [node name="ExplosionAreaSprite" type="Sprite2D" parent="."]

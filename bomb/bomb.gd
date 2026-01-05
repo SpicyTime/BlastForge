@@ -35,7 +35,7 @@ func handle_placed() -> void:
 		explosion_detection_area.monitoring = false
 		
 	explosion_area_sprite.texture = RED_CIRCLE_TEXTURE
-	_start_pulse(Vector2(0.9, 0.9), 0.47)
+	_start_pulse(Vector2(0.9, 0.9) * Constants.SPRITE_SCALE, 0.47)
 
 
 func _set_radii(explosion_radius: float) -> void:
@@ -49,7 +49,7 @@ func _on_detonation_timer_timeout() -> void:
 	# TO DO: Handle all explosion effects, particles, sounds, etc...
 	hitbox_collider.disabled = false
 	push_area_collider.disabled = false
-	var final_scale: Vector2 = Vector2(1.35, 1.35)
+	var final_scale: Vector2 = Vector2(1.35, 1.35) * Constants.SPRITE_SCALE
 	var scale_up_explosion_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
 	scale_up_explosion_tween.tween_property(bomb_sprite, "scale", final_scale, 0.11)
 	var alpha_explosion_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
@@ -91,11 +91,12 @@ func _on_pulse_tween_finished() -> void:
 	var max_alpha: float = 0.68 
 	if is_up_pulse:
 		is_up_pulse = false
-		pulse_scale = Vector2(0.95, 0.95)
+		pulse_scale = Vector2(0.95, 0.95) * Constants.SPRITE_SCALE
+		
 		pulse_alpha = min_alpha
 	else:
 		is_up_pulse = true
-		pulse_scale = Vector2(1.05, 1.05)
+		pulse_scale = Vector2(1.05, 1.05) * Constants.SPRITE_SCALE
 		pulse_alpha = max_alpha
 	_start_pulse(pulse_scale, pulse_alpha)
 
