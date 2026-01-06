@@ -43,15 +43,16 @@ func swap_menu(menu_key: String) -> void:
 		if active_menu:
 			active_menu.visible = false
 			active_menu = null
+			get_tree().paused = false
 		return
 	if not ui_menus.has(menu_key):
 		push_error("Menu %s does not exist")
 	var menu: Control = ui_menus[menu_key]
 	if active_menu:
 		active_menu.visible = false
-		
 	if menu.has_method("handle_entered"):
 		menu.handle_entered()
 	
+	get_tree().paused = true
 	active_menu = menu
 	active_menu.visible = true

@@ -1,11 +1,18 @@
 extends Control
+var is_dragging: bool = false
+const DRAG_SPEED: float = 1.1
+# Left, right, Bottom, Top
+const DRAG_BOUNDS: Array[float] = [-200, 700, -175, 100]
 @onready var points_label: Label = $BackgroundPanel/PointsLabel
+@onready var upgrade_nodes: Control = $DraggableNodes/UpgradeNodes
+@onready var draggable_nodes: Control = $DraggableNodes
 
 func _ready() -> void:
+	
 	SignalManager.points_changed.connect(_on_points_changed)
 	$BackgroundPanel/BackToGameButton.mouse_entered.connect(_on_mouse_entered)
 	$BackgroundPanel/BackToGameButton.mouse_exited.connect(_on_mouse_exited)
-	var upgrade_containers = $UpgradeNodes.get_children()
+	var upgrade_containers = upgrade_nodes.get_children()
 	$BackgroundPanel/BackToGameButton.grab_focus()
 	# Loops through all the containers to get the upgrade nodes
 	for container in upgrade_containers:
@@ -20,11 +27,12 @@ func _ready() -> void:
 func handle_entered() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	Input.set_custom_mouse_cursor(Constants.NORMAL_CURSOR_ICON, Input.CURSOR_ARROW)
+	draggable_nodes.position = Vector2.ZERO
 
 
 func _on_points_changed(value: int) -> void:
 	points_label.text = "$ " + str(value)
-	var upgrade_containers = $UpgradeNodes.get_children()
+	var upgrade_containers = upgrade_nodes.get_children()
 	var purchasable_node_count: int = 0
 	# Loops through all the containers to get the upgrade nodes
 	for container in upgrade_containers:
@@ -57,3 +65,20 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	Input.set_custom_mouse_cursor(Constants.NORMAL_CURSOR_ICON, Input.CURSOR_ARROW)
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if Input.is_action_pressed("bomb_place_action"):
+			is_dragging = true
+			Input.set_custom_mouse_cursor(Constants.DRAG_HAND_CURSOR_ICON, Input.CURSOR_ARROW)#, Constants.DRAG_HAND_CURSOR_ICON.get_size() / 2)
+		if Input.is_action_just_released("bomb_place_action"):
+			is_dragging = false
+			Input.set_custom_mouse_cursor(Constants.NORMAL_CURSOR_ICON, Input.CURSOR_ARROW)
+	if event is InputEventMouseMotion:
+		if is_dragging:
+			event = event as InputEventMouseMotion
+			draggable_nodes.position += event.relative * DRAG_SPEED
+			var actual_size: Vector2 = draggable_nodes.size
+			draggable_nodes.position.x = clamp(draggable_nodes.position.x, DRAG_BOUNDS[0], DRAG_BOUNDS[1])
+			draggable_nodes.position.y = clamp(draggable_nodes.position.y, DRAG_BOUNDS[2], DRAG_BOUNDS[3])
