@@ -19,6 +19,7 @@ func _ready() -> void:
 			if child is not UpgradeNode:
 				continue
 			var upgrade_node: UpgradeNode = child as UpgradeNode
+			
 			upgrade_node.purchase_button.mouse_exited.connect(_on_mouse_exited)
 
 
@@ -58,7 +59,8 @@ func _on_back_to_game_button_pressed() -> void:
 
 
 func _on_mouse_exited() -> void:
-	Input.set_custom_mouse_cursor(Constants.NORMAL_CURSOR_ICON, Input.CURSOR_ARROW)
+	if not is_dragging:
+		Input.set_custom_mouse_cursor(Constants.NORMAL_CURSOR_ICON, Input.CURSOR_ARROW)
 
 
 func _input(event: InputEvent) -> void:
@@ -71,8 +73,8 @@ func _input(event: InputEvent) -> void:
 			Input.set_custom_mouse_cursor(Constants.NORMAL_CURSOR_ICON, Input.CURSOR_ARROW)
 	if event is InputEventMouseMotion:
 		if is_dragging:
+			
 			event = event as InputEventMouseMotion
 			draggable_nodes.position += event.relative * DRAG_SPEED
-			var actual_size: Vector2 = draggable_nodes.size
 			draggable_nodes.position.x = clamp(draggable_nodes.position.x, DRAG_BOUNDS[0], DRAG_BOUNDS[1])
 			draggable_nodes.position.y = clamp(draggable_nodes.position.y, DRAG_BOUNDS[2], DRAG_BOUNDS[3])

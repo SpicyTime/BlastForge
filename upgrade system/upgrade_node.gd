@@ -30,6 +30,7 @@ func _ready() -> void:
 		purchase_button.icon = data.icon
 		update_theme()
 
+
 func is_at_max_tier() -> bool:
 	return upgrade.has_reached_max_tier()
 
