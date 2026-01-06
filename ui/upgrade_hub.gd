@@ -10,7 +10,6 @@ const DRAG_BOUNDS: Array[float] = [-200, 700, -175, 100]
 func _ready() -> void:
 	
 	SignalManager.points_changed.connect(_on_points_changed)
-	$BackgroundPanel/BackToGameButton.mouse_entered.connect(_on_mouse_entered)
 	$BackgroundPanel/BackToGameButton.mouse_exited.connect(_on_mouse_exited)
 	var upgrade_containers = upgrade_nodes.get_children()
 	$BackgroundPanel/BackToGameButton.grab_focus()
@@ -20,7 +19,6 @@ func _ready() -> void:
 			if child is not UpgradeNode:
 				continue
 			var upgrade_node: UpgradeNode = child as UpgradeNode
-			upgrade_node.purchase_button.mouse_entered.connect(_on_mouse_entered)
 			upgrade_node.purchase_button.mouse_exited.connect(_on_mouse_exited)
 
 
@@ -57,10 +55,6 @@ func _on_back_to_game_button_pressed() -> void:
 	UiManager.swap_menu("None")
 	UiManager.show_overlay("Hud")
 	Input.set_custom_mouse_cursor(Constants.OPEN_HAND_CURSOR_ICON, Input.CURSOR_ARROW, Constants.OPEN_HAND_CURSOR_ICON.get_size() / 2)
-
-
-func _on_mouse_entered() -> void:
-	Input.set_custom_mouse_cursor(Constants.POINTER_HAND_CURSOR_ICON, Input.CURSOR_ARROW)#, Constants.POINTER_HAND_CURSOR_ICON.get_size() / 2)
 
 
 func _on_mouse_exited() -> void:

@@ -7,6 +7,11 @@ var can_purchase: bool = false
 const UPGRADE_NODE_AFFORDABLE_THEME = preload("uid://bmi00awkluvkt")
 const UPGRADE_NODE_CANT_AFFORD_THEME = preload("uid://cpbqs1ys1nkeb")
 const UPGRADE_NODE_MAXED_THEME = preload("uid://b6ntk2x4lk85")
+const CANT_AFFORD_PANEL = preload("uid://deq5w1mtbccoi")
+const CAN_AFFORD_PANEL = preload("uid://cfd2g0xp8w05i")
+const MAXED_PANEL = preload("uid://btycb2sjvvcvy")
+
+@onready var name_display: PanelContainer = $UpgradeDataDisplay/NameDisplay
 @onready var name_label: Label = $UpgradeDataDisplay/NameDisplay/NameLabel
 @onready var description_label: Label = $UpgradeDataDisplay/NumberDataDisplay/InfoContainer/Labels/DescriptionLabel
 @onready var before_after_label: Label = $UpgradeDataDisplay/NumberDataDisplay/InfoContainer/Labels/BeforeAfterLabel
@@ -51,11 +56,17 @@ func update_theme() -> void:
 	if not is_locked:
 		if upgrade.has_reached_max_tier():
 			purchase_button.theme = UPGRADE_NODE_MAXED_THEME
+			name_display.theme = MAXED_PANEL
+			price_label.add_theme_color_override("font_color", Color("ffe26f"))
 			return
 		elif can_purchase:
+			name_display.theme = CAN_AFFORD_PANEL
 			purchase_button.theme = UPGRADE_NODE_AFFORDABLE_THEME
+			price_label.add_theme_color_override("font_color", Color("00fa82"))
 		else:
+			name_display.theme = CANT_AFFORD_PANEL
 			purchase_button.theme = UPGRADE_NODE_CANT_AFFORD_THEME
+			price_label.add_theme_color_override("font_color", Color("ff2323"))
 
 
 func _update_display() -> void:

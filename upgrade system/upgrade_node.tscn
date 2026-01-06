@@ -1,9 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://cuh5eo4mk36ak"]
+[gd_scene load_steps=8 format=3 uid="uid://cuh5eo4mk36ak"]
 
 [ext_resource type="Script" uid="uid://cxtsrr081cu1v" path="res://upgrade system/upgrade_node.gd" id="1_sigt7"]
 [ext_resource type="Theme" uid="uid://brntsa6831d7c" path="res://upgrade system/themes/upgrade_node_locked_theme.tres" id="2_2m2d3"]
 [ext_resource type="Theme" uid="uid://bmtgglhybhoi" path="res://ui/themes/upgrade_label.tres" id="2_m2iyk"]
 [ext_resource type="Texture2D" uid="uid://b6j2uih5g0raq" path="res://upgrade system/assets/upgrade icons/shape spawning/spawn_limit_icon.svg" id="3_2m2d3"]
+[ext_resource type="Theme" uid="uid://btycb2sjvvcvy" path="res://ui/themes/maxed_panel.tres" id="4_qim07"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qim07"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qim07"]
+bg_color = Color(0.20392157, 0.20392157, 0.20392157, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [node name="UpgradeNode" type="Control"]
 layout_mode = 3
@@ -20,6 +30,7 @@ offset_right = 144.0
 offset_bottom = 192.0
 grow_horizontal = 2
 scale = Vector2(0.5, 0.5)
+mouse_default_cursor_shape = 2
 theme = ExtResource("2_2m2d3")
 icon = ExtResource("3_2m2d3")
 icon_alignment = 1
@@ -37,7 +48,7 @@ offset_top = -139.0
 offset_right = 151.5
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/separation = -8
+theme_override_constants/separation = -2
 
 [node name="NameDisplay" type="PanelContainer" parent="UpgradeDataDisplay"]
 z_index = 3
@@ -45,13 +56,16 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 mouse_filter = 1
+theme = ExtResource("4_qim07")
 metadata/_edit_use_anchors_ = true
 
 [node name="NameLabel" type="Label" parent="UpgradeDataDisplay/NameDisplay"]
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 0
 theme = ExtResource("2_m2iyk")
 theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qim07")
 text = "Explosive Power"
 
 [node name="NumberDataDisplay" type="PanelContainer" parent="UpgradeDataDisplay"]
@@ -60,6 +74,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_qim07")
 
 [node name="InfoContainer" type="MarginContainer" parent="UpgradeDataDisplay/NumberDataDisplay"]
 layout_mode = 2
