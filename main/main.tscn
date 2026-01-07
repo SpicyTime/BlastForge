@@ -37,3 +37,7 @@ mouse_filter = 2
 
 [node name="Hud" parent="UiCanvasLayer/Overlays" instance=ExtResource("3_xwkvk")]
 layout_mode = 1
+
+[node name="AudioHolder" type="Node" parent="."]
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
