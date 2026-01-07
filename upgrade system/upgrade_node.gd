@@ -4,6 +4,7 @@ extends Control
 var upgrade: Upgrade = null 
 var is_locked: bool = false
 var can_purchase: bool = false
+var base_position: Vector2 = Vector2.ZERO
 const UPGRADE_NODE_AFFORDABLE_THEME = preload("uid://bmi00awkluvkt")
 const UPGRADE_NODE_CANT_AFFORD_THEME = preload("uid://cpbqs1ys1nkeb")
 const UPGRADE_NODE_MAXED_THEME = preload("uid://b6ntk2x4lk85")
@@ -17,6 +18,7 @@ const MAXED_PANEL = preload("uid://btycb2sjvvcvy")
 @onready var before_after_label: Label = $UpgradeDataDisplay/NumberDataDisplay/InfoContainer/Labels/BeforeAfterLabel
 @onready var price_label: Label = $UpgradeDataDisplay/NumberDataDisplay/InfoContainer/Labels/PriceLabel
 @onready var purchase_button: Button = $PurchaseButton
+@onready var button_animator: Control = $PurchaseButton/ButtonAnimator
 
 
 func _ready() -> void:
@@ -29,6 +31,7 @@ func _ready() -> void:
 		price_label.text = "$" + str(upgrade.get_current_price())
 		purchase_button.icon = data.icon
 		update_theme()
+		base_position = purchase_button.position
 
 
 func is_at_max_tier() -> bool:
@@ -82,13 +85,21 @@ func _update_display() -> void:
 
 func _on_purchase_button_mouse_entered() -> void:
 	$UpgradeDataDisplay.visible = true
+	var end_scale: Vector2 = Vector2(1.1, 1.1) * Constants.SPRITE_SCALE
+	button_animator.scale_parent(end_scale, 0.2, Tween.EASE_OUT, Tween.TRANS_BACK)
 
 
 func _on_purchase_button_mouse_exited() -> void:
 	$UpgradeDataDisplay.visible = false
+	var end_scale: Vector2 = Vector2(1.0, 1.0) * Constants.SPRITE_SCALE
+	button_animator.scale_parent(end_scale, 0.2, Tween.EASE_OUT, Tween.TRANS_BACK)
 
 
 func _on_purchase_button_pressed() -> void:
 	if can_purchase:
 		# Purchases the tier above 
 		purchase_tier(upgrade.current_unpurchased_tier)
+
+
+func _on_purchase_button_resized() -> void:
+	purchase_button.pivot_offset.x = -purchase_button.size.x / 2

@@ -1,0 +1,44 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://xjd8b8pp0sja"]
+
+[ext_resource type="FontFile" uid="uid://rkq0pwi80up6" path="res://leaguespartan-bold.ttf" id="1_y0wwx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0vmu3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y0wwx"]
+bg_color = Color(0.32941177, 0.32941177, 0.32941177, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_top = 4.0
+expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xxrst"]
+bg_color = Color(0.20392157, 0.20392157, 0.20392157, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_top = 4.0
+expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hdk3p"]
+bg_color = Color(0.09411765, 0.09411765, 0.09411765, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_top = 4.0
+expand_margin_right = 5.0
+
+[resource]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/font_sizes/font_size = 32
+Button/fonts/font = ExtResource("1_y0wwx")
+Button/styles/focus = SubResource("StyleBoxEmpty_0vmu3")
+Button/styles/hover = SubResource("StyleBoxFlat_y0wwx")
+Button/styles/normal = SubResource("StyleBoxFlat_xxrst")
+Button/styles/pressed = SubResource("StyleBoxFlat_hdk3p")

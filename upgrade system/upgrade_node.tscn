@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://cuh5eo4mk36ak"]
+[gd_scene load_steps=9 format=3 uid="uid://cuh5eo4mk36ak"]
 
 [ext_resource type="Script" uid="uid://cxtsrr081cu1v" path="res://upgrade system/upgrade_node.gd" id="1_sigt7"]
 [ext_resource type="Theme" uid="uid://brntsa6831d7c" path="res://upgrade system/themes/upgrade_node_locked_theme.tres" id="2_2m2d3"]
 [ext_resource type="Theme" uid="uid://bmtgglhybhoi" path="res://ui/themes/upgrade_label.tres" id="2_m2iyk"]
 [ext_resource type="Texture2D" uid="uid://b6j2uih5g0raq" path="res://upgrade system/assets/upgrade icons/shape spawning/spawn_limit_icon.svg" id="3_2m2d3"]
 [ext_resource type="Theme" uid="uid://btycb2sjvvcvy" path="res://ui/themes/maxed_panel.tres" id="4_qim07"]
+[ext_resource type="PackedScene" uid="uid://4m7xyo6hpaba" path="res://ui/ui_animator_component.tscn" id="4_timap"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qim07"]
 
@@ -21,19 +22,19 @@ anchors_preset = 0
 script = ExtResource("1_sigt7")
 
 [node name="PurchaseButton" type="Button" parent="."]
+custom_minimum_size = Vector2(192, 192)
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -48.0
-offset_right = 144.0
-offset_bottom = 192.0
-grow_horizontal = 2
+offset_right = 200.0
+offset_bottom = 200.0
 scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(-96, 24)
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_2m2d3")
 icon = ExtResource("3_2m2d3")
 icon_alignment = 1
+
+[node name="ButtonAnimator" parent="PurchaseButton" instance=ExtResource("4_timap")]
+layout_mode = 0
 
 [node name="UpgradeDataDisplay" type="VBoxContainer" parent="."]
 visible = false
@@ -43,9 +44,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -152.5
-offset_top = -139.0
-offset_right = 151.5
+offset_left = -152.0
+offset_top = -148.0
+offset_right = 152.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = -2
@@ -118,3 +119,4 @@ horizontal_alignment = 1
 [connection signal="mouse_entered" from="PurchaseButton" to="." method="_on_purchase_button_mouse_entered"]
 [connection signal="mouse_exited" from="PurchaseButton" to="." method="_on_purchase_button_mouse_exited"]
 [connection signal="pressed" from="PurchaseButton" to="." method="_on_purchase_button_pressed"]
+[connection signal="resized" from="PurchaseButton" to="." method="_on_purchase_button_resized"]
