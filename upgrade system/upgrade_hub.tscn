@@ -1,10 +1,11 @@
-[gd_scene load_steps=22 format=3 uid="uid://b0p1igqr57bjq"]
+[gd_scene load_steps=23 format=3 uid="uid://b0p1igqr57bjq"]
 
 [ext_resource type="FontFile" uid="uid://rkq0pwi80up6" path="res://leaguespartan-bold.ttf" id="1_fd50i"]
-[ext_resource type="Script" uid="uid://ovsogdkt5bwv" path="res://ui/upgrade_hub.gd" id="1_t07eb"]
+[ext_resource type="Script" uid="uid://ovsogdkt5bwv" path="res://upgrade system/upgrade_hub.gd" id="1_t07eb"]
 [ext_resource type="PackedScene" uid="uid://cuh5eo4mk36ak" path="res://upgrade system/upgrade_node.tscn" id="2_t07eb"]
 [ext_resource type="Theme" uid="uid://xjd8b8pp0sja" path="res://ui/themes/hub_switching_button_theme.tres" id="3_xxrst"]
 [ext_resource type="Resource" uid="uid://cwj2k3aew66ln" path="res://upgrade system/datas/bomb/explosion_radius_upgrade_data.tres" id="3_ybw8w"]
+[ext_resource type="PackedScene" uid="uid://4m7xyo6hpaba" path="res://ui/ui_animator_component.tscn" id="4_14r0x"]
 [ext_resource type="Resource" uid="uid://ck8675fg5a5g2" path="res://upgrade system/datas/bomb/explosion_damage_upgrade_data.tres" id="5_ybw8w"]
 [ext_resource type="Resource" uid="uid://xa83n738b2k4" path="res://upgrade system/datas/bomb/place_delay_upgrade_data.tres" id="6_gaygq"]
 [ext_resource type="Resource" uid="uid://bsdi6fr81gafw" path="res://upgrade system/datas/spawning/spawn_rate_upgrade_data.tres" id="7_h8fa1"]
@@ -18,7 +19,7 @@
 [ext_resource type="Resource" uid="uid://bhgcpjiomii1" path="res://upgrade system/datas/triangle/lucky_triangle_multiplier_upgrade_data.tres" id="15_comr0"]
 [ext_resource type="Resource" uid="uid://bo84g03r0gd2" path="res://upgrade system/datas/triangle/subtriangle_value_upgrade_data.tres" id="16_c0vch"]
 [ext_resource type="Resource" uid="uid://87nxhpxrfg6b" path="res://upgrade system/datas/triangle/fractalization_chance_upgrade_data.tres" id="17_cppn7"]
-[ext_resource type="Texture2D" uid="uid://do071axbmjpwf" path="res://shapes/sprites/triangle.svg" id="18_0vmu3"]
+[ext_resource type="Texture2D" uid="uid://do071axbmjpwf" path="res://shapes/assets/sprites/triangle.svg" id="18_0vmu3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0fe3o"]
 bg_color = Color(0.14901961, 0.14901961, 0.14901961, 1)
@@ -75,6 +76,7 @@ theme_override_font_sizes/font_size = 40
 text = "$0"
 
 [node name="BackToGameButton" type="Button" parent="BackgroundPanel"]
+custom_minimum_size = Vector2(241, 50)
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -86,8 +88,11 @@ offset_top = -50.0
 offset_right = 120.5
 grow_horizontal = 2
 grow_vertical = 0
+mouse_default_cursor_shape = 2
 theme = ExtResource("3_xxrst")
 text = "Back To Game"
+
+[node name="ButtonAnimator" parent="BackgroundPanel/BackToGameButton" instance=ExtResource("4_14r0x")]
 
 [node name="DraggableNodes" type="Control" parent="."]
 layout_mode = 1

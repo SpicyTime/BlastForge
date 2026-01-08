@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://k7nqsblly5gs" path="res://game/world.tscn" id="1_53q0u"]
 [ext_resource type="Script" uid="uid://dt6y51teng0f2" path="res://main/main.gd" id="1_pjrb6"]
-[ext_resource type="PackedScene" uid="uid://b0p1igqr57bjq" path="res://ui/upgrade_hub.tscn" id="3_c651c"]
+[ext_resource type="PackedScene" uid="uid://b0p1igqr57bjq" path="res://upgrade system/upgrade_hub.tscn" id="3_c651c"]
 [ext_resource type="PackedScene" uid="uid://tdoscbf6lnd6" path="res://ui/hud.tscn" id="3_xwkvk"]
 
 [node name="Main" type="Node"]
@@ -43,3 +43,4 @@ layout_mode = 1
 [node name="AudioHolder" type="Node" parent="."]
 
 [node name="Music" type="AudioStreamPlayer2D" parent="."]
+volume_db = -5.0

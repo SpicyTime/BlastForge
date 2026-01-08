@@ -3,6 +3,9 @@ extends Node2D
 var held_bomb: Bomb = null
 var total_points: int = 0
 var can_create_bomb: bool = true
+var time_since_bomb_creation: float = 0.0
+const BOMB_PLACE_SOUND1 = preload("uid://cwqyhfm5ndh77")
+const BOMB_PLACE_SOUND2 = preload("uid://cm6wa1wcmhjn0")
 @onready var bomb_container: Node2D = $BombContainer
 @onready var place_delay_timer: Timer = $PlaceDelayTimer
 
@@ -12,9 +15,11 @@ func _ready() -> void:
 	SignalManager.upgrade_purchased.connect(_on_upgrade_purchased)
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if not place_delay_timer.is_stopped():
 		SignalManager.place_delay_timer_changed.emit(snapped(place_delay_timer.time_left, 0.1))
+	if held_bomb:
+		time_since_bomb_creation += delta
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -24,12 +29,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		if Input.is_action_just_pressed("bomb_place_action") and not held_bomb:
 			if can_create_bomb:
 				held_bomb = create_bomb(mouse_position)
+				print(Input.is_action_just_released("bomb_place_action") and held_bomb)
 				can_create_bomb = false
 			else:
 				SignalManager.unsuccessful_bomb_place.emit()
 		# The bomb will be placed when the bomb_action is released
 		if Input.is_action_just_released("bomb_place_action") and held_bomb:
-			call_deferred("place_bomb") 
+			place_bomb()
+			time_since_bomb_creation = 0.0
 			place_delay_timer.start(StatManager.get_bomb_stat("place_delay"))
 			SignalManager.bomb_placed.emit()
 	elif event is InputEventMouseMotion:
@@ -42,7 +49,7 @@ func create_bomb(spawn_position: Vector2) -> Bomb:
 	var packed_bomb_scene: PackedScene = load(Constants.BOMB_SCENE_PATH)
 	var bomb_instance: Bomb = packed_bomb_scene.instantiate()
 	bomb_instance.position = spawn_position
-	
+	AudioManager.play_sfx(BOMB_PLACE_SOUND1, 0.0, -1.0, 2.5)
 	# I get a bunch of errors if it is not deferred
 	bomb_container.call_deferred("add_child", bomb_instance)
 	SignalManager.bomb_created.emit()
@@ -51,7 +58,10 @@ func create_bomb(spawn_position: Vector2) -> Bomb:
  
 func place_bomb() -> void:
 	if held_bomb:
-		held_bomb.handle_placed()
+		AudioManager.play_sfx(BOMB_PLACE_SOUND1, 0.12, 6.0, 0.92)
+		AudioManager.play_sfx(BOMB_PLACE_SOUND2, 0, 5.0, 0.93)
+		
+		held_bomb.call_deferred("handle_placed")
 		# This effectively "places" the bomb by not resetting its position to the mouse
 		held_bomb = null 
 
@@ -70,8 +80,7 @@ func spawn_floating_text(text: String, text_position: Vector2, text_color: Color
 
 func spawn_bomb(bomb_position: Vector2):
 	var bomb_instance: Bomb = create_bomb(bomb_position)
-	# Matches the defer in the creation
-	bomb_instance.call_deferred("handle_placed")
+	bomb_instance.handle_placed()
 
 
 func _command_set_points(amount: String) -> void:

@@ -2,7 +2,5 @@
 
 [ext_resource type="Script" uid="uid://cyv2e0yf0j5mn" path="res://ui/ui_animator_component.gd" id="1_lseh0"]
 
-[node name="UiAnimatorComponent" type="Control"]
-layout_mode = 3
-anchors_preset = 0
+[node name="UiAnimatorComponent" type="Node"]
 script = ExtResource("1_lseh0")

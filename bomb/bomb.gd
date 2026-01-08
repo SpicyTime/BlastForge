@@ -6,6 +6,8 @@ var phase_time: float = 0.0
 var is_up_pulse: bool = false
 var pulse_time: float = 0.46
 const RED_CIRCLE_TEXTURE = preload("uid://dkiuwqe4ix6im")
+const EXPLOSION_SOUND = preload("uid://bghpjfudlo3c4")
+
 @onready var bomb_sprite: Sprite2D = $BombSprite
 @onready var explosion_area_sprite: Sprite2D = $ExplosionAreaSprite
 @onready var explosion_area_hitbox: Hitbox = $ExplosionAreaHitbox
@@ -29,6 +31,7 @@ func _process(delta: float) -> void:
 
 func handle_placed() -> void:
 	# TO DO: Play a placing sound
+	
 	detonation_timer.start(detonation_time)
 
 	if not keep_detection_active:
@@ -50,14 +53,20 @@ func _on_detonation_timer_timeout() -> void:
 	# TO DO: Handle all explosion effects, particles, sounds, etc...
 	hitbox_collider.disabled = false
 	push_area_collider.disabled = false
-	var final_scale: Vector2 = Vector2(1.35, 1.35) * Constants.SPRITE_SCALE
+	var tween_time: float = 0.07
+	var final_scale: Vector2 = Vector2(1.5, 1.5) * Constants.SPRITE_SCALE
+	
 	var scale_up_explosion_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
-	scale_up_explosion_tween.tween_property(bomb_sprite, "scale", final_scale, 0.11)
+	scale_up_explosion_tween.tween_property(bomb_sprite, "scale", final_scale, tween_time)
+	
 	var alpha_explosion_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
-	alpha_explosion_tween.tween_property(explosion_area_sprite, "self_modulate:a", 0.68, 0.11)
+	alpha_explosion_tween.tween_property(explosion_area_sprite, "self_modulate:a", 0.68, tween_time)
+	
 	var shapes_inside_range: Array[Node2D] = explosion_detection_area.get_overlapping_bodies()
 	explosion_area_hitbox.damage = StatManager.get_bomb_stat("damage") as int
 	await scale_up_explosion_tween.finished
+	var volume: float = 4.5
+	AudioManager.play_sfx(EXPLOSION_SOUND, 0.0, volume)
 	queue_free()
 	var shapes_broken: Array[Node2D] = []
 	for shape in shapes_inside_range:

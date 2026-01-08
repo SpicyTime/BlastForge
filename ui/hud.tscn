@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://tdoscbf6lnd6"]
+[gd_scene load_steps=8 format=3 uid="uid://tdoscbf6lnd6"]
 
 [ext_resource type="Script" uid="uid://4as2tdux84hn" path="res://ui/hud.gd" id="1_rbyyf"]
 [ext_resource type="FontFile" uid="uid://rkq0pwi80up6" path="res://leaguespartan-bold.ttf" id="2_276te"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cia4pi0df1vql" path="res://ui/plus_sign.svg" id="3_7ihmi"]
 [ext_resource type="Script" uid="uid://cpc1o46lwdj2q" path="res://components/shake_component.gd" id="3_546lt"]
 [ext_resource type="Texture2D" uid="uid://c2nau2t4kid3p" path="res://ui/assets/radial_progress_bar_textures/ring_fill_white.svg" id="5_en2x2"]
+[ext_resource type="PackedScene" uid="uid://4m7xyo6hpaba" path="res://ui/ui_animator_component.tscn" id="5_q43x7"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -33,41 +34,6 @@ theme_override_fonts/font = ExtResource("2_276te")
 theme_override_font_sizes/font_size = 64
 text = "$0"
 horizontal_alignment = 1
-
-[node name="PlaceDelayLabel" type="Label" parent="InfoBox"]
-visible = false
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2_276te")
-theme_override_font_sizes/font_size = 40
-horizontal_alignment = 1
-
-[node name="Button" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -123.0
-offset_top = -50.0
-offset_right = 123.0
-grow_horizontal = 2
-grow_vertical = 0
-theme = ExtResource("3_1v5rv")
-text = "Upgrades Hub"
-
-[node name="PlusSignRect" type="TextureRect" parent="Button"]
-visible = false
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -14.0
-offset_top = -15.0
-offset_right = 14.0
-offset_bottom = 13.0
-grow_horizontal = 0
-texture = ExtResource("3_7ihmi")
 
 [node name="ShakeComponent" type="Node" parent="."]
 script = ExtResource("3_546lt")
@@ -97,6 +63,38 @@ value = 100.0
 fill_mode = 4
 texture_progress = ExtResource("5_en2x2")
 
-[connection signal="mouse_entered" from="Button" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Button" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[node name="UpgradeHubButton" type="Button" parent="."]
+custom_minimum_size = Vector2(246, 50)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -123.0
+offset_top = -50.0
+offset_right = 123.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("3_1v5rv")
+text = "Upgrades Hub"
+
+[node name="PlusSignRect" type="TextureRect" parent="UpgradeHubButton"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -14.0
+offset_top = -15.0
+offset_right = 14.0
+offset_bottom = 13.0
+grow_horizontal = 0
+texture = ExtResource("3_7ihmi")
+
+[node name="ButtonAnimator" parent="UpgradeHubButton" instance=ExtResource("5_q43x7")]
+
+[connection signal="mouse_entered" from="UpgradeHubButton" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="UpgradeHubButton" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="UpgradeHubButton" to="." method="_on_button_pressed"]
+[connection signal="resized" from="UpgradeHubButton" to="." method="_on_upgrade_hub_button_resized"]

@@ -1,14 +1,13 @@
 extends Node
 var music_node: AudioStreamPlayer2D = null
-func play_sfx(stream: AudioStream, volume: float = 0.0, is_pitch_shifted: bool = false, shift_scale: Vector2 = Vector2(0.9, 1.1)) -> void:
-	var pitch: float = 1.0
+var audio_holder: Node = null
+func play_sfx(stream: AudioStream, play_at_time: float = 0.0, volume: float = 10.0, base_pitch: float = 1.0, is_pitch_shifted: bool = false, shift_scale: Vector2 = Vector2(0.9, 1.1)) -> void:
+	var pitch: float = base_pitch
 	if is_pitch_shifted:
 		pitch = _get_pitch_shift(shift_scale.x, shift_scale.y)
 	var sfx_player: AudioStreamPlayer2D = _create_sfx_player(stream, volume, pitch)
-	var audio_holder: Node = get_tree().root.find_child("Main").find_child("AudioHolder")
 	audio_holder.add_child(sfx_player)
-	await sfx_player.tree_entered
-	sfx_player.play()
+	sfx_player.play(play_at_time)
 	await sfx_player.finished
 	sfx_player.queue_free()
 
@@ -16,6 +15,9 @@ func play_sfx(stream: AudioStream, volume: float = 0.0, is_pitch_shifted: bool =
 func set_music_node(node: AudioStreamPlayer2D) -> void:
 	music_node = node
 
+
+func set_audio_contianer(node: Node) -> void:
+	audio_holder = node
 
 func start_music(stream: AudioStream) -> void:
 	music_node.stream = stream
@@ -36,11 +38,12 @@ func fade_out_music() -> void:
 
 func _create_sfx_player(stream: AudioStream,volume: float, pitch: float) -> AudioStreamPlayer2D:
 	var sfx_player: AudioStreamPlayer2D = AudioStreamPlayer2D.new()
+	print(pitch)
 	sfx_player.pitch_scale = pitch
 	sfx_player.volume_db = volume
 	sfx_player.stream = stream
 	return sfx_player
 
 
-func _get_pitch_shift(min_pitch: float, max_pitch) -> float:
-	return  randi_range(min_pitch, max_pitch)
+func _get_pitch_shift(min_pitch: float, max_pitch: float) -> float:
+	return  randf_range(min_pitch, max_pitch)

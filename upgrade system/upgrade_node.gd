@@ -5,12 +5,21 @@ var upgrade: Upgrade = null
 var is_locked: bool = false
 var can_purchase: bool = false
 var base_position: Vector2 = Vector2.ZERO
+
 const UPGRADE_NODE_AFFORDABLE_THEME = preload("uid://bmi00awkluvkt")
 const UPGRADE_NODE_CANT_AFFORD_THEME = preload("uid://cpbqs1ys1nkeb")
 const UPGRADE_NODE_MAXED_THEME = preload("uid://b6ntk2x4lk85")
+
 const CANT_AFFORD_PANEL = preload("uid://deq5w1mtbccoi")
 const CAN_AFFORD_PANEL = preload("uid://cfd2g0xp8w05i")
 const MAXED_PANEL = preload("uid://btycb2sjvvcvy")
+
+const SCALE_TIME: float = 0.6
+const EASING_TYPE: Tween.EaseType = Tween.EASE_IN
+const TRANSITOIN_TYPE: Tween.TransitionType = Tween.TRANS_BOUNCE
+
+const PURCHASE_SOUND = preload("uid://bgqnendordq35")
+
 
 @onready var name_display: PanelContainer = $UpgradeDataDisplay/NameDisplay
 @onready var name_label: Label = $UpgradeDataDisplay/NameDisplay/NameLabel
@@ -18,10 +27,12 @@ const MAXED_PANEL = preload("uid://btycb2sjvvcvy")
 @onready var before_after_label: Label = $UpgradeDataDisplay/NumberDataDisplay/InfoContainer/Labels/BeforeAfterLabel
 @onready var price_label: Label = $UpgradeDataDisplay/NumberDataDisplay/InfoContainer/Labels/PriceLabel
 @onready var purchase_button: Button = $PurchaseButton
-@onready var button_animator: Control = $PurchaseButton/ButtonAnimator
+@onready var button_animator: Node = $PurchaseButton/ButtonAnimator
+@onready var upgrade_data_display: VBoxContainer = $UpgradeDataDisplay
 
 
 func _ready() -> void:
+	SignalManager.mouse_dragging.connect(_on_mouse_dragging)
 	if data:
 		upgrade = Upgrade.new()
 		upgrade.data = data
@@ -29,7 +40,7 @@ func _ready() -> void:
 		before_after_label.text = upgrade.get_before_after()
 		description_label.text = upgrade.data.description
 		price_label.text = "$" + str(upgrade.get_current_price())
-		purchase_button.icon = data.icon
+		$PurchaseButton/ButtonIcon.texture = data.icon
 		update_theme()
 		base_position = purchase_button.position
 
@@ -84,21 +95,38 @@ func _update_display() -> void:
 
 
 func _on_purchase_button_mouse_entered() -> void:
-	$UpgradeDataDisplay.visible = true
-	var end_scale: Vector2 = Vector2(1.1, 1.1) * Constants.SPRITE_SCALE
-	button_animator.scale_parent(end_scale, 0.2, Tween.EASE_OUT, Tween.TRANS_BACK)
+	var base_pitch: float = 1.0
+	
+	AudioManager.play_sfx(Constants.BUTTON_HOVER_SOUND, 0.0, Constants.ENTER_BUTTON_VOLUME, base_pitch, true, Constants.ENTER_PITCH_RANGE)
+	upgrade_data_display.visible = true
+	var end_scale: Vector2 = Vector2(1.1, 1.1)
+	button_animator.scale_custom_scale_parent(end_scale, SCALE_TIME, Tween.EASE_OUT, Tween.TRANS_ELASTIC)
+	$PurchaseButton/ButtonIcon/IconAnimator.scale_custom_scale_parent(end_scale, SCALE_TIME, Tween.EASE_OUT, Tween.TRANS_ELASTIC)
 
 
 func _on_purchase_button_mouse_exited() -> void:
-	$UpgradeDataDisplay.visible = false
+	print("Exiting")
+	upgrade_data_display.visible = false
 	var end_scale: Vector2 = Vector2(1.0, 1.0) * Constants.SPRITE_SCALE
-	button_animator.scale_parent(end_scale, 0.2, Tween.EASE_OUT, Tween.TRANS_BACK)
+	button_animator.scale_custom_scale_parent(end_scale, SCALE_TIME, Tween.EASE_OUT, Tween.TRANS_BACK)
+	$PurchaseButton/ButtonIcon/IconAnimator.scale_custom_scale_parent(end_scale, SCALE_TIME, Tween.EASE_OUT, Tween.TRANS_BACK)
+
+
+func _on_mouse_dragging(is_dragging: bool) -> void:
+	if is_dragging and not purchase_button.is_hovered():
+		purchase_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	else:
+		
+		purchase_button.mouse_filter = Control.MOUSE_FILTER_STOP
 
 
 func _on_purchase_button_pressed() -> void:
 	if can_purchase:
 		# Purchases the tier above 
 		purchase_tier(upgrade.current_unpurchased_tier)
+		var pitch: float = 0.25
+		var volume: float = -6.5
+		AudioManager.play_sfx(PURCHASE_SOUND, 0.0, volume, pitch)
 
 
 func _on_purchase_button_resized() -> void:
