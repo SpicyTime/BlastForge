@@ -105,7 +105,6 @@ func _on_purchase_button_mouse_entered() -> void:
 
 
 func _on_purchase_button_mouse_exited() -> void:
-	print("Exiting")
 	upgrade_data_display.visible = false
 	var end_scale: Vector2 = Vector2(1.0, 1.0) * Constants.SPRITE_SCALE
 	button_animator.scale_custom_scale_parent(end_scale, SCALE_TIME, Tween.EASE_OUT, Tween.TRANS_BACK)

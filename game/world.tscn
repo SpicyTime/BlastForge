@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://k7nqsblly5gs"]
+[gd_scene load_steps=8 format=3 uid="uid://k7nqsblly5gs"]
 
 [ext_resource type="Script" uid="uid://vwrqyfjerpum" path="res://game/world.gd" id="1_vn0wg"]
 [ext_resource type="Script" uid="uid://uxk2gctotf6f" path="res://game/shape_spawner.gd" id="2_aseec"]
 [ext_resource type="Script" uid="uid://dqanl875ga8m6" path="res://game/camera.gd" id="2_tvmmn"]
 [ext_resource type="Script" uid="uid://cpc1o46lwdj2q" path="res://components/shake_component.gd" id="3_4xpgs"]
+[ext_resource type="Script" uid="uid://b30xb5mlgidda" path="res://game/particle_manager.gd" id="5_805w3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fhh06"]
 size = Vector2(1280, 10)
@@ -61,5 +62,8 @@ collision_mask = 5
 shape = SubResource("RectangleShape2D_m4twg")
 
 [node name="PlaceDelayTimer" type="Timer" parent="."]
+
+[node name="ParticleManager" type="Node2D" parent="."]
+script = ExtResource("5_805w3")
 
 [connection signal="timeout" from="PlaceDelayTimer" to="." method="_on_place_delay_timer_timeout"]

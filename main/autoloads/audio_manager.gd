@@ -38,7 +38,6 @@ func fade_out_music() -> void:
 
 func _create_sfx_player(stream: AudioStream,volume: float, pitch: float) -> AudioStreamPlayer2D:
 	var sfx_player: AudioStreamPlayer2D = AudioStreamPlayer2D.new()
-	print(pitch)
 	sfx_player.pitch_scale = pitch
 	sfx_player.volume_db = volume
 	sfx_player.stream = stream

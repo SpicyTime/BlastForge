@@ -6,8 +6,11 @@ var phase_time: float = 0.0
 var is_up_pulse: bool = false
 var pulse_time: float = 0.46
 const RED_CIRCLE_TEXTURE = preload("uid://dkiuwqe4ix6im")
-const EXPLOSION_SOUND = preload("uid://bghpjfudlo3c4")
-
+const EXPLOSION_SOUND = preload("res://bomb/assets/audio/explosion-01.ogg")
+const EXPLOSION_PARTICLES_PATH: String = "res://bomb/assets/particles/explosion_particles.tscn"
+const DEBRIS_PARTICLES_PATH: String = "res://bomb/assets/particles/debris_particles.tscn"
+const SPARK_PARTICLE_PATH: String = "res://bomb/assets/particles/sparks_particles.tscn"
+const BLAST_PARTICLE_PATH: String = "res://bomb/assets/particles/blast_particle.tscn"
 @onready var bomb_sprite: Sprite2D = $BombSprite
 @onready var explosion_area_sprite: Sprite2D = $ExplosionAreaSprite
 @onready var explosion_area_hitbox: Hitbox = $ExplosionAreaHitbox
@@ -49,25 +52,19 @@ func _set_radii(explosion_radius: float) -> void:
 	detection_area_collider.shape.radius = explosion_radius
 
 
-func _on_detonation_timer_timeout() -> void:
-	# TO DO: Handle all explosion effects, particles, sounds, etc...
-	hitbox_collider.disabled = false
-	push_area_collider.disabled = false
-	var tween_time: float = 0.07
-	var final_scale: Vector2 = Vector2(1.5, 1.5) * Constants.SPRITE_SCALE
+func _handle_explosion_effects() -> void:
+	var volume: float = 3.75
+	var pitch: float = 0.75
+	AudioManager.play_sfx(EXPLOSION_SOUND, 0.0, volume, pitch)
 	
-	var scale_up_explosion_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
-	scale_up_explosion_tween.tween_property(bomb_sprite, "scale", final_scale, tween_time)
-	
-	var alpha_explosion_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
-	alpha_explosion_tween.tween_property(explosion_area_sprite, "self_modulate:a", 0.68, tween_time)
-	
-	var shapes_inside_range: Array[Node2D] = explosion_detection_area.get_overlapping_bodies()
-	explosion_area_hitbox.damage = StatManager.get_bomb_stat("damage") as int
-	await scale_up_explosion_tween.finished
-	var volume: float = 4.5
-	AudioManager.play_sfx(EXPLOSION_SOUND, 0.0, volume)
-	queue_free()
+	#SignalManager.spawn_particles.emit(BLAST_PARTICLE_PATH, position)
+	var delay: float = 0.075
+	SignalManager.spawn_particles.emit(SPARK_PARTICLE_PATH, position, delay)
+	SignalManager.spawn_particles.emit(DEBRIS_PARTICLES_PATH, position + Vector2(0, 20), delay)
+	SignalManager.spawn_particles.emit(EXPLOSION_PARTICLES_PATH, position, delay)
+
+
+func _handle_detonated_shapes(shapes_inside_range: Array[Node2D]) -> void:
 	var shapes_broken: Array[Node2D] = []
 	for shape in shapes_inside_range:
 		if shape is Shape:
@@ -94,6 +91,11 @@ func _start_pulse(scale_value: Vector2, alpha_value: float) -> void:
 	pulse_tween.finished.connect(_on_pulse_tween_finished)
 
 
+func _turn_off_colliders() -> void:
+	$ExplosionAreaHitbox/HitboxCollider.disabled = true
+	$ExplosionDetectionArea/DetectionAreaCollider.disabled = true
+	$ExplosionPushArea/PushAreaCollider.disabled = true
+
 func _on_pulse_tween_finished() -> void:
 	var pulse_scale: Vector2 = Vector2.ZERO
 	var pulse_alpha: float = 0.0
@@ -118,3 +120,24 @@ func _on_explosion_push_area_body_entered(body: Node2D) -> void:
 			body.move_direction = position.direction_to(body.position)
 			var push_force: float = 8.75
 			body.speed = body.base_speed * push_force
+
+
+func _on_detonation_timer_timeout() -> void:
+	# TO DO: Handle all explosion effects, particles, sounds, etc...
+	hitbox_collider.disabled = false
+	push_area_collider.disabled = false
+	var tween_time: float = 0.08
+	var final_scale: Vector2 = Vector2(1.5, 1.5) * Constants.SPRITE_SCALE
+	
+	var scale_up_explosion_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
+	scale_up_explosion_tween.tween_property(bomb_sprite, "scale", final_scale, tween_time)
+	
+	var alpha_explosion_tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
+	alpha_explosion_tween.tween_property(explosion_area_sprite, "self_modulate:a", 0.68, tween_time)
+	
+	var shapes_inside_range: Array[Node2D] = explosion_detection_area.get_overlapping_bodies()
+	explosion_area_hitbox.damage = StatManager.get_bomb_stat("damage") as int
+	await scale_up_explosion_tween.finished
+	_handle_explosion_effects()
+	queue_free()
+	_handle_detonated_shapes(shapes_inside_range)

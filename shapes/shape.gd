@@ -14,6 +14,8 @@ var shape_data: ShapeData = null
 const OFFSCREEN_PADDING: int = 20
 const FRICTION: int = 11500
 const REINFORCED_PATH_BEGIN: String = "res://upgrade system/assets/upgrade_overlays/reinforced_"
+
+
 @onready var shape_sprite: Sprite2D = $ShapeSprite
 @onready var shadow_sprite: Sprite2D = $ShadowSprite
 @onready var modifier_overlay_sprites: Node2D = $ModifierOverlaySprites
@@ -37,7 +39,7 @@ func _ready() -> void:
 	shape_sprite.scale = Vector2.ZERO
 	modifier_overlay_sprites.scale = Vector2.ZERO
 	var scale_up_tween: Tween = get_tree().create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
-	var scale_up_time: float = 0.2
+	var scale_up_time: float = 0.1
 	var final_scale: Vector2 = Vector2(1.0, 1.0) * Constants.SPRITE_SCALE
 	scale_up_tween.tween_property(shape_sprite, "scale", final_scale, scale_up_time)
 	scale_up_tween.parallel().tween_property(shadow_sprite, "scale", final_scale, scale_up_time)
@@ -65,6 +67,7 @@ func handle_despawn() -> void:
 		hurtbox_collider.disabled = true
 		await scale_down_tween.finished # Checks if the shape has been destroyed
 		queue_free()
+
 
 func _is_offscreen(check_position: Vector2) -> bool:
 	# Handles horizontal axis
@@ -170,6 +173,9 @@ func _on_health_changed(health_node: Health, _diff: int) -> void:
 
 func _on_health_depleted(health_node: Health) -> void:
 	if health_node in get_children():
+		#var volume: float = -7.5
+		#var pitch_range: Vector2 = Vector2(0.5, 0.65)
+		#AudioManager.play_sfx(SHAPE_BREAK_1, 0.05, volume, 1.0, true, pitch_range)
 		if shape_modifiers.has(Enums.ShapeModifiers.SIERPINSKIES):
 			var modifier_arrays_array: Array[Array] = [[], [], []]
 			for i in range(3):

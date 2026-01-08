@@ -29,7 +29,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		if Input.is_action_just_pressed("bomb_place_action") and not held_bomb:
 			if can_create_bomb:
 				held_bomb = create_bomb(mouse_position)
-				print(Input.is_action_just_released("bomb_place_action") and held_bomb)
 				can_create_bomb = false
 			else:
 				SignalManager.unsuccessful_bomb_place.emit()
@@ -49,7 +48,7 @@ func create_bomb(spawn_position: Vector2) -> Bomb:
 	var packed_bomb_scene: PackedScene = load(Constants.BOMB_SCENE_PATH)
 	var bomb_instance: Bomb = packed_bomb_scene.instantiate()
 	bomb_instance.position = spawn_position
-	AudioManager.play_sfx(BOMB_PLACE_SOUND1, 0.0, -1.0, 2.5)
+	AudioManager.play_sfx(BOMB_PLACE_SOUND1, 0.0, -3.0, 1.75)
 	# I get a bunch of errors if it is not deferred
 	bomb_container.call_deferred("add_child", bomb_instance)
 	SignalManager.bomb_created.emit()
