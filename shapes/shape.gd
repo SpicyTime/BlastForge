@@ -26,6 +26,8 @@ const REINFORCED_PATH_BEGIN: String = "res://upgrade system/assets/upgrade_overl
 
 @onready var health: Health = $Health
 
+const LUCKY_TRIANGLE_PARTICLES = preload("uid://cywo1eoh606v7")
+const BREAK_PARTICLE_SCENE_PATH: String = "res://shapes/assets/particles/break_particles.tscn"
 func _ready() -> void:
 	SignalManager.health_changed.connect(_on_health_changed)
 	prev_pos = position
@@ -90,12 +92,12 @@ func _apply_modifier(modifier_type: Enums.ShapeModifiers) -> void:
 			health.max_health *= 2
 			modifier_multipliers_total *= 3
 		Enums.ShapeModifiers.LUCKY:
-			#To Do: Add the particles
+			add_child(LUCKY_TRIANGLE_PARTICLES.instantiate())
 			modifier_multipliers_total *= StatManager.get_special_modifier_stat("lucky_triangle_multiplier")
 		Enums.ShapeModifiers.SIERPINSKIES:
 			# This modifier is triangle specific
 			if not shape_data.shape_type == Enums.ShapeType.TRIANGLE: return
-			# Adds the overlay sprite
+			
 			_add_modifier_overlay(load("res://upgrade system/assets/upgrade_overlays/sierpinskies_triangle_overlay.svg"), "SierpinskiesOverlay")
 			modifier_value_adders_total += StatManager.get_special_modifier_stat("subtriangle_value")
 
@@ -184,3 +186,4 @@ func _on_health_depleted(health_node: Health) -> void:
 					modifier_arrays_array[i] = [Enums.ShapeModifiers.SIERPINSKIES]
 			SignalManager.spawn_sierpinski_triangles.emit(position, modifier_arrays_array)
 		SignalManager.shape_broken.emit(self)
+		SignalManager.spawn_particles.emit(BREAK_PARTICLE_SCENE_PATH, position)

@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://cywo1eoh606v7"]
+
+[ext_resource type="Texture2D" uid="uid://cu2twj66utprb" path="res://shapes/assets/particles/textures/lucky_particle_texture.svg" id="1_ravm8"]
+
+[sub_resource type="Curve" id="Curve_ravm8"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_wty36"]
+curve = SubResource("Curve_ravm8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wty36"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 52.8
+angle_min = -179.99998
+angle_max = 180.00002
+inherit_velocity_ratio = 1.0
+spread = 180.0
+flatness = 0.5
+initial_velocity_min = 50.0
+initial_velocity_max = 80.0
+angular_velocity_min = -50.000015
+angular_velocity_max = 49.99998
+gravity = Vector3(0, 0, 0)
+damping_min = 57.627003
+damping_max = 57.627003
+scale_min = 0.25
+scale_max = 0.39999998
+scale_curve = SubResource("CurveTexture_wty36")
+
+[node name="LuckyTriangleParticles" type="GPUParticles2D"]
+position = Vector2(-1, 0)
+amount = 4
+amount_ratio = 0.9
+texture = ExtResource("1_ravm8")
+lifetime = 2.5
+randomness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_wty36")
